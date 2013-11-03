@@ -35,7 +35,7 @@
 
 namespace VavoomUtils {
 
-#include "vector.h"
+#include "vector2.h"
 
 // MACROS ------------------------------------------------------------------
 
@@ -51,7 +51,7 @@ namespace VavoomUtils {
 struct winding_t
 {
 	bool	original;			// don't free, it's part of the portal
-	TVec	points[2];
+	TVec2	points[2];
 };
 
 enum vstatus_t { stat_none, stat_working, stat_done };
@@ -92,7 +92,7 @@ struct threaddata_t
 	pstack_t	pstack_head;
 };
 
-typedef TVec vertex_t;
+typedef TVec2 vertex_t;
 
 typedef leaf_t subsector_t;
 

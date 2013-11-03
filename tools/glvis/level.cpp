@@ -147,7 +147,7 @@ void TVisBuilder::LoadVertexes(int lump, int gl_lump)
 	// Copy and convert vertex, internal representation as vector.
 	for (i = 0; i < base_verts; i++, li++, ml++)
 	{
-		*li = TVec(LittleShort(ml->x), LittleShort(ml->y));
+        *li = TVec2(LittleShort(ml->x), LittleShort(ml->y));
 	}
 
 	// Free buffer memory.
@@ -165,7 +165,7 @@ void TVisBuilder::LoadVertexes(int lump, int gl_lump)
 		// Copy and convert vertex, internal representation as vector.
 		for (i = 0; i < gl_verts; i++, li++, glml++)
 		{
-			*li = TVec((double)LittleLong(glml->x) / (double)0x10000,
+			*li = TVec2((double)LittleLong(glml->x) / (double)0x10000,
 					   (double)LittleLong(glml->y) / (double)0x10000);
 		}
 	}
@@ -176,7 +176,7 @@ void TVisBuilder::LoadVertexes(int lump, int gl_lump)
 		// Copy and convert vertex, internal representation as vector.
 		for (i = 0; i < gl_verts; i++, li++, ml++)
 		{
-			*li = TVec(LittleShort(ml->x), LittleShort(ml->y));
+            *li = TVec2(LittleShort(ml->x), LittleShort(ml->y));
 		}
 	}
 

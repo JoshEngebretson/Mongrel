@@ -202,7 +202,7 @@ winding_t *TVisBuilder::ClipWinding(winding_t *in, TPlane *split)
 {
 	double		dists[2];
 	double		dot;
-	TVec		mid;
+    TVec2		mid;
 	winding_t	*neww;
 	
 	// determine sides for each point
@@ -222,8 +222,8 @@ winding_t *TVisBuilder::ClipWinding(winding_t *in, TPlane *split)
 	neww = new winding_t;
 
 	// generate a split point
-	TVec &p1 = in->points[0];
-	TVec &p2 = in->points[1];
+    TVec2 &p1 = in->points[0];
+    TVec2 &p2 = in->points[1];
 	dot = dists[0] / (dists[0] - dists[1]);
 
 	// avoid round off error when possible
@@ -275,7 +275,7 @@ winding_t *TVisBuilder::ClipToSeperators(winding_t *source, winding_t *pass,
 {
 	int			i, j;
 	TPlane		plane;
-	TVec		v2;
+    TVec2		v2;
 	double		d;
 	double		length;
 

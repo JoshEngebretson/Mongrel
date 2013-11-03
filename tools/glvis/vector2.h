@@ -23,21 +23,21 @@
 //**
 //**************************************************************************
 
-class  TVec
+class  TVec2
 {
  public:
 	double		x;
 	double		y;
 
-	TVec() { }
+	TVec2() { }
 
-	TVec(double Ax, double Ay)
+	TVec2(double Ax, double Ay)
 	{
 		x = Ax;
 		y = Ay;
 	}
 
-	TVec (const double f[2])
+	TVec2 (const double f[2])
 	{
 		x = f[0];
 		y = f[1];
@@ -53,42 +53,42 @@ class  TVec
 		return (&x)[i];
 	}
 
-	TVec &operator += (const TVec &v)
+	TVec2 &operator += (const TVec2 &v)
 	{
 		x += v.x;
 		y += v.y;
 		return *this;
 	}
 
-	TVec &operator -= (const TVec &v)
+	TVec2 &operator -= (const TVec2 &v)
 	{
 		x -= v.x;
 		y -= v.y;
 		return *this;
 	}
 
-	TVec &operator *= (double scale)
+	TVec2 &operator *= (double scale)
 	{
 		x *= scale;
 		y *= scale;
 		return *this;
 	}
 
-	TVec &operator /= (double scale)
+	TVec2 &operator /= (double scale)
 	{
 		x /= scale;
 		y /= scale;
 		return *this;
 	}
 
-	TVec operator + () const
+	TVec2 operator + () const
 	{
 		return *this;
 	}
 
-	TVec operator - () const
+	TVec2 operator - () const
 	{
-		return TVec(-x,	-y);
+		return TVec2(-x,	-y);
 	}
 
 	double Length() const
@@ -97,52 +97,52 @@ class  TVec
 	}
 };
 
-inline TVec operator + (const TVec &v1, const TVec &v2)
+inline TVec2 operator + (const TVec2 &v1, const TVec2 &v2)
 {
-	return TVec(v1.x + v2.x, v1.y + v2.y);
+	return TVec2(v1.x + v2.x, v1.y + v2.y);
 }
 
-inline TVec operator - (const TVec &v1, const TVec &v2)
+inline TVec2 operator - (const TVec2 &v1, const TVec2 &v2)
 {
-	return TVec(v1.x - v2.x, v1.y - v2.y);
+	return TVec2(v1.x - v2.x, v1.y - v2.y);
 }
 
-inline TVec operator * (const TVec& v, double s)
+inline TVec2 operator * (const TVec2& v, double s)
 {
-	return TVec(s * v.x, s * v.y);
+	return TVec2(s * v.x, s * v.y);
 }
 
-inline TVec operator * (double s, const TVec& v)
+inline TVec2 operator * (double s, const TVec2& v)
 {
-	return TVec(s * v.x, s * v.y);
+	return TVec2(s * v.x, s * v.y);
 }
 
-inline TVec operator / (const TVec& v, double s)
+inline TVec2 operator / (const TVec2& v, double s)
 {
-	return TVec(v.x / s, v.y / s);
+	return TVec2(v.x / s, v.y / s);
 }
 
-inline bool operator == (const TVec& v1, const TVec& v2)
+inline bool operator == (const TVec2& v1, const TVec2& v2)
 {
 	return v1.x == v2.x && v1.y == v2.y;
 }
 
-inline bool operator != (const TVec& v1, const TVec& v2)
+inline bool operator != (const TVec2& v1, const TVec2& v2)
 {
 	return v1.x != v2.x || v1.y != v2.y;
 }
 
-inline double Length(const TVec &v)
+inline double Length(const TVec2 &v)
 {
 	return sqrt(v.x * v.x + v.y * v.y);
 }
 
-inline TVec Normalise(const TVec& v)
+inline TVec2 Normalise(const TVec2& v)
 {
    return v / v.Length();
 }
 
-inline double DotProduct(const TVec& v1, const TVec& v2)
+inline double DotProduct(const TVec2& v1, const TVec2& v2)
 {
 	return v1.x * v2.x + v1.y * v2.y;
 }
@@ -156,24 +156,24 @@ inline double DotProduct(const TVec& v1, const TVec& v2)
 class TPlane
 {
  public:
-	TVec		normal;
+	TVec2		normal;
 	double		dist;
 
-	void Set(const TVec &Anormal, double Adist)
+	void Set(const TVec2 &Anormal, double Adist)
 	{
 		normal = Anormal;
 		dist = Adist;
 	}
 
 	//	Initialises vertical plane from point and direction
-	void SetPointDir(const TVec &point, const TVec &dir)
+	void SetPointDir(const TVec2 &point, const TVec2 &dir)
 	{
-		normal = Normalise(TVec(dir.y, -dir.x));
+		normal = Normalise(TVec2(dir.y, -dir.x));
 		dist = DotProduct(point, normal);
 	}
 
 	//	Initialises vertical plane from 2 points
-	void Set2Points(const TVec &v1, const TVec &v2)
+	void Set2Points(const TVec2 &v1, const TVec2 &v2)
 	{
 		SetPointDir(v1, v2 - v1);
 	}
