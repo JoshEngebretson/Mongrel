@@ -27,7 +27,7 @@
 #define __vc_local_h__
 
 #ifdef IN_VCC
-#include "../utils/vcc/vcc.h"
+#include "../tools/vcc/vcc.h"
 #else
 
 #include "gamedefs.h"

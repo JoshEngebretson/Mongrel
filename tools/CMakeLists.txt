@@ -1,4 +1,5 @@
 add_subdirectory(acc)
 add_subdirectory(vlumpy)
+add_subdirectory(vcc)
 add_subdirectory(glbsp)
 add_subdirectory(glvis)

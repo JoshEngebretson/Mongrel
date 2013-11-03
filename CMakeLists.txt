@@ -11,3 +11,6 @@ add_subdirectory(common)
 add_subdirectory(tools)
 add_subdirectory(engine)
 
+add_subdirectory(basev)
+add_subdirectory(progs)
+
