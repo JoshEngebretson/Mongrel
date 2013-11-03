@@ -25,6 +25,8 @@
 
 // HEADER FILES ------------------------------------------------------------
 
+#ifdef SDL_DISABLED
+
 #include <SDL.h>
 #include "gamedefs.h"
 
@@ -402,3 +404,5 @@ VInputDevice* VInputDevice::CreateDevice()
 {
 	return new VSdlInputDevice();
 }
+
+#endif

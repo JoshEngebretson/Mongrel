@@ -28,7 +28,7 @@
 #include "gamedefs.h"
 #include "cl_local.h"
 #include "drawer.h"
-#include "../utils/glbsp/glbsp.h"
+#include "glbsp/glbsp.h"
 
 // MACROS ------------------------------------------------------------------
 

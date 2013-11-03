@@ -30,7 +30,7 @@
 #ifndef _GAMEDEFS_H
 #define _GAMEDEFS_H
 
-#include "../libs/core/core.h"
+#include "core.h"
 
 #include "build.h"		//	Build settings
 #include "common.h"		//	Common types

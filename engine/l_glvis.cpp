@@ -28,7 +28,7 @@
 #include "gamedefs.h"
 #include "cl_local.h"
 #include "drawer.h"
-#include "../utils/glvis/glvis.h"
+#include "glvis/glvis.h"
 
 // MACROS ------------------------------------------------------------------
 

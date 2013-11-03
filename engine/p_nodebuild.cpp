@@ -36,11 +36,11 @@ extern "C" {
 #define sector_t		glbsp_sector_t
 #define seg_t			glbsp_seg_t
 #define node_t			glbsp_node_t
-#include "../utils/glbsp/level.h"
-#include "../utils/glbsp/blockmap.h"
-#include "../utils/glbsp/node.h"
-#include "../utils/glbsp/seg.h"
-#include "../utils/glbsp/analyze.h"
+#include "glbsp/level.h"
+#include "glbsp/blockmap.h"
+#include "glbsp/node.h"
+#include "glbsp/seg.h"
+#include "glbsp/analyze.h"
 #undef vertex_t
 #undef sector_t
 #undef seg_t

@@ -25,6 +25,8 @@
 
 // HEADER FILES ------------------------------------------------------------
 
+#ifdef SDL_DISABLED
+
 #include <SDL.h>
 #include "gl_local.h"
 
@@ -190,3 +192,5 @@ void VSdlOpenGLDrawer::Shutdown()
 		SDL_FreeSurface(hw_screen);
 	unguard;
 }
+
+#endif

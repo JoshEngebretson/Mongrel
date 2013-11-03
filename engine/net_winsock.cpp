@@ -25,6 +25,8 @@
 
 // HEADER FILES ------------------------------------------------------------
 
+#ifdef THIS_IS_CURRENTLY_DISABLED
+
 #include "winlocal.h"
 #include <errno.h>
 #include "gamedefs.h"
@@ -683,3 +685,5 @@ int VWinSockDriver::SetSocketPort(sockaddr_t* addr, int port)
 	return 0;
 	unguard;
 }
+
+#endif
