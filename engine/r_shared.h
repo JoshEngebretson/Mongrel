@@ -153,8 +153,8 @@ struct VMeshFrame
 	TVec*			Verts;
 	TVec*			Normals;
 	TPlane*			Planes;
-	vuint32			VertsOffset;
-	vuint32			NormalsOffset;
+    size_t			VertsOffset;
+    size_t			NormalsOffset;
 };
 
 struct VMeshSTVert
