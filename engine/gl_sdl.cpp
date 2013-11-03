@@ -25,8 +25,6 @@
 
 // HEADER FILES ------------------------------------------------------------
 
-#ifdef SDL_DISABLED
-
 #include <SDL.h>
 #include "gl_local.h"
 
@@ -37,7 +35,12 @@
 class VSdlOpenGLDrawer : public VOpenGLDrawer
 {
 public:
-	SDL_Surface*	hw_screen;
+    SDL_Window *window;
+    SDL_Renderer *renderer;
+    // Create an OpenGL context associated with the window.
+    bool contextInitialized;
+    SDL_GLContext context;
+
 
 	void Init();
 	bool SetResolution(int, int, int, bool);
@@ -73,7 +76,10 @@ IMPLEMENT_DRAWER(VSdlOpenGLDrawer, DRAWER_OpenGL, "OpenGL",
 
 void VSdlOpenGLDrawer::Init()
 {
-	hw_screen = NULL;
+    window = NULL;
+    renderer = NULL;
+    context = NULL;
+    contextInitialized = false;
 }
 
 //==========================================================================
@@ -111,15 +117,47 @@ bool VSdlOpenGLDrawer::SetResolution(int AWidth, int AHeight, int ABPP,
 	// Sut down current mode
 	Shutdown();
 
-	Uint32 flags = SDL_OPENGL;
-	if (!Windowed)
-	{
-		flags |= SDL_FULLSCREEN;
-	}
+    //Uint32 flags = SDL_OPENGL;
+    //if (!Windowed)
+    //{
+    //	flags |= SDL_FULLSCREEN;
+    //}
 
 	HaveStencil = true;
+
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
-	hw_screen = SDL_SetVideoMode(Width, Height, BPP, flags);
+
+    // Create an application window with the following settings:
+    window = SDL_CreateWindow(
+        "Mongrel Engine",                  // window title
+        SDL_WINDOWPOS_UNDEFINED,           // initial x position
+        SDL_WINDOWPOS_UNDEFINED,           // initial y position
+        Width,                               // width, in pixels
+        Height,                               // height, in pixels
+        SDL_WINDOW_OPENGL                  // flags - see below
+    );
+
+    // Check that the window was successfully made
+    if (window == NULL) {
+        // In the event that the window could not be made...
+        Sys_Error("Could not create window: %s\n", SDL_GetError());
+        return 1;
+    }
+
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+   if (renderer == NULL)
+   {
+       Sys_Error("Count not create renderer");
+       return 1;
+   }
+
+    context = SDL_GL_CreateContext(window);
+
+    contextInitialized = true;
+
+    /*
+    hw_screen = SDL_SetVideoMode(Width, Height, BPP, flags);
 	if (!hw_screen)
 	{
 		//	Try without stencil.
@@ -131,6 +169,8 @@ bool VSdlOpenGLDrawer::SetResolution(int AWidth, int AHeight, int ABPP,
 			return false;
 		}
 	}
+    */
+
 	if (HaveStencil)
 	{
 		GCon->Logf(NAME_Init, "Stencil buffer available");
@@ -172,7 +212,10 @@ void* VSdlOpenGLDrawer::GetExtFuncPtr(const char* name)
 void VSdlOpenGLDrawer::Update()
 {
 	guard(VSdlOpenGLDrawer::Update);
-	SDL_GL_SwapBuffers();
+
+    if (window)
+        SDL_GL_SwapWindow(window);
+
 	unguard;
 }
 
@@ -187,10 +230,16 @@ void VSdlOpenGLDrawer::Update()
 void VSdlOpenGLDrawer::Shutdown()
 {
 	guard(VSdlOpenGLDrawer::Shutdown);
-	DeleteTextures();
-	if (hw_screen != NULL)
-		SDL_FreeSurface(hw_screen);
+	DeleteTextures();        
+
+    if (window != NULL)
+    {
+        SDL_DestroyWindow(window);
+        SDL_GL_DeleteContext(context);
+    }
+
+    window = NULL;
+
 	unguard;
 }
 
-#endif

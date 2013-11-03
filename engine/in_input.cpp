@@ -367,6 +367,7 @@ void VInput::KeyEvent(int key, int press)
 void VInput::ProcessEvents()
 {
 	guard(VInput::ProcessEvents);
+    /*
 	Device->ReadInput();
 
 	for (; EventTail != EventHead; EventTail = (EventTail + 1) & (MAXEVENTS - 1))
@@ -478,6 +479,7 @@ void VInput::ProcessEvents()
 		if (CL_Responder(ev))
 			continue;
 	}
+    */
 	unguard;
 }
 
