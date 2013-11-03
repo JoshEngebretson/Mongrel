@@ -1,0 +1,56 @@
+//**************************************************************************
+//**
+//**    ##   ##    ##    ##   ##   ####     ####   ###     ###
+//**    ##   ##  ##  ##  ##   ##  ##  ##   ##  ##  ####   ####
+//**     ## ##  ##    ##  ## ##  ##    ## ##    ## ## ## ## ##
+//**     ## ##  ########  ## ##  ##    ## ##    ## ##  ###  ##
+//**      ###   ##    ##   ###    ##  ##   ##  ##  ##       ##
+//**       #    ##    ##    #      ####     ####   ##       ##
+//**
+//**    $Id: UpgradeStamina.vc 3760 2008-09-07 18:35:50Z dj_jl $
+//**
+//**    Copyright (C) 1999-2006 Jānis Legzdiņš
+//**
+//**    This program is free software; you can redistribute it and/or
+//**  modify it under the terms of the GNU General Public License
+//**  as published by the Free Software Foundation; either version 2
+//**  of the License, or (at your option) any later version.
+//**
+//**    This program is distributed in the hope that it will be useful,
+//**  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//**  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//**  GNU General Public License for more details.
+//**
+//**************************************************************************
+
+class UpgradeStamina : DummyStrifeItem;
+
+//==========================================================================
+//
+//	TryPickup
+//
+//==========================================================================
+
+bool TryPickup(EntityEx Toucher)
+{
+	if (!Toucher.Player)
+	{
+		return false;
+	}
+
+	PlayerEx(Toucher.Player).Stamina += Amount;
+	if (PlayerEx(Toucher.Player).Stamina >= MaxAmount)
+	{
+		PlayerEx(Toucher.Player).Stamina = MaxAmount;
+	}
+	Toucher.GiveBody(-100);
+	GoAwayAndDie();
+	return true;
+}
+
+defaultproperties
+{
+	ConversationID = 306;
+	Amount = 10;
+	MaxAmount = 100;
+}

@@ -1,0 +1,79 @@
+//**************************************************************************
+//**
+//**    ##   ##    ##    ##   ##   ####     ####   ###     ###
+//**    ##   ##  ##  ##  ##   ##  ##  ##   ##  ##  ####   ####
+//**     ## ##  ##    ##  ## ##  ##    ## ##    ## ## ## ## ##
+//**     ## ##  ########  ## ##  ##    ## ##    ## ##  ###  ##
+//**      ###   ##    ##   ###    ##  ##   ##  ##  ##       ##
+//**       #    ##    ##    #      ####     ####   ##       ##
+//**
+//**    $Id: PowerTorch.vc 3357 2008-03-22 20:01:45Z dj_jl $
+//**
+//**    Copyright (C) 1999-2006 Jānis Legzdiņš
+//**
+//**    This program is free software; you can redistribute it and/or
+//**  modify it under the terms of the GNU General Public License
+//**  as published by the Free Software Foundation; either version 2
+//**  of the License, or (at your option) any later version.
+//**
+//**    This program is distributed in the hope that it will be useful,
+//**  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//**  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//**  GNU General Public License for more details.
+//**
+//**************************************************************************
+
+class PowerTorch : PowerLightAmp;
+
+int				NewTorch;
+int				NewTorchDelta;
+
+//==========================================================================
+//
+//	DoEffect
+//
+//==========================================================================
+
+void DoEffect()
+{
+	if (!Owner || !Owner.bIsPlayer)
+	{
+		return;
+	}
+
+	if (EffectTime <= PlayerEx::BLINKTHRESHOLD ||
+		Owner.Player.FixedColourmap >= PlayerEx::NUMCOLOURMAPS)
+	{
+		::DoEffect();
+	}
+	else if (!(ftoi(2.0 * Level.XLevel.Time) & 1))
+	{
+		int PrevCMap = Owner.Player.FixedColourmap;
+		::DoEffect();
+		Owner.Player.FixedColourmap = PrevCMap;
+		if (NewTorch)
+		{
+			if (Owner.Player.FixedColourmap + NewTorchDelta > 7 ||
+				Owner.Player.FixedColourmap + NewTorchDelta < 1 ||
+				Owner.Player.FixedColourmap == NewTorch)
+			{
+				NewTorch = 0;
+			}
+			else
+			{
+				Owner.Player.FixedColourmap += NewTorchDelta;
+			}
+		}
+		else
+		{
+			NewTorch = (P_Random() & 7) + 1;
+			NewTorchDelta =
+				(NewTorch == Owner.Player.FixedColourmap) ? 0 :
+				((NewTorch > Owner.Player.FixedColourmap) ? 1 : -1);
+		}
+	}
+}
+
+defaultproperties
+{
+}

@@ -1,0 +1,57 @@
+//**************************************************************************
+//**
+//**    ##   ##    ##    ##   ##   ####     ####   ###     ###
+//**    ##   ##  ##  ##  ##   ##  ##  ##   ##  ##  ####   ####
+//**     ## ##  ##    ##  ## ##  ##    ## ##    ## ## ## ## ##
+//**     ## ##  ########  ## ##  ##    ## ##    ## ##  ###  ##
+//**      ###   ##    ##   ###    ##  ##   ##  ##  ##       ##
+//**       #    ##    ##    #      ####     ####   ##       ##
+//**
+//**    $Id: MorphProjectile.vc 3970 2009-01-18 18:26:46Z dj_jl $
+//**
+//**    Copyright (C) 1999-2006 Jānis Legzdiņš
+//**
+//**    This program is free software; you can redistribute it and/or
+//**  modify it under the terms of the GNU General Public License
+//**  as published by the Free Software Foundation; either version 2
+//**  of the License, or (at your option) any later version.
+//**
+//**    This program is distributed in the hope that it will be useful,
+//**  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//**  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//**  GNU General Public License for more details.
+//**
+//**************************************************************************
+
+class MorphProjectile : Actor
+	abstract;
+
+class<Actor>		MonsterClass;
+class<PlayerPawn>	PlayerClass;
+float				Duration;
+int					MorphStyle;
+class<Actor>		MorphFlash;
+class<Actor>		UnmorphFlash;
+
+//==========================================================================
+//
+//  DoSpecialDamage
+//
+//==========================================================================
+
+int DoSpecialDamage(EntityEx victim, EntityEx source, int damage)
+{
+	victim.Morph(class<MorphedMonster>(MonsterClass), PlayerClass, Duration,
+		MorphStyle, MorphFlash, UnmorphFlash);
+	return -1;	// Always return
+}
+
+defaultproperties
+{
+	MissileDamage = 1;
+	bNoBlockmap = true;
+	bMissile = true;
+	bDropOff = true;
+	bNoGravity = true;
+	bNoTeleport = true;
+}

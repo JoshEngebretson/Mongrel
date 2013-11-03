@@ -1,0 +1,111 @@
+//**************************************************************************
+//**
+//**    ##   ##    ##    ##   ##   ####     ####   ###     ###
+//**    ##   ##  ##  ##  ##   ##  ##  ##   ##  ##  ####   ####
+//**     ## ##  ##    ##  ## ##  ##    ## ##    ## ## ## ## ##
+//**     ## ##  ########  ## ##  ##    ## ##    ## ##  ###  ##
+//**      ###   ##    ##   ###    ##  ##   ##  ##  ##       ##
+//**       #    ##    ##    #      ####     ####   ##       ##
+//**
+//**    $Id: ConSlideshow1.vc 4082 2009-10-22 11:48:22Z dj_jl $
+//**
+//**    Copyright (C) 1999-2006 Jānis Legzdiņš
+//**
+//**    This program is free software; you can redistribute it and/or
+//**  modify it under the terms of the GNU General Public License
+//**  as published by the Free Software Foundation; either version 2
+//**  of the License, or (at your option) any later version.
+//**
+//**    This program is distributed in the hope that it will be useful,
+//**  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//**  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//**  GNU General Public License for more details.
+//**
+//**************************************************************************
+
+class ConSlideshow1 : MenuScreen;
+
+//	Background
+MenuStaticBitmap	BackPic;
+int					PageNum;
+float				PicTimer;
+
+void CreateChoices()
+{
+	::CreateChoices();
+	BackPic = NewChild(MenuStaticBitmap);
+	PlayPage();
+}
+
+void Tick(float DeltaTime)
+{
+	::Tick(DeltaTime);
+	PicTimer -= DeltaTime;
+	if (PicTimer <= 0.0)
+	{
+		PlayPage();
+	}
+}
+
+void PlayPage()
+{
+	switch (PageNum)
+	{
+	case 0:
+		StopLocalSounds();
+		BackPic.SetPic('ss2f1');
+		LocalSound('svox/mac10');
+		PicTimer = 9.0;
+		PageNum = 1;
+		break;
+
+	case 1:
+		BackPic.SetPic('ss2f2');
+		LocalSound('svox/mac11');
+		PicTimer = 10.0;
+		PageNum = 2;
+		break;
+
+	case 2:
+		BackPic.SetPic('ss2f3');
+		LocalSound('svox/mac12');
+		PicTimer = 12.0;
+		PageNum = 3;
+		break;
+
+	case 3:
+		BackPic.SetPic('ss2f4');
+		LocalSound('svox/mac13');
+		PicTimer = 17.0;
+		PageNum = -1;
+		break;
+
+	case -1:
+		CmdBuf_AddText("Impulse 200\n");
+		ClGame.PopMenu();
+		break;
+	}
+}
+
+bool OnKeyDown(int key)
+{
+	switch (key)
+	{
+	case K_ESCAPE:
+	case K_MOUSE2:
+		StopLocalSounds();
+		CmdBuf_AddText("Impulse 200\n");
+		ClGame.PopMenu();
+		return true;
+	}
+	return ::OnKeyDown(key);
+}
+
+defaultproperties
+{
+	X = 0;
+	Y = 0;
+	ScaleX = 2.0;
+	ScaleY = 2.4;
+	bTickEnabled = true;
+}

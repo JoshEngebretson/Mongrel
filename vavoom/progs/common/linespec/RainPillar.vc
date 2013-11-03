@@ -1,0 +1,90 @@
+//**************************************************************************
+//**
+//**    ##   ##    ##    ##   ##   ####     ####   ###     ###
+//**    ##   ##  ##  ##  ##   ##  ##  ##   ##  ##  ####   ####
+//**     ## ##  ##    ##  ## ##  ##    ## ##    ## ## ## ## ##
+//**     ## ##  ########  ## ##  ##    ## ##    ## ##  ###  ##
+//**      ###   ##    ##   ###    ##  ##   ##  ##  ##       ##
+//**       #    ##    ##    #      ####     ####   ##       ##
+//**
+//**    $Id: RainPillar.vc 3788 2008-09-17 18:59:31Z dj_jl $
+//**
+//**    Copyright (C) 1999-2006 Jānis Legzdiņš
+//**
+//**    This program is free software; you can redistribute it and/or
+//**  modify it under the terms of the GNU General Public License
+//**  as published by the Free Software Foundation; either version 2
+//**  of the License, or (at your option) any later version.
+//**
+//**    This program is distributed in the hope that it will be useful,
+//**  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//**  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//**  GNU General Public License for more details.
+//**
+//**************************************************************************
+
+class RainPillar : Actor;
+
+//==========================================================================
+//
+//  DoSpecialDamage
+//
+//==========================================================================
+
+int DoSpecialDamage(EntityEx victim, EntityEx source, int damage)
+{
+	if (Actor(victim).bBoss)
+	{
+		// Decrease damage for bosses
+		damage = (P_Random() & 7) + 1;
+	}
+	return ::DoSpecialDamage(victim, source, damage);
+}
+
+//===========================================================================
+//
+//  A_RainImpact
+//
+//===========================================================================
+
+final void A_RainImpact()
+{
+	if (Origin.z > FloorZ)
+	{
+		SetState(FindState('AirDeath'));
+	}
+	else if (P_Random() < 40)
+	{
+		HitFloorType();
+	}
+}
+
+states
+{
+Spawn:
+	FX20 A -1 Bright
+	Stop
+Death:
+	FX20 B 4 Bright A_RainImpact
+	FX20 CDEF 4 Bright
+	Stop
+AirDeath:
+	FX20 GHI 4 Bright
+	Stop
+}
+
+defaultproperties
+{
+	Radius = 5.0;
+	Height = 12.0;
+	Speed = 420.0;
+	MissileDamage = 5;
+	RenderStyle = STYLE_Add;
+	bMissile = true;
+	bNoBlockmap = true;
+	bNoGravity = true;
+	bDropOff = true;
+	bNoTeleport = true;
+	bActivatePCross = true;
+	bBloodSplatter = true;
+}

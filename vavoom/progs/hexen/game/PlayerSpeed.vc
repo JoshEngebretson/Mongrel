@@ -1,0 +1,67 @@
+//**************************************************************************
+//**
+//**    ##   ##    ##    ##   ##   ####     ####   ###     ###
+//**    ##   ##  ##  ##  ##   ##  ##  ##   ##  ##  ####   ####
+//**     ## ##  ##    ##  ## ##  ##    ## ##    ## ## ## ## ##
+//**     ## ##  ########  ## ##  ##    ## ##    ## ##  ###  ##
+//**      ###   ##    ##   ###    ##  ##   ##  ##  ##       ##
+//**       #    ##    ##    #      ####     ####   ##       ##
+//**
+//**    $Id: PlayerSpeed.vc 3421 2008-04-01 11:16:59Z dj_jl $
+//**
+//**    Copyright (C) 1999-2006 Jānis Legzdiņš
+//**
+//**    This program is free software; you can redistribute it and/or
+//**  modify it under the terms of the GNU General Public License
+//**  as published by the Free Software Foundation; either version 2
+//**  of the License, or (at your option) any later version.
+//**
+//**    This program is distributed in the hope that it will be useful,
+//**  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//**  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//**  GNU General Public License for more details.
+//**
+//**************************************************************************
+
+class PlayerSpeed : Actor;
+
+//==========================================================================
+//
+//	A_SpeedFade
+//
+//==========================================================================
+
+final void A_SpeedFade()
+{
+	RenderStyle = STYLE_Translucent;
+	Alpha = 0.333;
+}
+
+states
+{
+Spawn:
+	//	Fighter
+	PLAY A 5
+	PLAY A 3 A_SpeedFade
+	Stop
+	//	Cleric
+	CLER A 5
+	CLER A 3 A_SpeedFade
+	Stop
+	//	Mage
+	MAGE A 5
+	MAGE A 3 A_SpeedFade
+	Stop
+	//	Pig
+	PIGY A 5
+	PIGY A 3 A_SpeedFade
+	Stop
+}
+
+defaultproperties
+{
+	RenderStyle = STYLE_Translucent;
+	Alpha = 0.666;
+	bNoBlockmap = true;
+	bNoGravity = true;
+}

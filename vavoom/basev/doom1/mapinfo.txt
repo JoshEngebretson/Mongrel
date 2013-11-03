@@ -1,0 +1,412 @@
+clearepisodes
+
+episode e1m1
+picname m_epi1
+key k
+
+episode e2m1
+picname m_epi2
+key t
+
+episode e3m1
+picname m_epi3
+key i
+
+episode e4m1
+picname m_epi4
+key t
+optional
+
+;------------------------------------------------------
+map e1m1 lookup hustr_e1m1
+titlepatch wilv00
+cluster 1
+next e1m2
+secretnext e1m9
+sky1 sky1 0
+music d_e1m1
+par 30
+sucktime 1
+
+map e1m2 lookup hustr_e1m2
+titlepatch wilv01
+cluster 1
+next e1m3
+secretnext e1m9
+sky1 sky1 0
+music d_e1m2
+par 75
+sucktime 1
+
+map e1m3 lookup hustr_e1m3
+titlepatch wilv02
+cluster 1
+next e1m4
+secretnext e1m9
+sky1 sky1 0
+music d_e1m3
+par 120
+sucktime 1
+
+map e1m4 lookup hustr_e1m4
+titlepatch wilv03
+cluster 1
+next e1m5
+secretnext e1m9
+sky1 sky1 0
+music d_e1m4
+par 90
+sucktime 1
+
+map e1m5 lookup hustr_e1m5
+titlepatch wilv04
+cluster 1
+next e1m6
+secretnext e1m9
+sky1 sky1 0
+music d_e1m5
+par 165
+sucktime 1
+
+map e1m6 lookup hustr_e1m6
+titlepatch wilv05
+cluster 1
+next e1m7
+secretnext e1m9
+sky1 sky1 0
+music d_e1m6
+par 180
+sucktime 1
+
+map e1m7 lookup hustr_e1m7
+titlepatch wilv06
+cluster 1
+next e1m8
+secretnext e1m9
+sky1 sky1 0
+music d_e1m7
+par 180
+sucktime 1
+
+map e1m8 lookup hustr_e1m8
+titlepatch wilv07
+cluster 1
+next EndGame1
+secretnext e1m9
+sky1 sky1 0
+music d_e1m8
+par 30
+sucktime 1
+nointermission
+nosoundclipping
+baronspecial
+specialaction_lowerfloor
+
+map e1m9 lookup hustr_e1m9
+titlepatch wilv08
+cluster 1
+next e1m4
+secretnext e1m4
+sky1 sky1 0
+music d_e1m9
+par 165
+sucktime 1
+
+;------------------------------------------------------
+map e2m1 lookup hustr_e2m1
+titlepatch wilv10
+cluster 2
+next e2m2
+secretnext e2m9
+sky1 sky2 0
+music d_e2m1
+par 90
+sucktime 1
+
+map e2m2 lookup hustr_e2m2
+titlepatch wilv11
+cluster 2
+next e2m3
+secretnext e2m9
+sky1 sky2 0
+music d_e2m2
+par 90
+sucktime 1
+
+map e2m3 lookup hustr_e2m3
+titlepatch wilv12
+cluster 2
+next e2m4
+secretnext e2m9
+sky1 sky2 0
+music d_e2m3
+par 90
+sucktime 1
+
+map e2m4 lookup hustr_e2m4
+titlepatch wilv13
+cluster 2
+next e2m5
+secretnext e2m9
+sky1 sky2 0
+music d_e2m4
+par 120
+sucktime 1
+
+map e2m5 lookup hustr_e2m5
+titlepatch wilv14
+cluster 2
+next e2m6
+secretnext e2m9
+sky1 sky2 0
+music d_e2m5
+par 90
+sucktime 1
+
+map e2m6 lookup hustr_e2m6
+titlepatch wilv15
+cluster 2
+next e2m7
+secretnext e2m9
+sky1 sky2 0
+music d_e2m6
+par 360
+sucktime 1
+
+map e2m7 lookup hustr_e2m7
+titlepatch wilv16
+cluster 2
+next e2m8
+secretnext e2m9
+sky1 sky2 0
+music d_e2m7
+par 240
+sucktime 1
+
+map e2m8 lookup hustr_e2m8
+titlepatch wilv17
+cluster 2
+next EndGame2
+secretnext e2m9
+sky1 sky2 0
+music d_e2m8
+par 30
+sucktime 1
+nointermission
+nosoundclipping
+cyberdemonspecial
+specialaction_exitlevel
+
+map e2m9 lookup hustr_e2m9
+titlepatch wilv18
+cluster 2
+next e2m6
+secretnext e2m6
+sky1 sky2 0
+music d_e2m9
+par 170
+sucktime 1
+
+;-------------------------------------------------------
+map e3m1 lookup hustr_e3m1
+titlepatch wilv20
+cluster 3
+next e3m2
+secretnext e3m9
+sky1 sky3 0
+music d_e3m1
+par 90
+sucktime 1
+
+map e3m2 lookup hustr_e3m2
+titlepatch wilv21
+cluster 3
+next e3m3
+secretnext e3m9
+sky1 sky3 0
+music d_e3m2
+par 45
+sucktime 1
+
+map e3m3 lookup hustr_e3m3
+titlepatch wilv22
+cluster 3
+next e3m4
+secretnext e3m9
+sky1 sky3 0
+music d_e3m3
+par 90
+sucktime 1
+
+map e3m4 lookup hustr_e3m4
+titlepatch wilv23
+cluster 3
+next e3m5
+secretnext e3m9
+sky1 sky3 0
+music d_e3m4
+par 150
+sucktime 1
+
+map e3m5 lookup hustr_e3m5
+titlepatch wilv24
+cluster 3
+next e3m6
+secretnext e3m9
+sky1 sky3 0
+music d_e3m5
+par 90
+sucktime 1
+
+map e3m6 lookup hustr_e3m6
+titlepatch wilv25
+cluster 3
+next e3m7
+secretnext e3m9
+sky1 sky3 0
+music d_e3m6
+par 90
+sucktime 1
+
+map e3m7 lookup hustr_e3m7
+titlepatch wilv26
+cluster 3
+next e3m8
+secretnext e3m9
+sky1 sky3 0
+music d_e3m7
+par 165
+sucktime 1
+
+map e3m8 lookup hustr_e3m8
+titlepatch wilv27
+cluster 3
+next EndGame3
+secretnext e3m9
+sky1 sky3 0
+music d_e3m8
+par 30
+sucktime 1
+nointermission
+nosoundclipping
+spidermastermindspecial
+specialaction_exitlevel
+
+map e3m9 lookup hustr_e3m9
+titlepatch wilv28
+cluster 3
+next e3m7
+secretnext e3m7
+sky1 sky3 0
+music d_e3m9
+par 135
+sucktime 1
+
+;------------------------------------------------------
+map e4m1 lookup hustr_e4m1
+titlepatch wilv30
+cluster 4
+next e4m2
+secretnext e4m9
+sky1 sky4 0
+music d_e3m4
+sucktime 1
+
+map e4m2 lookup hustr_e4m2
+titlepatch wilv31
+cluster 4
+next e4m3
+secretnext e4m9
+sky1 sky4 0
+music d_e3m2
+sucktime 1
+
+map e4m3 lookup hustr_e4m3
+titlepatch wilv32
+cluster 4
+next e4m4
+secretnext e4m9
+sky1 sky4 0
+music d_e3m3
+sucktime 1
+
+map e4m4 lookup hustr_e4m4
+titlepatch wilv33
+cluster 4
+next e4m5
+secretnext e4m9
+sky1 sky4 0
+music d_e1m5
+sucktime 1
+
+map e4m5 lookup hustr_e4m5
+titlepatch wilv34
+cluster 4
+next e4m6
+secretnext e4m9
+sky1 sky4 0
+music d_e2m7
+sucktime 1
+
+map e4m6 lookup hustr_e4m6
+titlepatch wilv35
+cluster 4
+next e4m7
+secretnext e4m9
+sky1 sky4 0
+music d_e2m4
+sucktime 1
+cyberdemonspecial
+specialaction_opendoor
+
+map e4m7 lookup hustr_e4m7
+titlepatch wilv36
+cluster 4
+next e4m8
+secretnext e4m9
+sky1 sky4 0
+music d_e2m6
+sucktime 1
+
+map e4m8 lookup hustr_e4m8
+titlepatch wilv37
+cluster 4
+next EndGame4
+secretnext e4m9
+sky1 sky4 0
+music d_e2m5
+sucktime 1
+nointermission
+nosoundclipping
+spidermastermindspecial
+specialaction_lowerfloor
+
+map e4m9 lookup hustr_e4m9
+titlepatch wilv38
+cluster 4
+next e4m3
+secretnext e4m3
+sky1 sky4 0
+music d_e1m9
+sucktime 1
+
+;------------------------------------------------------
+clusterdef 1
+exittext lookup e1text
+flat floor4_8
+music d_victor
+
+clusterdef 2
+exittext lookup e2text
+flat sflr6_1
+music d_victor
+
+clusterdef 3
+exittext lookup e3text
+flat mflr8_4
+music d_victor
+
+clusterdef 4
+exittext lookup e4text
+flat mflr8_3
+music d_victor

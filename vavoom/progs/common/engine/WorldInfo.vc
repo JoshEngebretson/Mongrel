@@ -1,0 +1,51 @@
+//**************************************************************************
+//**
+//**    ##   ##    ##    ##   ##   ####     ####   ###     ###
+//**    ##   ##  ##  ##  ##   ##  ##  ##   ##  ##  ####   ####
+//**     ## ##  ##    ##  ## ##  ##    ## ##    ## ## ## ## ##
+//**     ## ##  ########  ## ##  ##    ## ##    ## ##  ###  ##
+//**      ###   ##    ##   ###    ##  ##   ##  ##  ##       ##
+//**       #    ##    ##    #      ####     ####   ##       ##
+//**
+//**    $Id: WorldInfo.vc 4110 2009-11-13 21:54:07Z dj_jl $
+//**
+//**    Copyright (C) 1999-2006 Jānis Legzdiņš
+//**
+//**    This program is free software; you can redistribute it and/or
+//**  modify it under the terms of the GNU General Public License
+//**  as published by the Free Software Foundation; either version 2
+//**  of the License, or (at your option) any later version.
+//**
+//**    This program is distributed in the hope that it will be useful,
+//**  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//**  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//**  GNU General Public License for more details.
+//**
+//**************************************************************************
+
+class WorldInfo : GameObject
+	native
+	abstract;
+
+native private readonly void*	Acs;
+
+readonly byte					GameSkill;
+readonly float					SkillAmmoFactor;
+readonly float					SkillDoubleAmmoFactor;
+readonly float					SkillDamageFactor;
+readonly float					SkillRespawnTime;
+readonly int					SkillRespawnLimit;
+readonly float					SkillAggressiveness;
+readonly int					SkillSpawnFilter;
+readonly int					SkillAcsReturn;
+
+readonly bool					bSkillFastMonsters;
+readonly bool					bSkillDisableCheats;
+readonly bool					bSkillEasyBossBrain;
+readonly bool					bSkillAutoUseHealth;
+
+native final void SetSkill(int Skill);
+
+defaultproperties
+{
+}

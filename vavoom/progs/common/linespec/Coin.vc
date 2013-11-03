@@ -1,0 +1,147 @@
+//**************************************************************************
+//**
+//**    ##   ##    ##    ##   ##   ####     ####   ###     ###
+//**    ##   ##  ##  ##  ##   ##  ##  ##   ##  ##  ####   ####
+//**     ## ##  ##    ##  ## ##  ##    ## ##    ## ## ## ## ##
+//**     ## ##  ########  ## ##  ##    ## ##    ## ##  ###  ##
+//**      ###   ##    ##   ###    ##  ##   ##  ##  ##       ##
+//**       #    ##    ##    #      ####     ####   ##       ##
+//**
+//**    $Id: Coin.vc 3205 2008-03-01 11:18:11Z dj_jl $
+//**
+//**    Copyright (C) 1999-2006 Jānis Legzdiņš
+//**
+//**    This program is free software; you can redistribute it and/or
+//**  modify it under the terms of the GNU General Public License
+//**  as published by the Free Software Foundation; either version 2
+//**  of the License, or (at your option) any later version.
+//**
+//**    This program is distributed in the hope that it will be useful,
+//**  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//**  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//**  GNU General Public License for more details.
+//**
+//**************************************************************************
+
+class Coin : Inventory
+	game(GAME_Strife)
+	__mobjinfo__(93);
+
+//==========================================================================
+//
+//	HandlePickup
+//
+//==========================================================================
+
+bool HandlePickup(Inventory Item)
+{
+	if (Coin(Item))
+	{
+		if (Amount < MaxAmount)
+		{
+			Amount += Item.Amount;
+			if (Amount > MaxAmount)
+			{
+				Amount = MaxAmount;
+			}
+			Item.bPickupGood = true;
+		}
+		return true;
+	}
+
+	if (Inventory)
+	{
+		return Inventory.HandlePickup(Item);
+	}
+	return false;
+}
+
+//==========================================================================
+//
+//	CreateCopy
+//
+//==========================================================================
+
+Inventory CreateCopy(EntityEx Toucher)
+{
+	if (Class == Coin)
+	{
+		return ::CreateCopy(Toucher);
+	}
+	else
+	{
+		Inventory Copy = Spawn(Coin,,,, false);
+		Copy.Amount = Amount;
+		GoAwayAndDie();
+		return Copy;
+	}
+}
+
+//==========================================================================
+//
+//	CreateTossable
+//
+//==========================================================================
+
+Inventory CreateTossable()
+{
+	Inventory Copy;
+
+	if (bUndroppable || !Owner || Amount <= 0)
+	{
+		return none;
+	}
+	//	Gold is dropped with maximal throwable amount.
+	if (Amount >= 50)
+	{
+		Copy = Spawn(Gold50,,,, false);
+		Amount -= 50;
+	}
+	else if (Amount >= 25)
+	{
+		Copy = Spawn(Gold25,,,, false);
+		Amount -= 25;
+	}
+	else if (Amount >= 10)
+	{
+		Copy = Spawn(Gold10,,,, false);
+		Amount -= 10;
+	}
+	else if (Amount > 1 || bKeepDepleted)
+	{
+		Copy = Spawn(Coin,,,, false);
+		Amount -= 1;
+	}
+	else
+	{
+		Copy = self;
+		BecomePickup();
+	}
+	Copy.DropTime = 1.0;
+	Copy.bSpecial = false;
+	Copy.bSolid = false;
+	if (Copy != self && Amount <= 0 && !bKeepDepleted)
+	{
+		Destroy();
+	}
+	return Copy;
+}
+
+states
+{
+Spawn:
+	COIN A -1
+	Stop
+}
+
+defaultproperties
+{
+	ConversationID = 168;
+	PickupMessage = "$txt_coin";
+	MaxAmount = 0x7fffffff;
+	IconName = 'i_coin';
+	bDropped = true;
+	bNoDeathmatch = true;
+	bFloorClip = true;
+	bInvBar = true;
+}

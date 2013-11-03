@@ -1,0 +1,75 @@
+//**************************************************************************
+//**
+//**    ##   ##    ##    ##   ##   ####     ####   ###     ###
+//**    ##   ##  ##  ##  ##   ##  ##  ##   ##  ##  ####   ####
+//**     ## ##  ##    ##  ## ##  ##    ## ##    ## ## ## ## ##
+//**     ## ##  ########  ## ##  ##    ## ##    ## ##  ###  ##
+//**      ###   ##    ##   ###    ##  ##   ##  ##  ##       ##
+//**       #    ##    ##    #      ####     ####   ##       ##
+//**
+//**    $Id: classes.vc 3803 2008-10-09 20:20:33Z dj_jl $
+//**
+//**    Copyright (C) 1999-2006 Jānis Legzdiņš
+//**
+//**    This program is free software; you can redistribute it and/or
+//**  modify it under the terms of the GNU General Public License
+//**  as published by the Free Software Foundation; either version 2
+//**  of the License, or (at your option) any later version.
+//**
+//**    This program is distributed in the hope that it will be useful,
+//**  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//**  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//**  GNU General Public License for more details.
+//**
+//**************************************************************************
+//**
+//**    DOOM and DOOM II progs
+//**
+//**************************************************************************
+
+import 'linespec';
+
+#include "MainGameInfo.vc"
+#include "DoomLevelInfo.vc"
+#include "Player.vc"
+#include "BotPlayer.vc"
+
+class GreenArmor : BasicArmorPickup decorate;
+class BlueArmor : BasicArmorPickup decorate;
+class HealthBonus : Health decorate;
+class ArmorBonus : BasicArmorBonus decorate;
+class BlueCard : Key decorate;
+class YellowCard : Key decorate;
+class RedCard : Key decorate;
+class BlueSkull : Key decorate;
+class YellowSkull : Key decorate;
+class RedSkull : Key decorate;
+class Stimpack : Health decorate;
+class Medikit : Health decorate;
+class Clip : Ammo decorate;
+class ClipBox : Ammo decorate;
+class RocketAmmo : Ammo decorate;
+class RocketBox : Ammo decorate;
+class Cell : Ammo decorate;
+class CellPack : Ammo decorate;
+class Shell : Ammo decorate;
+class ShellBox : Ammo decorate;
+class Backpack : BackpackItem decorate;
+class Soulsphere : Health decorate;
+class InvulnerabilitySphere : PowerupGiver decorate;
+class BlurSphere : PowerupGiver decorate;
+class RadSuit : PowerupGiver decorate;
+class Infrared : PowerupGiver decorate;
+class Allmap : MapRevealer decorate;
+class Berserk : CustomInventory decorate;
+class Megasphere : CustomInventory decorate;
+class Fist : Weapon decorate;
+class Chainsaw : Weapon decorate;
+class Pistol : Weapon decorate;
+class Shotgun : Weapon decorate;
+class SuperShotgun : Weapon decorate;
+class Chaingun : Weapon decorate;
+class RocketLauncher : Weapon decorate;
+class PlasmaRifle : Weapon decorate;
+class BFG9000 : Weapon decorate;
+class DoomPlayer : PlayerPawn decorate;

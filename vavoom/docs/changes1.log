@@ -1,0 +1,1494 @@
+******************************************************************************
+    Izmaiņas versijās 1.x
+******************************************************************************
+
+15-06-2000
+  Izrādījās ka web lapā kautkas nav kārtībā ar failu vārdu lielajiem un
+ mazajiem burtiem. Laikam tur ir UNIX serveris. Tika izlabota attiecīgā
+ web lapa, un tagad viss šķiet strādā normāli.
+  Pārkārtoju konsoles mainīgos un komandas. Līdzīgi kā QUAKE tika ieviests
+ komandu buferis, kurš tiek izpildīts katru takti, tagad komandas vairs
+ netiek izpildītas uzreiz.
+16-06-2000
+  Nedaudz pielaboju alias komandu. Izlaboju problēmas vadības taustiņu menu.
+ Aizstāju vecos paziņojumus ar drukāšanu konsolē.
+17-06-2000
+  Šodien ķēros klāt pie mūzikas moduļa. Tika nedaudz pārveidots qmus2mid,
+ atdalīta mūzika atsevišķi no skaņas moduļa, pilnveidota konsoles komanda
+ "music", viss darbs ar mūziku tagad notiek caur šo komandu.
+  raven-games.com piedāvā man publicēt manu web lapu viņu serverī. Es laikam
+ pieņemšu šo piedāvājumu.
+19-06-2000
+  Pārnesu qmus2mid Allegro versijā uz mūzikas moduli. Pamatīgi optimizējot
+ vairs konvertējot netirk veidots midi fails, jo tas nav vajadzīgs un tikai
+ patērē laiku.
+20-06-2000
+  Izmantojot Quake izejas kodus sāku sakārtot CD moduļus. Būs arī CD LINUX
+ versijā.
+21-06-2000
+  CD mūzikā itkā ir sakārtota.
+22-06-2000
+  Pārbaudīju CD mūziku DOS un Windows versijā - viss strādā normāli.
+26-06-2000
+  Pārvietoju skaņas atskaņošanas un visas vadzījās funkcijas uz skaņas
+ sistēmas moduļiem. Optimizēju Allegro versiju.
+  Izrādās ka ar LINUX versiju ir kautkādas problēmas. Pārbaudīju - tiešām ir.
+ -Werror ir nedaudz par stipru prasīts, un pietam net_unix.c ir divi statisko
+ funkciju prototipi, kuri netiek izmantoti. Pārbaudīju arī jauno versiju, CD
+ mūzika strādā normāli.
+27-06-2000
+  Pievienoju bcd kā sastāvdaļu, vairs neizmantoju kā bibliotēku, izmetu ārā
+ visas nevajadzīgās funkcijas.
+28-06-2000
+  progdefs.h pārvietoju no vcc izejas kodiem uz spēles izejas kodiem. Tagad
+ būs mazāk problēmu ar kopēšanu - ja man nevajag vcc, man to vairs nav jākopē.
+  Izveidoju funkciju S_PlayTillDone, kura atskaņo skaņu un gaida, kad tā tiks
+ nospēlēta, bet ne ilgāk par 5 sekundēm.
+29-06-2000
+  Skaņu sekvences tagad izmanto nosaukumus, nevis numurus. Tos programmas
+ pat nevar iegūt. Arī vairs nav iepriekš definētas sekvences, bet gan tiek
+ reģistrētas visas sekvences.
+30-06-2000
+  Obligāti vajadzīgie skaņas konsoles mainīgie pārvietoti atpakaļ uz s_sound.
+01-07-2000
+  Pamēģināju izlabot mūzikas pauzēšanu Windows versijā. Nekas nesanāca - tik
+ un tā turpināšana sāk dziesmu no sākuma. Tāpat mēģināju pārtvert iespējamos
+ programmas deaktivēšanas paziņojumus. Atkal nekas no tā nesanāca.
+03-07-2000
+  Pārnesu inventāra funkcijas uz programmām.
+  Uzlaboju Windows versijas skaņu buferu sistēmu. Tagad beidzot spēlēt buferi,
+ tas tiek saglabāts gadījumam, ja atkal vajag spēlēt šo skaņu. Šajos gadījumos
+ skaņa vairs nav jākopē (jau ir pārkopēta uz buferi), kā rezultātā spēle kļūst
+ nedaudz ātrāka.
+  Izveidoju 3D skaņu! Skan labi. Pagaidām kā atsevišķs modulis.
+04-07-2000
+  Pārvietoju 3D skaņu uz kopīgo Windows skaņas moduli. 3D skaņa tiek atļauta
+ tikai tad, ja skaņas kartei ir brīvi 3D buferi.
+  Pārveidoju visus failus par C++ failiem. Protams bija vajadzīgas ĻOTI daudz
+ tipu pārveidošanas, kā arī vēl dažas izmaiņas, bet beigās viss ir normāli.
+05-07-2000
+  Atradu veidu kā Windows versijā pārtvert visas Windows sistēmas taustiņu
+ kombinācijas, tai skaitā Alt-Tab, Alt-Ctrl-Del, Ctrl-Esc, u.c. Tagad man ir
+ pilna kontrole pār klaviatūru.
+  Atklāju, ka ir sabojāts dehacked failu atbalsts, izrādās, ka ir nepareizi
+ spraitu nummuri, pie kā vainīgs ir tukšais pirmā stāvokļa spraita vārds.
+ Izlaboju, viss strādā normāli.
+  Pārbaudīju LINUX versiju. Viss strādā. Izrādās ka tikai DJGPP sākuma kods
+ apstrādā argumentus ("atbildes" failus un failu vārdu vispārinājumus).
+06-07-2000
+  Salaboju mūzikas pauzi Windows versijā.
+  Tīkla spēlē tiek pārbaudīta arī PROGS kontrolsumma. Aizvietoju veco paketes
+ kontrolsummas aprēķināšanas algoritmu ar kontrolsummu no QUAKE.
+  Sagatavoju publicēšanai versiju 1.1.
+07-07-2000
+  Pēdējā brīdī atradās vēl pāris problēmas, kuras tika izlabotas. Beigās tika
+ izveidota versija 1.1, kura arī tika uzreiz publicēta.
+
+******************************************************************************
+                            VERSIJA 1.1
+******************************************************************************
+
+08-07-2000
+  Sāku mēģināt pāriet uz peldošā komata skaitļiem. Nolēmu sākt ar node_t, jo
+ tas netiek izmantots programmās. Tika ieviesta vēl vienas struktūras peldošā
+ komata versija. Tika pārveidoti moduļi p_sight un r_bsp. Viss strādā normāli.
+10-07-2000
+  Turpinu pāriet uz peldošo komatu. Mēģinu pārveidot rendēšanas moduli. Sāku
+ pārveidošanu ar globālajiem mainīgajiem. Kautkas sagāja grīstē ar leņķiem.
+ Pārveidoju visus pārveidotos leņķus atpakaļ uz angle_t, un viss ir atkal
+ kārtībā. Ar leņķiem būs pagrūti, tāpēc tos es lieku mierā.
+11-07-2000
+  Praktiski visi rendēšanas fiksētā komata mainīgie ir pārveidoti par peldošā
+ komata mainīgajiem. Veiktas arī daudzas optimizācijas atbrīvojoties no tādām
+ funkcijām kā FixedMul un FixedDiv. Dīvaini, bet rezultātā spēle ir kļuvusi
+ daudz lēnāka.
+12-07-2000
+  Tākā spēle ir kļuvusi daudz lēnāka, nolēmu atgriezties pie fiksētā komata
+ versijas, izveidoto peldošā komata versiju saglabāju.
+  Aizvietoju konsoles mainīgā struktūru ar klasi. Konstruktors to automātiski
+ pievieno pie saraksta. Vēlāk saraksts tiek inicializēts, jo to nevar darīt
+ konstruktorā tāpēc ka atmiņas modulis vēl nav inicializēts. Izveidoti ļoti
+ ērti operātori tipu pārveidošanai un piešķiršanai, kas ļauj man tos izmantot
+ kā veselus skaitļus vai simbolu pointerus.
+  Mani neliek ieru tas, ka Quake, kurā tiek izmantoti peldošā komata skaitļi,
+ strādā salīdzinoši ātri. Apskatījos, kā zīmēšana notiek kveikā. Izrādās, ka
+ zīmēšanas ciklā tiek izmantoti fiksētā komata skaitļi. Nolēmu apskatīties,
+ kā R_DrawColumn izskatās asemblerī. Izrādās, ka peldošā komata versijā cikls
+ ir daudz garāks. Izrādās, ka peldošā komata skaitļa pārveidošana par veselu
+ skaitli ir ļoti gara. Ātri atjaunoju peldošā komata versiju un funkcijās
+ R_DrawColumn un R_DrawSpan atjaunoju fiksētā komata skaitļus. Tā rezultātā
+ ātrums atjaunojās. Tas nozīmē, ka var droši pāriet uz peldošo komatu, tikai
+ ļoti bieži lietotu funkciju ciklos, kuros peldošā komata skaitlis jāpārveido
+ uz veselu skaitli, jāatstāj fiksētā komata skaitļi. Bet tas būs vēlāk. Tagad
+ turpināšu ieviest C++ klases un citus labumus.
+13-07-2000
+  Šodien nolēmu pamēģināt padarīt programas nedaudz ātrākas. Pašā sākumā bija
+ viens liels switch operātors, kuru es nolēmu izveidot katram operāciju kodam
+ savu funkciju un izveidoju vienu lielu funkciju tabulu. Nedaudz padomājot es
+ sapratu, ka tas nebija labi, jo tā kompilātors nevar īpaši daudz optimizēt.
+ Tāpēc es nolēmu pāriet atpakaļ uz switch operātoru. Tagad man radās iespēja
+ to nedaudz optimizēt. Nācās pielietot goto operātorus, jo while(1) gadījumā
+ kompilātors ģenerē smieklīgu pārbaudi, bet ar goto pēc operācijas izpildes
+ notiek iešana pa taisno uz cikla sākumu. Vēl vairāk - steka pointeris tiek
+ saglabāts lokālā mainīgā, kurš tad tiek arī izmantots. Šis, kā arī tekošās
+ komandas pointera mainīgie, kompilējot ar optimizāciju, izpildes laikā tiek
+ glabāti procesora reģistros, kas padara izpildi vēl ātrāku. Lai piespiestu
+ kompilātoru glabāt steka pointeri reģistrā, nācās programmas steku veidot kā
+ globālo masīvu. Steka apakšējā un augšējā elementā tiek ierakstīts speciāls
+ steka identifikātors, kuru pārbaudot var noteikt, vai steks nav pārplūdis
+ vai pārtukšots. Šāda pārbaude ir daudz ātrāka, nekā steka pointera vērtības
+ pārbaude pie katras ielikšanas stekā un pie katras ņemšanas ārā no steka.
+14-07-2000
+  Šodiem paiet mēnesis kopš es izlaidu Vavoom pirmo versiju un nedēļa kopš
+ versijas 1.1 izlaišanas. Ar jauno skaitītāju manu lapu ir apmeklējuši vairāk
+ par 900 apmeklētāju. Vecais skaitītājs apstājās pie aptuveni 350, neatceros
+ cik rādīja skaitītājs vecajā lapā, katrā ziņā tur bija vairāki simti. Kopā
+ sanāk vairāk par 1500 apmeklētāju. Manuprāt tas nav slikti, var pat teikt ka
+ ļoti iepriecina. Tākā prasās tajā kautko atjaununāt. Varbūt rīt.
+  Sāku arvien vairāk izmantot C++. No Quake paņēmu sizebuf_t, kuru es uzreiz
+ pārveidoju par klasi. Izveidoju ļoti ērtu operātoru << drukāšanai buferī.
+ Pārveidoju komndu buferi par klasi, kura ir mantota no TSizeBuf. Tagad lai
+ ierakstītu konandu šajā buferī, tiek izmantots operātors <<. Kontrolsummas
+ aprēķināšana arī ir klase. Baits tiek pievienots izmantojot operātoru +.
+  Daudzi komandlīnijas parametri, kuri tika apstrādāti spēles inicializācijas
+ laikā ir aizvākti, to vietā ir jāizmanto konsoles komandas, kuras pārsvarā
+ ir tādas pašas, tikai komandlīnijā tās sākas ar + un nevis ar -.  Vēl cenšos
+ atbrīvoties no gameaction izmantošanas. No pāris stāvokļiem esmu atbrīvojies.
+15-07-2000
+  Visu, kas attiecas uz demo ierakstīšanu, spēlēšanu un maiņu kā arī zīmējumu
+ starp demo zīmēšana un nomaiņa ir atdalīta modulī g_demo.cpp. g_game.cpp tā
+ jau ir pārpildīts ar velns viņ sazin ko, un tas tikai padarīs kodu daudz
+ labāk pārskatāmu. Vēl tika ieviestas vairākas komandas. Piemēram "Save" un
+ "Load". Tika izmestas ārā komandas "Quicksave" un "Quicload", tagad tās tiek
+ definētas kā "alias" failā default.cfg, kurš tiek izpildīts no startup.vs.
+  Viss no v_video.cpp ir pārnests uz screen.cpp. Varbūt tagad tur ir nedaudz
+ par daudz, bet varbūt ka viss ir normāli.
+17-07-2000
+  Izveidoju programmās operācijas ar peldošo komatu. Nezinu, vai tā bija
+ prātīga doma. Laikam pagaidām es to viso nolikšu malā vēlākai izmantošanai.
+ Vismaz līdz tam laikam, kad būs veiktas citas nopietnas izmaiņas kuru dēļ
+ tiks zaudēta savietojamība. Es ceru, ka tas būs drīz, jo uztraukties par
+ savietojamību ir stulbi.
+  Vēl viena nopietna izmaiņa - tīkla spēlās paketes tiek sūtītas izmantojot
+ little-endian baitu secību. Paketē attiecīgie lauki tiek apstrādāti jau pašā
+ tīkla modulī un nevis tīkla draiveros. Tagad draiveri neko nezin par paketes
+ saturu.
+18-07-2000
+  Uzlaboju dehacked atbalstu, pievienoju to pie makeinfo. Tagad korekti tiek
+ ignorēti komantāri. Parametros vispirms tiek sameklēta vienādības zīme, un
+ tad tiek novākti tukšumi beigās, kā rezultātā tiek iegūts pilns parametra
+ nosaukums. Visur tiek ņemtas vērā atšķirības starp lielajiem un mazajiem
+ burtiem. Ieviesu arī simbola virkņu apstrādi. Izpildāmajā failā vispirms
+ tiek meklēti skaņu datu nosaukumi, tad līmeņa nosaukumi, tad visas programmu
+ simbolu virknes (tas mainīs gan spraitu nosaukumus, gan visus pacelšanas
+ paziņojumus, varbūt vēl kautko). Makeinfo tagad ģenerē arī simbola virkņu
+ failu, kā arī vienu definīciju failu, kā arī teksta datu failus un skriptus.
+ Tiek arī aizvietoti visi fināla teksti.
+19-07-2000
+  Tika salabota fināla taustiņu apstrāde.
+  Šodien tika pamatīgi optimizētas programmas. Konkrētāk funkcija RunFunction
+ tika izveidota asemblerī. Protams kā pamatu es ņēmu gcc izveidoto asemblera
+ failu. Tajā bija ļoti dauz lietas, kas man nepatika. Vispirms jau tas, ka
+ tiek optimizēts izmēram. Man galvenais ir ātrums, izmērs mani nerausta. Tā
+ nu es ņēmu un visas šādas optimizācijas atcēlu. Vēl bija tāda stulba lieta,
+ kā datu ievietošana reģistrā, pēc tam citā reģistrā, un pirmajā reģistrā
+ ievietotā vērtība netiek izmantota. Šāds tranzīts tikai visu pasliktina. To
+ novācot mēs iegūstam gan izmēru gan ātrumu. Tādu samērā neefektīvu vietu
+ bija diezgan daudz. Daudz ko deva izmēra optimizāciju novākšana, jo tā es
+ labāk redzu, ko attiecīgajā vietā programma dara, un varu labāk optimizēt.
+ Gala rezultātā objekta fails bija pat mazāks kā sākumā.
+  Vēl izveidoju asemblera versijas funkcijām R_DrawColumn un R_DrawSpan. Tur
+ laikam nav ko optimizēt.
+20-07-2000
+  Veicu profilāciju ar gprof. Noskaidroju, ka visvairāk laika patērē tādas
+ funkcijas kā R_DrawColumn, R_DrawSpan un RunFunction. To arī varēja sagaidīt.
+ Asemblera versiju izmantošana ir tieši laikā.
+21-07-2000
+  Sākumā man nebija noskaņojuma kautko darīt un es nedaudz palasīju LEGACY
+ changelog-us, kā arī nedaudz kautko papētīju kveikā, galvenokārt saiatītu ar
+ klienta-servera modeli. Tam tomēr ir viena liela priekšrocība - spēle tiek
+ spēlēta tikai serverī un klienti tikai nosūta savu kustību komandu un saņem
+ informāciju par izmaiņām spēles stāvoklī. Tas arī var prasīt lielākus datu
+ tīklā.
+  Beigās tomēr kautko izdarīju - izveidoju konsoles komandas kā klasi. Tagad
+ tās ir mantotas no pamatkomandas klases, kurā abstraktā funkcija Run tiek
+ aizvietota ar attiecīgu funkciju. Izveidoju makro COMMAND, ar kuru man nav
+ jātērē laiks veidojot klasi katrai komandai, tagad es rakstu COMMAND(vārds),
+ aiz kura seko funkcijas kods. Komanda pati sevi reģistrē. Tagad cheat kodu
+ modulis pats sevi reģistrē. Var nokompilēt versiju bez cheat kodiem vienkārši
+ kompilējot bez šī moduļa.
+22-07-2000
+  Pamēģināju kautko darīt ar asembleru Windows versijā, no tā nekas nesanāca.
+ Galvenā problēma ir identifikātoru vārdu maiņa, kuru es nezinu. Visu pārējo
+ dienu pavadīju spēlējot Half-Life.
+24-07-2000
+  Pārbaudīju tīkla spēli. Normāli saslēdzās 4 spēlētāji izmantojot IPX. Kad
+ spēlē tikai divatā, tad viss ir ļoti labi, tilīdz ir vēl tršais pēlētājs, tā
+ spēles ātrums katastrofāli zūd. Vēl nedaudz padarbojos ar tīkla spēles kodu.
+25-07-2000
+  Nolēmu, ka ir jālaiž klajā versija 1.2. To arī izdarīju. Nācās pāriet uz
+ Borland C++ Builder, jo MSVC nepareizi konstruē klasu masīvus.
+
+******************************************************************************
+                            VERSIJA 1.2
+******************************************************************************
+
+26-07-2000
+  Abi DOS tīkla draiveri pārveidoti no Borland C uz DJGPP.
+27-07-2000
+  DOS tīkla draiveri tika ienesti iekšā spēlē. Atbrīvojos no doomcom_t.
+  Izveidoju klasi TMessage.
+28-07-2000
+  Lai atvieglotu darbu ar paziņojumiem, nolēmu, ka klasei TMessage jāpievieno
+ operātori << un >>. Šei varēja rasties ar TSizeBuf operātoriem, tāpēc tika
+ izveidota no TSizeBuf mantota kalse TTextBuf, metode Print un operātori tika
+ pārnesti uz šo klasi. TSizeBuf mantotās klases, kurās tika izmants operātors
+ << tagad ir mantotas no TTextBuf. Pēc tā operātoru pievienošana TMessage
+ klasei neradīja nekādas problēmas.
+  Atbrīvojos no doomdata_t struktūras. Tagad tīkla paziņojumi tiek veidoti un
+ nolasīti izmantojot TMessage. Kontrolsumma tiek pievienota paketes beigās.
+ Tagad pakete sākas ar paketes tipu, pēc kura nosaka pārējo datu uzbūvi.
+  Apstrādāju IPX draiveri, pilnībā atbrīvojos no tuvajiem pointeriem.
+29-07-2000
+  Šodiem man kautkā ir slikts garīgais un negribās neko daudz darīt. Darbojos
+ tikai ap IPX draiveri.
+31-07-2000
+  Man ir radusies vēlme pāriet uz klienta-servera arhitektūru. Manuprāt tas
+ nebūs īpaši grūti. Rezultātā es tikai iegūšu. Galvenā priekšrociba ir tā, ka
+ spēle tiek spēlēta tikai serverī. Tad man nav jāuztraucas par to, vai visās
+ mašīnās spēle tiek spēlēta vienādi, jo tā tiek spēlēta tikai servverī. Tas
+ man beidzot ļaus sākt izmantot peldošā komata skaitļus. Man pat ir radusies
+ ideja, kā nedaudz optimizēt datu sūtīšanu. Informāciju par sektoriem, to
+ līnijām un līniju pusēm sūtīt tikai tad, ja šis sektors ir redzams. To var
+ noteikt izmantojot reject tabulu. Tad, kad es beidzot esmu kārtīgi sapratis
+ kā klienta-servera modelis strādā un sapratis kādas tam ir priekšrocības,
+ vēlme pāriet uz šo modeli ir ļoti liela.
+  Nedaudz revidēju mobj_t un player_t. Sāku izmantot struktūru mantošanu.
+ Ieviesu mobj_base_t, kurā ir visa tā informācija, kas ir nepieciešama skaņas
+ un rendēšanas moduļiem. Īsāk sakot tur ir viss, kas klientam ir jāzin par
+ objektu. Liela daļa lauku, kurus izmanto tikai programmas ir pārnestas uz
+ programmām kā pievienotie lauki. Spēlētāja skatīšanās pozīcijai pievienoti
+ lauki viewx, viewy un viewangle pie player_t. Vairs netiek izmantota objekta
+ pozīcija, jo cāļa uzbrukuma un zemestrīces gadījumā pozīcija tiek nobīdīta.
+ Tagad tas viss tiek aprēķināts programmās.
+01-08-2000
+  Turpinu revidēt. Sāku interpretēt ieroču maiņas pogas kā impulsus. Tika
+ pievienots vēl ceturtais bits, kas man dod 16 impulsus. Taustiņi no 1 līdz 9
+ ir impulsi no 1 līdz 9, taustiņš 0 - 10, Backspace - 11 un / - 12. Tas man
+ ļāva atbrīvotis no iebūvētajiem artifaktu īsajiem taustiņiem un no ieroču
+ skaita atkarības.
+  No iostream parauga izveidoju klasi TConBuf, kura drukā konsolē. Ieviesu
+ ostream mainīgo con, kurš drukā konsolē. Viss strādā perfekti.
+02-08-2000
+  Visi C_Printf ir aizvietoti ar con izmantošanu. Pie TTextBuf pievienoju
+ vesela skaitļa drukāšanu.
+03-08-2000
+  Tika izveidota galviņa izejas kodu failiem ar VAVOOM logo, autortiesību
+ informāciju un standarta GPL galviņu.
+  Nolēmu, ka pagaidām necentīšos IPX draiverī ieviest klases. Tā vietā es to
+ veidoju tieši tā, kā tas ir kveikā. Tika ienesta arī draivera struktūra ar
+ IPX draivera tabulu. Šādi strukturājot es varēšu viegli pievienot arī citus
+ draiverus no kveika. Pašās beigās kautkas tomēr sagāja grīstē.
+04-08-2000
+  Kautkas stulbs notiek ar IPX draiveri. Ar 0-to soketu viss strādā normāli.
+ Tiklīdz es mēģinu kautko sūtīt pa pirmo soketu, tā viss karās augšā. Pārnesu
+ uz net_lan to daļu, kura neattiecas iz IPX draiveri. Tagad net_ipx ir tīrs
+ IPX draiveris pa taisno no QUAKE izejas kodiem tikai šeit ir aizvākti visi
+ tuvie pointeri un kods nedaudz uzskaistināts. Beigās tomēr atradu kļūdu IPX
+ funkcijā IPX_Write. Tagad viss atrādā kā vajag.
+  Pievienoju arī Beame & Whiteside TCP/IP draiveri DOS videi. DOS buferis
+ tika aizstāts ar DJGPP transporta buferi. Diemžēl šis draiveris paziņo, ka
+ nevar atrast draiverus (kuru man arī nav).
+07-08-2000
+  Šodien pārinstalēju Windows 98. Diemžēl Windows neatpazīst videokarti. Tā
+ nu man Windows vidē ir jāiztiek ar 16 krāsām 640x480 izšķirtspējā.
+  Sakārtoju LAN draiverus pārējām operētājsistēmām. Tagad varu sākt veidot
+ kopīgu LAN draiveri.
+08-08-2000
+  Atradu video kartes draiveri. Tagad varu palaist bilderi. Diemžēl atmiņas
+ probēmu Windows pārinstalēšana nenovērsa. Acīmredzot vaina ir pašā Windows.
+ Laikam būs jāpameklē jaunāka versija.
+  Pievienoju peldošā komata laiku pārējām versijām.
+09-08-2000
+  Tika pārveidota pakešu sūtīšanas sistēma. Tagad tā notiek tā kā kveikā.
+ Aizsūtot paketi tiek gaidīts apstiprinājums. Tikai pēc tā saņemšanas var
+ tikt sūtūta jauma pakete. Ja noteiktu laiku apstiprinājums netiek saņemts,
+ pakete tiek sūtīta vēlreiz. Ja paketi nevar aizsūtīt, tā tiek saglabāta
+ buferī. Citiem vārdiem sakot paziņojumi nevar tik pazaudēti.
+10-08-2000
+  Zīmēšana spēles ielādes laikā ir speciāls gadījums kurā tiek zīmēta tikai
+ titullapa un konsole. Nav ekrāna maiņas efekta.
+  Tekošās takts komandas tiek pārkopētas speciālā buferī.
+  Programmās funkcija Random tagad saucas P_Random - tā kā bija. Atbrīvojos
+ no pāris funkcijām, kuras bija kā mantojums no programmu sākuma versijām,
+ kad man nebija tieša pieeja stāvokļu tabulām.
+  Jaunā pakešu sūtīšanas sistēmā takšu iztrūkšana tiek uzskatīta par kļūdu,
+ jo tagad tās nevar iztrūkt.
+11-08-2000
+  Izveidoju sistēmas asemblera moduli LINUX sistēmai kā arī pievienoju tukšas
+ peldošā komata precizitātes funkcijas neintel platformām.
+  Šodien tika ieviests multicast serveris. Klients savas paketes sūta uz šo
+ serveri un serveris tās nosūta tālāk pārējiem spēlētājiem. Labi ka sākumā
+ bija pazīme kas sūta paketi, jo tā ļāva atrast nelielu kļūdiņu.  Kad biju
+ pārliecinājies, ka klients nesaņem servera paketes un serveris klienta, tā
+ tika aizvākta un palika tikai paziņojumu virkne. Tas man ļāva ieviest vēl
+ vienu jauninājumu - ja nevar sūtīt paketi, tās tiek apvienotas. Rezultātā
+ ātrums krasi palienājās - var patiešām normāli spēlēt.
+  Palielināju paziņojumu izmēru līdz 1024 baitiem.
+  DOS lan draiverī var piespiest strādāt kā serverim ar parametru -server vai
+ kā klientam ar parametru -client.
+  Izmetu ārā ticdup. Tas neko nedod un tikai jauc prātu.
+12-08-2000
+  Tākā galvenais mērķis, ko es gribēju sasniegt versijā 1.3 - "multicast"
+ serveris ir sasniegts, kā arī internetā tiku apsolījis, ka šonedēļ būs jauna
+ versija, nolēmu izlaist versiju 1.3. Pārbaudīju uz LINUX - bija pāris kļūdas
+ kuras tika likvidētas. Atklāju vēl vienu kļūdu - response failu pievienošana
+ rada segmentācijas kļūdu. Iemeslus noskaidrošu vēlāk. Vēl ātri tika salabota
+ starplīmeņu statistika.
+
+******************************************************************************
+                            VERSIJA 1.3
+******************************************************************************
+
+14-08-2000
+  Atbrīvojos no takts funkcijām menu, konsoles un teksta moduļos. Tagad tiek
+ izmantots tekošais laiks.
+  Ieviesu TSizeBuf konstruktoru, ar kuru tiek iedots buferis. Pie TMessage
+ pievienoju operārorus ar TMessage mainīgajiem.
+  Turpinu darbu pie tīkla moduļiem. Sāku aizvietot spēlētāju tīkla masīvus ar
+ struktūru masīvu. Vēl pāris izmaiņas.
+15-08-2000
+  Šodien es izdarīju vienu lielu kļūdu - nesaglabāju rezerves kpiju. Strādāju
+ pie tīkla moduļa. Daudzko pārveidoju, galarezultātā pat nedaudz apjuku. Un
+ beigās izrādījas, ka kautkas ir salaists dēlī. No sākuma klients nevarēja
+ savienoties. Visu itkā izlaboju un normāli savienojos. Bet spēle nesākas.
+16-08-2000
+  Tākā viss ir salaists dēlī, kautā negribējās ķerties klāt. Nolēmu, ka jāsāk
+ viss no sākuma. Atjaunoju to versiju, kuru sestdien publicēju. Izmaiņas,
+ kuras es veicu sākumā - atbrīvošanās no takts funkcijām un izmaiņas TSizeBuf
+ un TMessage klasēs tika ieviests no rezerves kopijas. Tīkla modulī darbs ir
+ jāsāk no sākuma. Nedaudz padomājot secināju, ka ir divas lietas, ar kurām ir
+ jāsāk. Pirmā ir pieslēguma struktūras izveidošana - tas, ko es jau darīju
+ pirmdien un kas man tagad ir jāsāk no sākuma. Otrā lieta, kura ir jāizdara,
+ ir jāsadala net_main divās daļās - tīkla draivera modulī un datu apmaiņas
+ modulī, kurā tiek iekļauts protokols. Struktūra tika veiksmīgi ieviesta.
+ Windows un LINUX versijās interneta moduļi principā ir vienādi, atšķirās
+ tikai draiveru tabulas. Tāpēc es nolēmu izveodot kopīgu moduli net_inet.cpp.
+17-08-2000
+  Protams galvenais ir tīkls, bet sāksim ar citiem sīkumiem. Vispirms tagad
+ saglabātās spēles ceļš tiek izveidots pirms spēles saglabāšanas, un nevis
+ ielādes laikā. Tagad mainīgo SavePath var droši mainīt spēles laikā. Vecais
+ M_Random tagad ir aizstāts ar reāliem gadījumskaitļiem, precīzāk sakot tiek
+ izmantota funkcija rand.
+  Un tagad pie tīkla. Tika atdalīts tīkla draiveris no protokola un visa
+ pārējā, kas nav saistīts ar draiveri. Ieviests tīkla laiks, NET_Poll tika
+ pārnests uz net_main.cpp. Protokola daļa ir failā net_prot.cpp. Visa demo
+ spēlēšana vairs neiet cauri visam tīklam, bet tiek apstrādāta atsevišķi.
+ Netiek vairs sūtītas paketes, kuras tiek ignorētas. Vispār demo spēles laikā
+ tīkla draivera funkcijas netiek izmantotas, kas nozīmē, ka nav vajadzīgas
+ īpašas pārbaudes un darbības demo spēles gadījumā - tagad domo tiek spēlēti
+ kā vajag, un strādājot pie tīkla man par demo atskaņošanu nav jāuztraucas.
+  IPX draiverī soketu skaits ir atkarīgs no rezervētās DOS atmiņas apjoma. Ar
+ 100k man ir 18 soketi. Paketes izmērs ir palielināts līdz kilobaitam.
+  LAN un interneta funkcijas principā ir vienādas (izņemot savienošanos).
+ Tapēc es nolēmu to apvienot. Tagad Interneta draiveri izsauc attiecīgās LAN
+ funkcijas. Funkcijai LookForNodes tika izveidotas divas versijas -viena
+ serverim, otra - klientam. Klients tagad pieslēdzas tikai serverim.
+18-08-2000
+  Šodien man bija ļoti aizņemta diena. Tikai vakarā es varāju sākt kautko
+ darīt. Strādāju tikai pie LAN saveinošanās daļas. Šeit IR pārmaiņas. Tika
+ attīrīts pieslēgšanās protokols. Tika ieviesta servera informācijas komanda,
+ kura tagad nosūta spēlētāju skaitu. Vispirms klients meklē serveri. Saņemot
+ servera informāciju, klients pie tā pieslēdzas izmantojot viņa adresi un
+ nevis sūtot paketi pa visu portu. Tas nebija labi arī tāpēc, ka gadījumā ja
+ ir vairāki serveri, pieslēguma pieprasījumu tad pieņemtu visi, bet klients
+ pieslēgtos tikai pie viena no tiem.
+19-08-2000
+  Izmaiņu šodien ir diezgan daudzos failos.
+  Ieviesu V_DrawPatch, kurā tiek nodots nevis zīmējums, bet gan tā nosaukums.
+ Zīmējums tiks ielādēts ar PU_CACHE līmeni.
+  Ja netiek kompilēts ar GNU C kompilātoru, __attribute__ tiek definēts kā
+ tukšums. Tagad pārbaude ir tikai sākumā, nevis katrā izmantošanas vietā.
+  Tika nedaudz pārveidots demo cikls. Tika ieviestas komandas AdvanceDemo un
+ StartDemos, kuras aizvieto attiecīgās funkcijas. Zīmējuma laiks tagad tiek
+ mērīts sekundēs un tas izmanto peldošā komata laiku. Lapas maiņas pārbaude
+ notiek zīmēšanas laikā, kā rezultātā atbrīvojos no vēl vienas takts komandas.
+  Komandu bufera izpilde notiek pirms NET_RunTics.
+  Protams lielāko daļu pavadīju pārveidojot tīkla draiverus. Vispirms klients
+ saziņai ar serveri neizmanto klausīšanās portu, bet gan atver brīvu portu.
+ Serveris, saņemot pieprasījumu pieslēgties tūlīt sūta klientam atbildi un
+ nevis katru sekundi visiem klientiem. Pēc nelieliem pārveidojumiem katrs
+ klients tiek pieslēgts uz atsevišķa potra. Saņemtot paketi tiek norādīts no
+ kura klienta tai ir jābūt. Vēl viena liela izmaiņa - pakešu apstiprināšanas
+ mehānisms tika pārnests zemāk uz draiveriem, jo principā tas ir domāts LAN
+ draiveriem, un COM porta draiverim ir nepieciešams savādāks protokols. Tā
+ vien liekas, ka virknes porta draiveris tiks uzlabots kautkad vēlāk.
+21-08-2000
+  G_CheckDemoStatus vairs neraksta komandu buferī komandu AdvanceDemo. Tas ir
+ jādara izsaukšanas vietās pēc šīs funkcijas izsaukšanas. Tas tika ieviests
+ tādēļ, ka vairākās vietās tas nav vajadzīgs.
+  Komanda StartDemos pārnesta no Host_Init uz sākuma skriptu.
+  Sāku ieviest tīkla draiveru struktūras. Ir sūtīsanas, lasīšanas funkcijas.
+ Datagram draiverī ir arī savienošanās funkcijas. LAN tagad ir Datagram.
+22-08-2000
+  Pilnībā ieviesti Loopback un Datagram tīkla draiveri. Diemžēl virknes porta
+ draiveris DOS versijai pagaidām tika atslēgts. Sakārtots arī tīkla galvenais
+ modulis. Publiskās struktūras, mainīgo un funkciju prototipi ir pārnesti uz
+ network.h.
+  Ieviesu palīgfunkciju CalcLine, kura aprēķina līņjas parametrus. Tagad tie
+ tiek aprēķināti vienā vietā. Nav atkārtošanās abās līniju ielādēšanas un
+ vienā poliobjektu funkcijā.
+  Jāsāk kautkas darīt, lai atbalstītu vairāk par 4 tīkla spēlētājiem Doom un
+ Heretic. Vispār var spēlēt, tikai ir jāsakārto krāsu maiņas tabulas. Man
+ redās ideja to realizēt kā zīmējumu, kuru nolasa, un tad pārveido speciālā
+ formātā. Ieviesu funkciju, kura pārveido zīmējumu pic_t formātā, kurš tiek
+ izmantots Quake.
+23-08-2000
+  Pievienoju MPATH draiveri. Tas ir TCP/IP draiveris DOS videi.
+  Sakārtots darbs ar pieslēguma struktūrām. Tīkla galvenajā modulī ieviestas
+ vairākas konsoles funkcijas. Principā tīkla draiveri tākā būtu sakārtoti.
+  Savienošanās notiek izmantojot konsoles funkcijas. Ar Hexen kautkas nav
+ labi, jo, ja ir bijusi spēle vai demo, rodas consistancy kļūda.
+24-08-2000
+  Šodien ir liela diena - šodien dzimst klienta/servera versija. Jā, beidzot,
+ kad tīkla draiveri ir sakārtoti, varu ķerties pie šīs lielās un nozīmīgās
+ pārmaiņas, kas noteikti pārsteigs visus Doom/Heretic/Hexen fanus. Jā, mans
+ mērķis ir izveidot tīru klientu/serveri un nevis kaut kādu hibrīdu, kāds ir
+ csDoom (Man liekas, ka csDoom autors neapjēdz, ko klients/serveris nozīmē.
+ Tā vien šķiet, ka viņs ar to saprot iespēju pieslēgties jau ejošai spēlei.).
+  Pārmaiņu ir daudz, tādēļ tikai galvenie vilcieni. Vispirms izmetu ārā tādu
+ mainīgo, kā displayplayer. Klients var rendēt tikai to, ko viņš redz, viņam
+ nav informācijas par citu spēlētāju atrašanās vietām (nav informācijas, vai
+ šis mobj ir spēlētājs, vai nav). Tālāk tiek ielādētas divas līmeņa kopijas -
+ viena klientam, otra serverim. Rendēšana izmanto klienta līmeni. Vispirms
+ tas bija tukš. Tad tas tika atdzīvināts, pievienojot objektus. Klientam ir
+ savi objekti, tips ir mobj_base_t, kurš ir mazāks. Objektu pievienošana ir
+ to linkošana sektora linkos. Tākā sektoru linkus izmanto tikai rendēšana,
+ tad šī linkošana notiek tikai klienta daļā, serveris linko tikai bloķēšanas
+ kartē. Tad tika ieviestas līmeņa izskata maiņu pievienošana klienta līmenim.
+ No sākuma informācija tika vienkārši pārkopēta, vēlāk sāku ieviest ziņojumu
+ sūtīšanu. Salīdzināšanai tiek izmantots lokālais klients.
+25-08-2000
+  No p_sight izmetu ārā otru versiju, tagad ir tikai versija ar BSP koku. Vēl
+ atdalīju atsevišķā funkcijā sektoru redzamības pārbaudi, to es domāju vēl
+ izmantot sūtot informāciju.
+  Tika ieviesta klieta spēlētāja struktura, kurā ir visa informācija, kura ir
+ nepieciešama rendēšanai. Tā tiek nosūtīta pa tīklu.
+  Dienas beigās domātājus izsauc tikai serveris.
+26-08-2000
+  Pirmais - skaņa. Viegli saprast, ka, lai citi klienti dzirdētu skaņu, tiem
+ ir jādod attiecīga komanda. Problēma ir tur, ka skaņai ir jaiedod tās avota
+ pointeris. Heretic un Hexen skaņas avotu objekti ir klientam neredzami, kā
+ rezultātā skaņas tiek spēlētas vienā punktā. Nedaudz tika pārveidots skaņas
+ moduli līdzīgi kveikam. Tagad tiek nodotas objekta koordinātes un tā skaņas
+ identifikātors.
+  Tika atdzīvināti poliobjekti. Klients izmanto savu, vienkāršotu poliobjektu
+ moduli, kurā netiek pārbaudīts, vai kustība var tikt veikta - objekts tiek
+ vienkārši pārvietots vai rotēts tā, kā tam ir jābūt.
+  Demo tika vienkārši atslēgti, jo mēģinājums tos spēlēt noko labu nedod.
+  Kontrole pār spēli tika nodota pilnīgi servera rokās. Daudzkas no G_Ticker
+ tagad ir servera takts apstrādē. Praktiski jau ir pilnīgs klients/serveris.
+28-08-2000
+  Sāku atbrīvoties no lokālā klienta datu izmantošanas salīdzināšanai. Tika
+ Ieiesti bāzes lielumi, tekstūras maiņa notiek izsaucot speciālu funkciju,
+ kura arī nodos informāciju par izmaiņām klientam.
+  Spēli avr saglabāt tikai vienspēlētāja režīmā. Komanda vairs netiek sūtīta
+ pa tīklu. Vēl vajadzētu pārveidot pauzi.
+  Ievads pārnests klienta daļā.
+29-09-2000
+  Ieviests komandas avots. Pagaidām vēl nekur netiek izmantots.
+  Līmeņu ielādēšana sadalīta klienta unservera daļās.
+  Principā nakā nozīmīga vairāk nav.
+31-09-2000
+  Serveris tagad sūta komandas ielādēt līmeni un sākt statistiku.
+  Atbrīvojos no gameaction mainīgā. Lielākā daļa tagad ir komandas. Dažas no
+ tām nav vēlams ievadīt konsolē. Liela daļa no g_game jau ir pārceļojusi uz
+ serveri.
+  Ieviesta komandas pārsūtīšana uz serveri. Tas tiek izmantots, piemēram,
+ pauzei.
+  Vecie gadījumskaitļi aizvietoti ar reāliem gadījumskaitļiem, un tas viss ir
+ iespējams tikai pateicoties klienta/servera arhitektūrai.
+01-09-2000
+  Salaboju statusbāru, diezgan stulbā veidā, bet galvenais ir tas, ka tas
+ viss strādā. Ieviesu impulsus. Inventārs pilnībā izmanto šos impulsus. Arī
+ pašnāvība ir impulss. Artifakta izmantošana vairs netiek sūtīta. Lekšana ir
+ pārnesta pie pogām.
+  Man ir radusies vēlēšanās izlaist beta versiju, un pēc kādas nedēļas tikai
+ galīgo versiju 1.4.
+02-09-2000
+  Atradu nelielu kļūdiņu sektoru gaismu kodā. Pāris sīkumu kompilējot Windows
+ versiju.
+  Beta versija tiek izlaista.
+
+******************************************************************************
+                            VERSIJA 1.4 BETA
+******************************************************************************
+
+04-09-2000
+  Automaps izmanto klienta datus.
+  Nedaudz izmainīju datu sūtīšanu. Ja sektoram netiek nosūtītas imaiņas, tad
+ tas nozīmē, ka viss ir kā sākumā (vai arī to nevar redzēt). Takts sākumā
+ visi sektora parametri tiek atjaunoti, priekšmetu linki izdzēsti. Ja nav
+ informācijas par priekšmetu, tad uzskata, ka tas vairs neeksistē.
+  Sāku veidot pievienošanos jau ejošai spēlei. Ieviesu signon. Vēl nestrādā.
+ Izmaiņas skar arī programmas, jo tagad ir iespēja, ka nav neviena spēlētāja.
+05-09-2000
+  Ir pievienošanās jau ejošai spēlei. Starp citu šis mehānisms tiek izmantots
+ arī vienspēlētāja režīmā. Protams lielākoties tika izmantota palīdzība no
+ Quake izejas kodiem.
+  Salaboju grīdas tekstūras maiņu.
+06-09-2000
+  Salaboju spēlētāja skaņas.
+  Salaboju seivgeimus.
+  Salaboju starplīmeņus.
+  Pārveidoju ikonu, izveidoju vēl vienu.
+07-09-2000
+  Skaņu sekvences ir klienta pārziņā, viss strādā kā vajag.
+  Ieviesu atkal objektu bāzes līniju.
+  Izveidoju asemblera failu Windows versijas.
+
+******************************************************************************
+                            VERSIJA 1.4
+******************************************************************************
+
+08-09-2000
+  Sāku pāriet no fiksētā punkta skaitļiem uz peldošā komata skaitļiem. Tika
+ ieviesti divi makro šo darbību veikšanai. Sāku es ar struktūru node_t, tam
+ sekoja vertex_t, line_t, divline_t un intercept_t. Dažas funkcijas no r_main
+ ir pārnestas uz citiem moduļiem. Daudz darba.
+  Es ceru ka izlaboju "zombija" kļūdu.
+11-09-2000
+  Turpinu floatizāciju. Pāris pārveidojumi modulī p_maputl, diezgan daudz
+ pārveidojumi modulī r_things.
+  Heretic un Hexen programmās monstri tika salikti katrs savā failā.
+12-09-2000
+  Izlaboju ļoti nopietnu kļūdu - kad kadru frekvence ir lielāka par 35 Hz,
+ ievads tiek ģenerēts par daudz, kā rezultāta ir nobīde.
+  Pārveidoju Windows versijas ievadu, tagad izmanto buferi, strādā daudz
+ labāk. Ceru, ka novērsu problēmu ar skaņu.
+  Menu pievienoju multiplayer menu, pagaidām tikai atslēgšanās.
+  Programmām tika pievienoto operācijas ar peldošajiem skaitļiem. Objektu
+ koordinātes ir pekdošā komata skaitļi. Šis ir gadījums, kad es mīlu Doom
+ programmas.
+13-09-2000
+  Šodien koordinātēm pievienojas citi objektu parametri. Ļoti daudz darba.
+14-09-2000
+  Darbs pie daudzām līmeņa un spēlētāja struktūrām.
+  Pielaboti asemblera faili.
+15-09-2000
+  Floatizētas daudzas publiskās funkcijas kā arī tām atbilstošās programmu
+ iebūvētās funkcijas.
+  Tiek saglabāta objektu bāzes līnija. Bez šī klients izmantoja reālu bāzes
+ līniju, bet serveris - tukšu, kā rezultātā bija ļoti dīvaini gļuki.
+04-10-2000
+  Beidzot es esmu mājās no slimnīcas, kur man bija jāpavada vairāk par divām
+ nedēļām. Aklās zarnas man vairs nav, bet visādi citādi viss ir normāli.
+  Izmetu ārā dažus komandlīniju parametrus - visus, kuri nosaka deathmatch
+ režīmu, kā arī laika ierobežijumu. DeathMatch tagad ir konsoles mainīgais,
+ laiks arī ir konsoles mainīgais TimeLimit, vērtība 0 nozīmē ka vav robežu.
+  Pievienoju ekrāna izšķirtspējas menu. Izrādās, ka informācija kā mainīt
+ ekrāna izšķirtspēju ir pazudusi no dokumentācijas. Tagad nevajadzētu būt
+ problēmām.
+  Flatifikācija, programmās atbrīvojos no FixedDiv, FixedMul, finesine,
+ finecosine, sin un cos ir iebūvētas, Praktiski neizantoju fixed_t.
+05-10-2000
+  Izveidoju matemātikas bloku.
+  Norādot atmiņas apjomu tagad tiek izmantots peldošā komata skaitlis.
+  Floatizācija, daudzi globālie mainīgie, it īpaši rendēšanas modulī, kurš
+ tika diezgan pamatīgi apstrādāts.
+06-10-2000
+  Floatizēti skaņas moduļi. Dzinējs arī vairs neizmanto FixedMul un FixedDiv.
+ Diezgan nopietns barbs pie automapa.
+09-10-2000
+  Objektu informācijā ātrums arī ir peldošā komata skaitlis. Oroģināli šis
+ parametrs bija mazliet dīvains. Monstriem ātrums bija vesels skaitlis, bet
+ visam citam - fiksētā komata skaitlis. Bet īpašas problēmas neradās. Vēl
+ šis tas ir floatizēts. Programmās tas tika darīts vietās, kur kā mainīgā
+ tips tiek izmantots int un nevis fixed_t.
+10-10-2000
+  Matemātikas tabulas izmanto tikai matemātikas modulis. Floatizētas tika arī
+ tās. Visur, kur tika izmantotas tabulas tagad tiek izmantotas matemātikas
+ funkcijas.
+  Arī Doom programmās iz atdalīti lielākā daļa monstru savos failos.
+  Gatavojos izlaist beta versiju. Pašreiz pieejamajā versijā ir jau zināmā
+ kļūda, kura padara neiespējamu spēli, ja kadru frekvence ir lielāka par 35
+ kadriem sekundē.
+11-10-2000
+  Jālaiž ārā beta versija. Vēl pāris sīki labojumi, nedaudz uzskaistinātas
+ programmas, atbrīvojos no pāris iebūvētām funkcijām, sakārtoju arī bīdīšanu
+ par MAPBLOCKSHIFT. Tagad tiešām programmās visi fiksētā punkta skaitļi ir
+ aizvietoti ar peldošā komata skaitļiem.
+  Kompilātors tagad definē makro PROG_VERSION. Tagad var pārbaudīt, vai tiek
+ kompilēts ar pareizās versijas kompilātoru.
+
+******************************************************************************
+                            VERSIJA 1.5 BETA
+******************************************************************************
+
+12-10-2000
+  Sāku darbu pie "dedicated" servera. Tika izveidots jauns projekts. Tad kad
+ tiek kompilēts serveris, tiek definēts SERVER. Ja ne SERVER, ne CLIENT nav
+ definēti, tie abi tiek definēti. Kopīgajos failos tas, kas ir vajadzīgs
+ tikai klientam tiek kompilēts tikai tad, ja ir definēts CLIENT.
+14-10-2000
+  Turpinu. DOS versijā serveris vairs neizmanto Allegro. Faila izmērs kļuvis
+ daudz mazāks. Izveidoju r_dedic.cpp kurā ir viss, kas serverim ir vajadzīgs
+ no rendēšanas. Pāris funkcijas vajadzētu pārnest uz matemātikas moduli.
+16-10-2000
+  Tas pats tiek turpināts. Protokolā nāk klāt pāris komandas starplīmeņiem un
+ finālam. Pievienota vektoru klase, vēl nekas netiek izmantots.
+18-10-2000
+  Sāku veidot arī klienta versiju. Rezultātā ļoti labi parādās tas, kas ir
+ vajadzīgs serverim un kas klientam.
+19-10-2000
+  Atradu kļūdu DOS/LINUX asemblera failā dažās peldošo komatu operācijās. Tās
+ tiek izmantotas ļoti reti (dēļ optimizētajām versijām). Bet pats galvenais
+ ir tas, ka es sāku ieviest tīkla spēles menu.
+20-10-2000
+  Tika piestrādtas pie programmu interpretātora asemblera failiem. Atradu
+ dažas vietas, kur var ļoti labi optimizēt. Tika sakārtots arī Windows
+ versijas asemblera fails. Tīkla menu izskatās ļoti labi.
+21-10-2000
+  Attīrīti .h faili no #ifdef CLIENT. Pāc tiem nav nekādas vajadzības. Vēl
+ pāris citas nenozīmīgas izmaiņas, pārsvarā atbrīvošanās no warning-iem.
+23-10-2000
+  Pārkārtota pāris mainīgo piederība. Atbrīvojos no net_prot.cpp. Izveidoti
+  speciāli sistēmas moduļi "dedicated" serveriem. DOS versija brīnišķigi
+  strādā ar BSD moduli. DOS peldošā komata inicializācija atdalīta atsevišķi.
+24-10-2000
+  Nedaudz pārkārtots protokols. Pāris sīki kļūdu labojumi.
+25-10-2000
+  Vēl nadaudz uzskaistināts protokols. Savienošanās protokolā spēles vārds ir
+ nomainīts no VAVOOM uz tekošās spēles vārdu, tādēļ Doom2 serveris nereaģēs
+ uz Hexen klientu komandām. Pievienotas funkcijas Host_EndGame un Host_Error,
+ varat trīs reizes minēt no kurienes tās nāk.
+26-10-2000
+  Servera informācijas paketē vēl tiek iekļauti izmantotie wad faili. Vēl
+ nedaudz pārveidotas dažas konsoles komandas un komandlīnijas parametri.
+  Jau ir 2 nedēļas kopš BETA versijas, tādēļ ir jālaiž ārā jauna versija.
+
+******************************************************************************
+                            VERSIJA 1.5
+******************************************************************************
+
+28-10-2000
+  Tiek pievienoti vektori. Daudz vietās tagad ir vektori.
+  Izveidota programmu klase.
+  Neliela optimizācija programmu izpildes asemblerī.
+  Izlaboju kļūdu datagram modulī.
+  Padarīta Windows versija draudzīgāka Windows. Tagad var droši izmantot Alt-
+ Tab.
+30-10-2000
+  SadalItas programmas klienta un servera daļās. Klientam ir tikai statusa
+ līnija.
+31-10-2000
+  Nedaudz sakārtota starplīmeņu statistika.
+01-11-2000
+  Ātrums tagad tiek mērīts vienībās sekundē nevis vienībās taktī (tas attiecas
+ uz momx, momy un momz).
+02-11-2000
+  Parādās palknes. Ne gluži kā objekts, bet tur kur vajag ir visi parametri.
+ Kā palknes ir līnijas, segmenti un BSP mezgli.
+  Pielabots asembleris priekš OpenBSD.
+03-11-2000
+  Plakne atdalīta atsevišķi kā klase.
+  Kautko sāku mēģināt pārveidot rendēšanā. Taisos ieviest poligonus. Tastēju
+ Set3D bibliotēku.
+04-11-2000
+  Plaknes pārnestas uz matemātikas moduli.
+  Izveidoju flat tekstūru veidošanu.
+  Debesis atdalītas atsevišķi.
+06-11-2000
+  Pāris utilītmetodes palknes definēšanai. Objektu informācijā ātrums arī ir
+ pikseļi sekundē.
+07-11-2000
+  Salabots čats.
+  Salabota poliobjektu segmentu un līniju parametru aprēķināšana.
+  Programmās sāku izmantot vektorus. Izveidots fails ar visādiem makro. Ir
+ ideja nākošajā versijā ieviest operātorus ar vektoriem. Izmantojot vektorus
+ matemātika kļūst vieglāk saprotama, arī brīziem vienkāršāka. Ļoti vienkārši
+ ir ar z komponenti ātrumos. Tagad tā tiek aprēķināta reizē ar x un y, nav
+ vairs vajadzīga tā sarežģītā aprēķināšana. Tika ieviesti vektori šāviņu
+ funkcijās, objektu ievainošanas funkcijā grūdiena aprēķināšanā un rādiusa
+ uzbrukuma funkcijā. Tas automātiski deva vienu papildus iespēju - lēcienu ar
+ raķeti.
+  Windows versijā jauna zīmēšanas sistēma, tiek kopēts pa taisno uz primāro
+ virsmu. Dod ātrumu, arī lapa tiek "slēgta" tikai atjaunošanas laikā.
+08-11-2000
+  Konsoles mainīgie ar peldošā komata vērtībām.
+  Tika pamatīgi pārveidots ievads uz Quake pusi. Aizvietoti vecie vadības
+ taustiņi ar Quake stila taustiņu komandām. Ieviestas taustiņu "piesaistes".
+ Atbilstoši pārveidots menu. Lielāka precizitāte leņķiem.
+09-11-2000
+  Tika izlaista versija 1.5.1. Tikai pāris sīkumi. Iespēja kompilēt OpenBSD
+ serveri, jaunā Windows versijas atjaunošanas sistēma, sīki labojumi.
+10-11-2000
+  Nedaudz pielabotas matemātikas funkcijas.
+  Pievienoju poligonizāciju. Pagaidām tikai testēju.
+11-11-2000
+  Šis tas uzskaistināts. Salaboju starplīmeņus.
+  Mēģināju pārveidot poligonozāciju. Radās ļoti daudz kļūdu. Atteicos.
+13-11-2000
+  Uzlaboju darbu ar gaismas tabulām. Atbrīvojos no translēto kolonnu zīmēšanas
+ funkcijām.
+  Poligonizācija rada kļūdas. Atteicos pavisam.
+14-11-2000
+  Leņķi tiek apstrādāti klienta pusē.
+15-11-2000
+  Šaušanas funkcijā tiek izmantoti vektori.
+16-11-2000
+  Ieviesu leņķu vektoru.
+  Dinamisks redzamības lauks, laikam viss vēl nav pareizi, jo izskatās ne
+ gluži pareizi.
+20-11-2000
+  Tēmēšanā tiek ņemts vērā skatīšanās leņķis. Kā tagad būs ar BFG šaušanu
+ grīdā? ;-)
+21-11-2000
+  Interesanti - esmu strādājis tikai pie programmām. Nedaudz vairāk tiek
+ lietoti vektori. Principā viss.
+22-11-2000
+  Līmeņi tiek identificēti pēc vārda.
+23-11-2000
+  Tekstūru animācija ir pārceļojusi uz rendēšanu, zibens uz debesu rendēšanu.
+  Vēl šis tas sakārtots.
+24-11-2000
+  Klienta koordinātes tiek sūtītas kā peldošā komata skaitļi, vairs vav tā
+ ekrāna drebēšana.
+  Doom un Heretic ir 8 spēlētāja krāsas.
+  Sāku pāriet uz peldošā komata laiku.
+25-11-2000
+  Mēģinājums pāriet uz peldošā komata laiku aizgāja pa pieskari.
+27-11-2000
+  Pielaboju menu. Skatiena centrēšana, arī lookspring. Citi sīkumi.
+28-11-2000
+  Izlabota kļūda, kuras dēļ Windows un LINUX versijas izmet SIGSEGV.
+  Windows prgžu asemblerī pievienoju optimizēto pāreju uz nākošo komandu.
+
+******************************************************************************
+                            VERSIJA 1.6
+******************************************************************************
+
+30-11-2000
+  Nedaudz pielaboju Windows versijas skaņas moduli lai skaņa neskanētu kautkur
+ tālumā.
+  Kautko mainu rendēšanā, niekojos ap segmentu rendēšānu, izmetu ārā solidegs.
+01-12-2000
+  Pievienoju atbalstu "GL_Friendly Nodes". Atjaunoju testēšanu ar bibliotēku
+ Sort3D. Kautkur karās, jāsāk veidot savs 3D rendēSanas kods tieši Vavoom-am.
+04-12-2000
+  Nokopēju glbsp, iepazinos ar oficiālo aprakstu, pievienoju automātisku gwa
+ failu pievienošanu, apgreidoju uz specifikācijas 2. versiju.
+  Nolēmu izmantot trīstūru zīmēšanas kodu bāzētu uz MESA izejas kodiem. Līdz
+ šim viss strādā normāli.
+05-12-2000
+  Strādāju pie trīstūru rendēšanas. Nolēmu ka visas sienu un grīdu tekstūras
+ būs 256x256 lielas. Tas vienkāršo aprēķinus. Ir jau ejošs kods.
+06-12-2000
+  Lielisks progress. Tākā viss strādā lieliski, jāsāk to arī likt lietā. Kā
+ vienmēr sāku testēšanu ar grīdu zīmēšanu. Ticis skaidrībā ar tekstūru
+ koordinātu asu virzieniem dabūju strādājošu grīdu rendēšanu ar jauno metodi.
+ Pēc nelielā pūlēm grīdām pievienojās arī griesti. Pēc nelieliem labojumiem
+ ievada modulī es ieguvu šķiebtu nāves skatu. Un nevis vienkārši šķiebtu, bet
+ gan mirstot rotējošu, kas ir pat kautkas vairāk nekā tas, kas ir kveikam.
+ Uz vakara pusi grīdām un griestiem pievienojās arī vidussienas. Kaut kur pa
+ vidu tika palielināts skatīšanās leņķa intervāls.
+07-12-2000
+  Pievienotas arī pārējās sienas un spraiti. No vecā zīmēšanas koda laikam
+ nakas vairs nav palicis pāri. Var arī spēlēties ar redzes leņķi, pievienoju
+ palielināšanu. Aizsūtīju uz doomworld.com skrīnšotu ar šķiebto nāves skatu.
+08-12-2000
+  Nodarbojos ar koda pieslīpēšanu, veicu profilāciju, parādās jauns asemblera
+ kods.
+09-12-2000
+  Neliela optimizācija, čakars ar asembleri, pagaidu debesis.
+11-12-2000
+  Turpinu čakarēties ar asembleru, optimizācija, attīrīšana, ieroču zīmēšana
+ ar jauno rendēšanu.
+12-12-2000
+  Debesu zīmēšana, atbrīvojos no segmentu leņķiem.
+13-12-2000
+  Salaboju poliobjektus, pilnībā atbrīvijos no kolonnu zīmēšanas, debesu kubs.
+14-12-2000
+  Nodarbojos tikai ar asembleru.
+15-12-2000
+  Izveidoju galveno iekļauto failu asemblera moduļiem.
+  Testēju slīpas virsmas. Vienas dienas laikā praktiski viss ir izdarīts. Tas
+ protams ir pateicoties manai jaunajai uz poligoniem bāzētajai rendēšanas
+ arhitektūrai, kurā tas ir diezgan vienkārši. ZDoom autoram tas noteikti bija
+ daudz sarežģītāk. Pateicoties vektoriem un plaknēm arī fizika būs diezgan
+ vienkārši izveidojama. Tika izveidotas sektora plaknes, kas nākošajā versijā
+ būs pašos sektoros, pateicoties kurām tad arī slīpo virsmu rendēšana ir tik
+ vienkārša. Ir arī distances gaisma.
+16-12-2000
+  Korektas dubultās debesis. Gatavojos veidot glvis lai samazinātu zīmejamo
+ poligonu skaitu. reject nevar izmantot, jo tur var būt visādi efekti un ne
+ visai korekti ģererēšanas algoritmi.
+18-12-2000
+  Veidoju glvis. Esmu gatavs izmantot pvs datus. Ir gatavs ievads/izvads,
+ tiek ģenerēti tukši dati.
+19-12-2000
+  glvis pievienota redzamības pārbaude, praktiski jau ir gatava versija. PVS
+ datu izmantošana ir līdzīga kveikam.
+20-12-2000
+  Sāku kautko mēģināt ar OpenGL. Pagaidām tikai sistēmas daļā.
+21-12-2000
+  Sadabūju no Interneta OpenGL pamācību, sāku apgūt, jau mēģinu pielietot
+ pie reāliem datiem, viss strādā lieliski. Praktiski lielākā rendēšanas daļa
+ jau strādā. Man ļoti patīk šis API - vienas dienas laikā jau ejoša OpenGL
+ versija. Protams, ja man jau nebūtu poligonu veidošanas, tas nebūtu tik ātri.
+22-12-2000
+  Virsotņu gaismas - tas ir kas jauns.
+  16 bitu krāsas. Pagaidām viss normāli.
+23-12-2000
+  Darbs pie 16 bitu krāsām. Atradu pāris kļūdas Allegro bibliotēkā.
+  Mēģinu atrast vainu, kāpēc dažreiz tiek nepareizi zīmēts.
+27-12-2000
+  Neliela pārstrukturizācija. Jau būs mēnesis kopš pēdējās versijas, būtu
+ laiks izlaist kādu beta versiju.
+28-12-2000
+  Pievienoju setjmp funkcijā Host_Init gadījumam ja gadās kāda kļūda ielādes
+ laikā.
+  Pievienoju komandlīnijas parametru -debug.
+  Pievienoju programmām funkciju gadījumam, ja ir kļūda programmas izpildes
+ laikā.
+  Pievienoju iebūvētās funkcijas tekstūru un flatu nummuru iegūšanai.
+  No kveika paņēmu asemblera pārveidošanas programmu no gas uz masm. Manā
+ gadījumā rezultāts būs priekš tasm. Tā tika nedaudz pilnveidota. Tagad es
+ varu automātiski ģenerēt Windows asemblera failus no gas formāta failiem.
+  LINUX versijai nepatīk subdivision 8 faili, pagaidām izmantoju precīzās
+ versijas.
+29-12-2000
+  Gatavojot beta versiju tika pielabotas vēl pāris kļūdas, papildināta
+ dokumentācija, tāda izveidota priekš glvis.
+
+******************************************************************************
+                            VERSIJA 1.666 BETA 1
+******************************************************************************
+
+30-12-2000
+  Izmantot esp bija slikta ideja - es aizmirsu par pārtraukumiem.
+  Gaismas efektu testēšana prasa daudz resursus - Hexen MAP01 tas paņem 62%
+ no izpildes laika.
+  glvis palielināju izejas wad faila iedaļu skaitu, 1024 ir par mazu darbam
+ ar tiešām lieliem wad failiem (nevis ar gwa failiem). Nedaudz padarbojos ar
+ vcc. Pievienoju lokālo mainīgo pārplūšanas pārbaudi. Izrādās, ka Hexen ir
+ vienā funkcijā (monstru pārvēršanās cūkā) ir pārplūde un ka šis mainīgais
+ netiek izmantots. vcc tagad izmanto cmdlib (to pašu, ko glvis).
+02-01-2001
+  Atbrīvojos no esp izmantošanas. Piestrādāju pie draiveru struktūras. Nolēmu
+ pilnībā pāriet uz zīmēšanu no aizmugures uz priekšu. Pievienoju atbalstu
+ dažādiem spraitu tipiem.
+  Taustiņu piesaistei pievienoju komandu taustiņa atlaišanai. Tas atļauj
+ tādas kokmandas kā "bind PADDIVIDE "fov 45" "fov 90"".
+03-01-2001
+  Caurredzami spraiti 16 bitu krāsām. Atrisināju problēmu ar Z-buferi.
+  Turpinās darbs pie draiveru strukturizācijas. Spraitu translācija notiek
+ datu līmenī, tas automātiski atrisina problēmas ar 16 bitu krāsām un OpenGL.
+  Izveidotas OpenGL versija parastajām zīmēšanas funkcijām. Atradu, kāpēc
+ OpenGL ir tik lēns - tekstūras visu laiku tika atjaunotas.
+04-01-2001
+  Galvenā uzmanība uz draiveru strukturizāciju un OpenGL. Strukturizācija ir
+ pabeigta un es varu nokompilēt versiju ar abiem draiveriem. OpenGL draiveris
+ tiek norādīts komandlīnijā. Korekti tiek zīmēti caurredzamie spraiti.
+05-01-2001
+  Salaboju sienu tekstūru koordinātu aprēķināšanu, it īpaši vidustekstūrai.
+  Izveidoju atbalstu OpenGL skrīnšotiem.
+  Ja nav "GL Nodes", tad ir kļūda.
+
+******************************************************************************
+                            VERSIJA 1.666 BETA 2
+******************************************************************************
+
+06-01-2001
+  Sāku darbu pie Direct3D draivera. Visā visumā diezgan liels čakars, beigās
+ vēl neizdevās panākt līmeņa rendēšanu. Ar OpenGL man veicās daudz labāk.
+ Patīkams ir fakts, ka DirectX 7 versijā ļoti daudzas lietas ir vienkāršotas.
+ It īpaši patīkami tas ir attiecībā uz viewport-u un tekstūru menedžmentu.
+09-01-2001
+  Visa uzmanība tiek veltīta Direct3D draiverim. Principā lielākā daļa strādā
+ normāli. Izrādījās, ka mana videokarte neatbalsta alfa testēšanu. Nestrādā
+ arī caurredzamība. Neliels čakars ar zīmēšanu bez tekstūras. Nestrādā arī
+ migla un es nevaru saprast kas īsti ir jādara.
+  Ir arī paletes efekti OpenGL un Direct3D.
+  Pareiza dubulto debesu zīmēšanas secība.
+  Salaboju fiksēto gaismu, vēl nav dieva režīma kolormaps.
+10-01-2001
+  Noklusēto izšķirtspēju tagad katrs draiveris nosaka pats.
+  OpenGL un Direct3D visas funkcijas un mainīgie pieder klasei.
+  Sāku ieviest ložu caurumus.
+  Kļūdu dēļ poligonam var tikt apgrieztas vairāk malas, nekā tam vajadzētu
+ būt. Tas ir arī pēkšņo uzkāršanos iemesls.
+11-01-2001
+  Direct3D nedaudz labāk tiek atbalstīts gadījums, kad netiek atbalstīts
+ alfas kanāla tests.
+  Ir OpenGL draiveris DOS versijai.
+  Jau normāli strādā ložu caurumi sienās.
+  Izveidoju utilītu vlumpy.
+12-01-2001
+  Nedaudz piestrādāju pie ievada.
+  Darbību, kad nav PVS dati, var mainīt.
+  Atklāju, ka tīkla spēli nevar palaist, jo visu laiku karās. Atradu vainu.
+ Bija arī vēl viena kļūda - tīkla spēlē atdzimstot ir šķiebts skats.
+  Skripti tagad atbalsta arī C++ stila komantārus.
+  Ir "dekālu" skripts.
+  Darbs pie vlumpy. Tas kļūst aizvien labāks un vieglāk lietojams.
+13-01-2001
+  Pāris uzskaistinājumi un labojumi, nekā nozīmīga.
+  Galvenais darbs pie vcc. Izteiksmju sadalīšana tika sadalīta paprioritātes
+ līmeņiem, katram līmenim ir sava funkcija.
+15-01-2001
+  Salabota augšējo un apakšējo sienu zīmēšana gadījumiem, kad priekšējā grīda
+ ir augstāka par aizmugurējiem griezstiem un priekšējie griezsti ir zemāki
+ par aizmugurējo grīdu.
+  Pagaidām atslēdzu ložu caurumus sienā.
+  Iepazinos ar MMX, izveidoju MMX versiju z-bufera piepildīšanai. Diemžēl es
+ neatradu, kā piespiest tasm atpazīt MMX instrukcijas.
+  Sāku pārstrādāt menu.
+16-01-2001
+  Salaboju vēl vienu debesu zīmēšanas iespēju.
+  Pārstrādāju menu. Visa uzmanība šeit.
+17-01-2001
+  Menu ir pārstrādāts. Tika aizvākti vairs neizmantotie lauki, sīki labojumi.
+  Piestrādāju pie sv_mutil, Daudzkas tika vektorizēts. Šaušanā "puffi" tagad
+ korekti tiek novietoti uz grīdas un griestiem, ja tiek šauts uz grīdu vai
+ griestiem. Tēmēšanā tika ieviestas leņķu pārbaudes.
+  Dienas beigās ātra ideja - sakārtot konsoles mainīgos alfabētiskā secībā.
+18-01-2001
+  Softa versijā pareizi darbojas Dieva kolormaps.
+  Principā no kveika tika paņemts demo kods. Strādā normāli.
+  Izskatās, ka viss, ko es gribēju sasniegt šajā versijā ir izdarīts. Tādēļ
+ es nolēmu, ka ir laiks izlaist galējo versiju. Jau ir nedaudz apnicis čakars
+ ar rendēšanu un gribas ķerties klāt pie kompilātora pārstrādes un pie slipām
+ grīdām un griestiem. Arī menu ir gatavs pārvietošanai uz programmām. Laiks
+ beidzot pie tā ķerties. Protams, ka var parādīties kļūdas, bet nav vērts
+ tērēt laiku mēģinot kautko atrast.
+
+******************************************************************************
+                            VERSIJA 1.666
+******************************************************************************
+
+19-01-2001
+  Atklāju kļūdu Hexen kasu menu.
+  Stāvokļiem ir peldošā komata laiks.
+  Ieviesu objekta funkciju. Skaņas pārvietotas no objektu informācijas uz
+ pašu objektu, vērtības tiek piesaistītas objekta funkcijās.
+  Atslēdzu dehacked atbalstu. Vairs nenāks atpakaļ.
+  Beidzot atbrīvojos no pāris karodziņiem, izmantoju atiecīgos laukus, sākuma
+ vērtības tiek definētas objektu funkcijās.
+20-01-2001
+  Grīdu un griestu plaknes tagad ir sektoru lauki.
+  Nav vairs kompilātorā iebūvēto sistēmas struktūru, tagad tās tiek definētas
+ iekļautajā failā.
+  Slīpas virsmas! Viss strādā normāli. Tas bija pat pārāk vienkārši.
+22-01-2001
+  Leņķis pitch tagad iet pareizajā virzienā.
+  Notiek nopietns darbs pie kompilātora pārstrādes. Vēl ir ko darīt lai to
+ palaistu (pašreiz vēl nestrādā).
+23-01-2001
+  Stāvokļi arī ir pārnesti uz pašiem objektiem. Jaunā izteiksmju sadalīšana
+ darbojas normāli. Pāris funkcijas ir pārnestas uz programmām.
+24-01-2001
+  Spraita indeks tagad aizņem tikai 1 baitu.
+  Turpinu kompilātora pārstrādi. Pārstrādāju tipus, tiek atļauti pointeri uz
+ pointeriem, pievienota netiešā funkcijas izsaukšana, struktūru tipi var tikt
+ mantoti, speciāls tips vektoriem. Meklēšanas funkcijas tagad ir pārnestas uz
+ programmām.
+25-01-2001
+  Programmās izveidoti operātori ar vektoriem. Ļoti atvieglo dzīvi.
+26-01-2001
+  Skriptos var izmantot peldošā komata skaitļus.
+  Ieviesu menu steku.
+  Pamazām mēģinu pāriet uz līmeņu identifikāciju pēc vārda.
+  Nolēmu ieviest atbalstu 24 bitu krāsām.
+27-01-2001
+  Salaboju fiksēto gaismu OpenGL un Direct3D draiveriem.
+  Darbojos pie 24 bitu krāsu asemblera.
+29-01-2001
+  Izveidots speciāls fails funkcijām darbam ar failiem.
+30-01-2001
+  Ieviesu zīmējumu reģistrāciju, zīmēšanai tiek iedots reģistrētais nummurs.
+ Programmas varēs zīmēt tikai šādā veidā.
+  Sāku pārnest menu uz programmām.
+  Krišjāns atrada kļūdu epizodes menu shareware versijās, vēl viens puisis
+ atklāja kļūdu taustiņu pārdefinēšanas menu.
+31-01-2001
+  Lielākā daļa menu jau ir pārnestas.
+  Pievienoju informācijas simbolu virknes.
+  Pievienoju vēl kaudzi cvar karodziņu, pagaidām tikai daži strādā.
+01-02-2001
+  Tikai pārveidoju parasto zīmējumu zīmēšanu no zīmēšanas pa kolonnām uz
+ zīmēšanu pa rindiņām.
+02-02-2001
+  Ieviesu konsoles mainīgo class, tas ir vajadzīgs priekš menu, Cheat komanda
+ Class tagad saucas ChangeClass.
+  p_local.h aizvietots ar sv_local.h.
+  Liela daļa funkciju no sv_map ir pārnestas uz programmām.
+  vcc pievienots atbalsts Borland preprocesoram.
+03-02-2001
+  Testēšanas līmenī ieviesu trešās personas skatu.
+  Pēdējās funkcijas no sv_map, kā arī liela daļa funkciju no sv_mobj tagad ir
+ programmās.
+05-02-2001
+  Dzinējs vairs nezin neko par stāvikļiem, mobjinfo_t arī ir ļoti tukš.
+ weaponinfo_t vairs neeksistē.
+06-02-2001
+  Dzinējs arī neko nezin par mobjinfo_t. Pamēģināju reālu laiku. Vēl viss nav
+ gatavs. Nedaudz pačakarējos ar konsoles mainīgajiem un komandām, kā arī ar
+ atmiņas menedžeri. Izveidoju tīkla spēles spēlētāja opciju menu. Kā piemēru
+ izveidoju granātmetēja pievienošanu programmām.
+07-02-2001
+  Klienta pusē līmeņu identifikācija ir tikai pēc to nosaukumiem.
+08-02-2001
+  Arī serveris izmanto tilai līmeņu vārdus.
+  Izveidota speciāla direktorija visiem utilītiem. Papildināts vlumpy, tagad
+ vēl vairāk no spēles datiem tas var ģenerēt. Pašu spēles datu "izejas kods"
+ ir ļoti maziņš (lielākā daļa no spēles datu apjoma ir programmas un tabulas,
+ kuras tagad tiek ģenerētas). Ar jaunajām Allegro rutīnām tabulu ģenerēšana
+ ir ļoti ātra.
+09-02-2001
+  Tas ir ļoti nepatīkami, bet man nāksies atkal čakarēties ar Direct3D.
+  Kompilējot Windows versiju atradās pāris kļūdiņas.
+10-02-2001
+  Neliela pārstrukturizācija. Vairāki globālie mainīgie ir ienesti struktūrās.
+ Tiek korekti sūtītas un saņemtas info tekstu virknes. Arī spraitu saraksts
+ tiek atsūtīts no servera.
+12-02-2001
+  Pievienoju pāris iebūvētās funkcijas.
+  Uzlaboju glVIS, tagad izmanto BSP koku. Atmetot nevajadzīgās daļas ātrums
+ palielinājās aptuveni 3 reizes.
+13-02-2001
+  lumpinfo padarīju par privātu iekš w_wad. Izveidoju sv_world ar funkcijām
+ mo sv_mutil un sv_mobj. Makeinfo ģenerē korektu MAPINFO.
+14-02-2001
+  Sāku ieviest nelielu atbalstu Strife. Protams bez izejas koda ir diezgan
+ pagrūti kautko reālu izveidot, jo pašam ir viss jāhako. Tekstūras struktūras
+ ir attīrītas no nevajadzīgajiem laukiem. Izveidoju utilītu datu tabulu ar
+ kuru var iegūt info tabulas un citus datus no strife.exe.
+  Izveidoju otru fonta ielādēšanas funkcijas versiju Doom un Strife fontiem.
+ jldoom.wad vairs nesatur FONTAxxx.
+  Atļāvu izmantot -file shareware versijās.
+15-02-2001
+  Strādā arī Strife menu. Tekstūru ielādēšanas funkcija ir izveidota kā C++
+ template funkcija. Diezgan interesanta C++ īpašība.
+  Nedaudz pielaboju šaušanas fiziku daudz korektāk pārbaudot šaušanu grīdā un
+ griestos.
+  Nokačāju Build izejas kodu. Nedomāju, ka es kautko izmantošu, jo Build vēl
+ izmanto taisnas sienas, kad man jau ir tīra 3D rendēšana.
+16-02-2001
+  Pievienoju skatiena sašķiebšanas taustiņus.
+  Izveidoju iespēju izmantot sienas tekstūras uz grīdām/griestiem un flatus
+ uz sienām.
+17-02-2001
+  Salaboju flatu tekstūru orientāciju.
+  Pilnībā atteicos no matemātikas tabulu izmantošanas.
+  Z-poligonu zīmēšana ir speciāls gadījums.
+  Ja nav atmiņas līmenim, tad ir Host_Error.
+19-02-2001
+  Nedaudz pārstrādāju atmiņas memedžeri. Ar jauno sistēmu būs mazāk robu un
+ mazāk iespēju, ka nevarēs rezervēt atmiņu.
+  Translācijas tabulas tiek ielādētas no wad faila.
+  Klientam vairs nevajag servera programmas.
+  Korektas spēlētāju krāsas.
+  Strife pēdējais lauks ir nevis karodziņi, bet gan nosaukums.
+20-02-2001
+  Caurspīdīgas līnijas.
+  Salabota tekstūru iepriekšielādēšana.
+  Nomainīts konfigurācijas fails uz config.cfg.
+  Izveidots skripts virsmu tipiem.
+  Salabota tēmēšana.
+21-02-2001
+  Programās ieviests mainīgs argumentu skaits drukāšanas funkcijām.
+  Centrētie paziņojumi.
+22-02-2001
+  Darbojos ap glvis. Atradu kļūdu. Sadalīšana nedeva gaidīto rezultātu.
+24-02-2001
+  Tiek sūtīti visi objekta leņķi, arī spraita tips.
+  Objektu redīšanas funkcijā tiek iedots arī mthing_t, izveidoju pamat-starta
+ funkciju.
+26-02-2001
+  Gatavoju publicēšanai versijas 1.7 pirmo beta versiju. Vissādi nenozīmīgi
+ sīki labojumi, cerams ka atrisināju pikseļa formāta problēmu. Atteicos no 24
+ bitu krāsām softa režimā.
+27-02-2001
+  Laižu laukā. Updeitoju doķus, kautko vēl pielaboju.
+
+******************************************************************************
+                            VERSIJA 1.7 BETA 1
+******************************************************************************
+
+  Pēc izlaizšanas neticamā ātrumā izveidoju 3D grīdu rendēšanu.
+28-02-2001
+  Nedaudz pārkārtota līmeņu lādēšana.
+  Doom ieviesta staigāšana virs/zem citiem objektiem.
+  Sāku veidot 3D grīdu fiziku.
+01-03-2001
+  Caurredzama grīda zemūdens effektiem.
+  Praktiski visa fizika ir pabeigta. Tas gan bija ātri.
+02-03-2001
+  Ieviests atbalsts Quake stila paletes efektiem. Tiek izmantots ūdenim un
+ citiem šķidriem sastāviem. Pārējie paletes efekti arī tiks drīz aizvietoti.
+ Zemūdens efekts strādā pilnā apjomā. Ar slīpām virsmām, 3D grīdām un zemūdens
+ efektu Vavoom iespējas pārspēj visus pārējos portus. Un man prieks par to.
+03-03-2001
+  Palielināju animāciju skaitu, nepieciešams pilnajai Strife versijai.
+  Sāku pāriet uz Hexen speciālo līniju formātu Doom, Heretic un iespējams arī
+ Strife. Pagaidām tikai aktivizēšanas forma, pilnu pāreju es plānoju veikt
+ trešajā beta versijā.
+05-03-2001
+  Nedaudz izmainīju ūdens definēšanas veidu. Tagad saturs un plaknes tips tiek
+ definēts ar atsevišķu līniju.
+10-03-2001
+  Konfigurācija netiek saglabāta kļūdas gadījumā.
+
+******************************************************************************
+                            VERSIJA 1.7 BETA 2
+******************************************************************************
+
+12-03-2001
+  Sāku veidot jaunu demo līmeni priekš Doom2. Tika atklātas pāris kļūdiņas.
+  Serveris priekšmetu redzamību pārbauda tikai ar PVS, priekšmetus, kurus
+ nevar redzēt vispār nesūta.
+13-03-2001
+  Neierobežots slēdžu skaits, bija problēmas ar Strife, ceru ka tagad aizies.
+  Papildināju kompilātoru lai varētu definēt translācijas tabulu.
+  Sāku pāriešanu uz Hexen stila līnuju speciāliem. Tiku galā ar durvīm un
+ griestiem.
+14-03-2001
+  Turpinu pāriet uz Hexen līniju tipiem, tiku skaidrībā ar platformām un
+ grīdām.
+15-03-2001
+  Principā ir pabeigta pāreja uz Hexen tipa līniju speciāliem. Centos to visu
+ padarīt nedaudz savietojamu ar ZDoom, vismaz lai ar zwadconv konvertētie wad
+ faili strādātu.
+16-03-2001
+  Servera signon paziņojumā slīpo grīdu paziņojumi klientiem tagad ir korekti
+ pirms 3D-grīdu paziņojumiem.
+  Tika šis-tas pielabots, DOS versijā pagaidām izmantoju citu tameri.
+  Principā jaunā BETA versija ir gatava relīzei kura būs tikai rīt.
+
+******************************************************************************
+                            VERSIJA 1.7 BETA 3
+******************************************************************************
+
+17-03-2001
+  Pievienoju jaunu OpenGL draiveri LINUX versijai.
+  Beta versija tika izlaista.
+  Sāku veidot uz skanlīnijām orientētu rendēšanu.
+19-03-2001
+  Ir strādājoša uz skanlīnijām orientēta rendēšana, maskēto poligonu zīmēšana
+ notiek izmantojot Z-buferi. Ātrums tiešām ir nedaudz pieaudzis.
+21-03-2001
+  Atradu kā ar TASM kompilēt MMX kodu.
+  Sāku pārkārtot 2D grafikas zīmēšanu. Vecā metode, ar kuru tie tiek zīmēti
+ OpenGL un Direct3D versijās ļoti tās palēnina. Tagad tās strādās krietni
+ ātrāk.
+22-03-2001
+  2D zīmējumu zīmēšana sakārtota. Vairs nav veco zīmēšanas metožu izmantošana.
+  Izrādījās ka glvis nekompilējas uz LINUX. Problēmas tika atrisinātas, tagd
+ glvis kompilējas ar parametru -ansi.
+23-03-2001
+  Izveidoju programmu profilāciju.
+24-03-2001
+  Risinu LINUX problēmas. Atradu kā iegūt steka "traceback".
+26-03-2001
+  Maskēto poligonu zīmēšana notiek reizē ar parasto poligonu zīmēšanu.
+  OpenGL draiverī flatu izmēri ir 64x64.
+  Salaboju Hexen klasterus, tagad tie ir pieejami visām spēlēm. Klasteris
+ 0 tiek uzskatīts kā "nav klastera", visi tā līmeņi strādā kā dažādos
+ klasteros.
+  Atbrīvojos no vecajiem makro SHORT un LONG. Varbūt, lai nebūtu problēmu,
+ izveidot baitu secības funkcijas kā funkciju pointerus (kā Quake), tā man
+ arī nevajadzēs iekļaut endian.h.
+27-03-2001
+  Korekti tiek nolasīts maksimālais tekstūras izmērs, spraiti un 2D zīmējumi
+ lielāki par to tiek samazināti. Nedaudz tiek zaudēta kvalitāte, bet man tas
+ ir vienalga.
+  Salaboju dubulto debesu zīmēšanu OpenGL un Direct3D versijās.
+  Izmetu ārā visu kodu, kas attiecas uz ložu caurumiem siemās.
+28-03-2001
+  OpenGL un Direct3D draiveros daļēji atbrīvojos no tekstūras atkārtošanās
+ izejas tekstūrā. Tākā visu tekstūru platumi ir 2 pakāpes, OpenGL draiverī
+ platumā vispār nav atkārtošanās. Ja tekstūras augstums ir 2 pakāpe, arī tas
+ netiek atkārtots, citādi tekstūras augstums ir 256 un tekstūras atkārtošanās
+ notiek tieši tāpat kā software draiverī. Direct3D akselerētajā versijā
+ iespējams visām kartēm tekstūrām ir jābūt kvadrātiem, tādēļ atkārtošanās
+ notiek daudz vairāk.
+29-03-2001
+  Izrādās ka puisim, ar kuru es mēģinu risināt LINUX problēmas, tāpat kā man
+ Allegro inicializācija rada kļūdu. Un izrādās ka vaina ir failā xalleg.h un
+ man nācās kautkā to apiet. Vēl nedauz tika uzlabots OpenGL draiveris, cerams
+ ka tas ir strādājošs.
+31-03-2001
+  Baitu secības makro tika aizvietotas ar funkciju pointeriem, atbrīvojos no
+ endian.h iekļaušanas.
+  Pievienoju aizsardzību intercepts pārplūdei.
+  Tiek labāk izmantota spēles direktorija.
+02-04-2001
+  Salaboju saglabāšanu, kad apraksts satur vairākus vārdus.
+  Izlaidu ceturto betu.
+
+******************************************************************************
+                            VERSIJA 1.7 BETA 4
+******************************************************************************
+
+04-04-2001
+  Neliela optimizācija asemblerī, sīki labojumi.
+  Sāku pārkārtot menu. Ieviesu tukšas zīmēšanas funnkcijas pamatelementam un
+ tā inicializācjas funkciju. Visi elementi tiek inicializēti ar to.
+05-04-2001
+  Pamēģināju Doom izmantot Heretica automapa fonu, Doom-ā tas ir pelēks un
+ izskatās labi.
+  Turpinu darbu pie menu.
+06-04-2001
+  Menu struktūrās vairs nav reālo funkciju un simbola virkņu pointeru.
+07-04-2001
+  Liela daļa zīmēšanas un izmantošanas koda ir pārnesta uz progžiem.
+10-04-2001
+  Vēl vairāk menu koda ir pārnests uz progžiem.
+11-04-2001
+  Praktiski viss menu kods ir progžos.
+17-04-2001
+  Nedaudz optimizēju asembleru, pievienoju subdivision 8 debesu zīmēšanu.
+  Caurredzams tēmeklis.
+  Sakārtoju progžos zīmēšanas funkcijas, sakārtots menu.
+18-04-2001
+  Korekti tiek nosūtīts klienta nummurs.
+  Korekta reģionu zīmēšanas secība zīmējot no aizmugures uz priekšu.
+  Salaboju statusjoslas tumšināto līniju zīmēšanu.
+  Heretic pilnekrāna režīmā tiek zīmēts munīcijas apjoms.
+19-04-2001
+  Sāku pārnest starplīmeņu statistiku uz progržiem.
+20-04-2001
+  Pabeidzu pārnest starplīmeņu statistiku, pārnesu finālu.
+21-04-2001
+  Sīki labojumi.
+
+******************************************************************************
+                            VERSIJA 1.7 BETA 5
+******************************************************************************
+
+23-04-2001
+  Pareiza tekstūru asu aprēķināšana (bija pāris kļūdas), tāda pievienota pie
+ debesu zīmēšanas. Izmantoju formulas no kveika, kurās soļu aprēķināšana tiek
+ veikta izmantojot tekstūru asis un normāli, iepriekš aprēķinātās kordinātes
+ netiek izmantotas. "spanos" daudzi poligona parametri aizvietoti ar pointeri
+ uz poligonu (lai dati netiktu dublēti).
+24-04-2001
+  Dinamiskās gaismas! Tās neprasa neko no rasterizācijas draiveriem, jo viss
+ nepieciešamais jau ir un tiek izmantots distances gaismām.
+  1/z parametri tiek iegūti no normāles.
+25-04-2001
+  Jauno parametru aprēķināšanas sistēmas dēļ daidzi vecie asemblera faili ir
+ izmesti ārā, vēlāk būs jāveido jauni. Visas spanu zīmēšanas funkcijas tagad
+ izmanto "subdivision 8" versiju.
+26-04-2001
+  Zīmēti tiek veseli poligoni, nevis poligoni sadalīti trīstūros. Tagad spani
+ ir garāki un vairāk laika tiek pavadīts iekšējos ciklos. Spanu ģenerēšana
+ notiek no priekšas uz aizmuguri tādējādi samazinot aprēķinus. Izveidoju
+ asemblera failu asemblera mainīgajiem. Atrodoties vienā blokā tos var labāk
+ ielādēt procesora kešatmiņā.
+27-04-2001
+  Kā caurspīdīgo krāsu tagad izmantoju krāsu 0.
+  Asemblera mainīgajiem pievienojas arī asemblerā izmantotie globālie C++
+ mainīgie.
+  Spraitu zīmēšana notiek tieši tā, kā kveikā. Spraitu gaismošana notiek jau
+ datu līmenī, zīmēšanai nav jāuztraucas par gaismām, tieši tā kā kveikā. Vēl
+ spanu zīmēšana nenotiek pa vienam spanam, bet tiek iedots vesels saraksts.
+ Gala rezultātā ātruma pieaugums ir ļoti iespaidīgs.
+28-04-2001
+  Neliels čakars pārveidojot spraitu spanu zīmēšanas funkcijas asemblera
+ versijas pārveidošanu no 8-bitu uz 16-bitu versiju - rezultāts ir mazliet
+ neefektīvāks, bet strādājošs.
+  No struktūras draw_vertex_t pilnībā izmesti ārā lauki s un t.
+30-04-2001
+  Sāku veidot iepriekšēju poligonu aprēķināšanu.
+  Izlaboju kļūdu, kas radīja SIGSEGV softa un OpenGL versijās.
+02-05-2001
+  Salaboju staigāšanu zem ūdens.
+  Atradu ātrākas ekrāna atjaunošanas versijas DOS versijai.
+  Turpinu poligonu iepriekšējo aprēķināšanu.
+03-05-2001
+  Salaboju skatīšanos ar klaviatūru.
+  Poliobjektu kustēšanās saglabā virsotnēs z koordināti 0.
+  Mēģinu atrast kļūdu glbsp kura Hexen pirmajā līmenī sadala sektorus ar
+ poliobjektiem.
+04-05-2001
+  Atrisināju poliobjektu problēmu glbsp.
+  Pārstrādāju glvis, tagad izmanto kveika algoritmu, daudz precīzāks, diemžēl
+ strādā daudz lēnāk. Bet toties ātrais režīms dod reālus datus, tiesa diezgan
+ aptuvenus, bet tas ir labāk kā nekas.
+05-05-2001
+  Gatavoju versiju 1.7. Pagaidām atteicos no poligonu iepriekšaprēķināšanas.
+  Cerams ka izlaboju kļūdu, kad dažreiz pēc starplīmeņu statistikas pārlec
+ vairākus līmeņus.
+  glvis pārgāju uz 2D vektoriem, nedaudz ātrāk.
+
+******************************************************************************
+                            VERSIJA 1.7
+******************************************************************************
+
+08-05-2001
+  Strādāju pie glvis, bija liekas pārbaudes (nav vajadzīgas 2D gadIjumā), kā
+ arī daudzi cikli tika atrullēti. Rezultāts ir ĀTRS. Fantastiski ātrs. Tik
+ ātrs, ka PVS kompilācija prasa minūtes, nevis stundas.
+  Atbrīvojos no ScreenPitch, jo visos draiveros bloki ir no sistēmas atmiņas.
+ Pārveidoju skrīnšotus. Salaboju debesu zīmēšanu Direct3D draiverī, vēl pāris
+ kļūdas Windows versijā.
+09-05-2001
+  Pie spēles datiem pievienoju RGB tabulu.
+  Programmās pievienoju tikla paziņojumu funkcijas.
+  Atsevišķš modulis skaņas datu funkcijām.
+  Sāku ieviest "partikles".
+10-05-2001
+  Pabeidzu darbu pie partiklēm. Pievienoju iespēju programmām apstrādāt
+ neatpazītos paziņojumus. Partikļu apstrāde notiek tikai klienta progžos.
+  Atjaunota līmeņa sadalīšana.
+  Pievienoju iespēju izmantot veco ekrāna attiecību.
+11-05-2001
+  Pamatīga darbs pie līmeņa iepriekšējās apstrādes. Grīdas un griesti jau tiek
+ sadalīti mazākos gabalos.
+12-05-2001
+  Visa sadalīšana ir pabeigta. Rasterizācija to jau izmanto.
+14-05-2001
+  Ieviesta virsmu kešatmiņa. Gaismošana notiek kešatmiņas blokā, kurš tagad
+ jau ir gatavs zīmējums vajadzīgajā pikseļa formātā. Vienkāršota pašu spanu
+ zīmēšana. Ieviests spanu saraksts, kā kveikā. Tiek izmantots gaismas maps
+ kā rezultātā dinamiskās gaismas strādā gluži kā kveikā.
+15-05-2001
+  Sakārtotas spanu zīmēšanas funkcijas.
+  Ieviests mipmapings. Ģenerētās mipmapu tekstūras izmanto vienu punktu no
+ četriem, no kuriem tas tiek veidots. Utilīts tās ģenerēs daudz labāk.
+16-05-2001
+  Izveidoju 16 bitu spanu zīmēšanas funkcijas asemblera versiju. Atradu kā
+ labāk izmantot advancetable 16 bitu gadījumā. Ir asembleris virsmu zīmēšanai
+ gan 8 gan 15/16 bitu versijām.
+  Salaboju z-buferāciju, kad bija redzami ļoti tāli objekti. Ieroči tiek
+ zīmēti 2 vienības no skata punkta.
+17-05-2001
+  Tika pārveidots viss spanu ģenerēšanas algoritms uz kveika algoritmu kurā
+ spani tiek ģenerēti izmantojot poligonu malu sarakstu. Problēma ir - kā būs
+ ar maskētajām virsmām un debesīm.
+  Dinamiskās gaismas ir skriptu (progžu) pārziņā.
+18-05-2001
+  Mipmapu ģenerācija ņem vērā visus četrus izejas tekseļus un atrod labāko
+ krāsu.
+  Doom dinamiskās gaismas ir efekts, nevis pilnas gaismas spaiti.
+  Izveidoju statiskās gaismas. Katrai apgaismotai virsmai ir gaismas maps.
+ Kautkas nestrādā kā vajag.
+19-05-2001
+  Statiskās gaismas strādā. Arī spraiti tiek pareizi apgaismoti ņemot vērā
+ gaismas mapu un dinamiskās gaismas.
+  Tiek korekti attīrīta dinamisko gaismu atmiņa, vairs nebūs mistiskas gaismas
+ no iepriekšējā līmaņa.
+21-05-2001
+  Doom-ā izveidoju eksploziju ar dziestošu dinamisko gaismu un labi daudz
+ partiklēm. Arī spēlētāja šaujamieroči dod dinamisko gaismu.
+  Komandu alianses tiek saglabātas konfigurācijas failā.
+  OpenGL izmanto z-triku lai izveirītos no Z-bufera dzēšanas.
+  Izveidoju primitīvu maskēto spanu ģenerēšanu. Baigi lēni. Tā vietā labāk un
+ ātrāk ir maskētās virsmas zīmēt kā spraitus, ko es tagad arī daru.
+22-05-2001
+  Izmetu ārā z-gaismu tabulas arī no OpenGL un Direct3D.
+  Atbrīvojos no draw_vertex_t. Debesis tiek zīmētas kā kuba apkārt līmenim.
+ Vienīgās problēmas ir dubultdebesis un pietiekoši liels attālums priekš lai
+ ar OpenGL un Direct3D tās nebūtu par tuvu.
+23-05-2001
+  Doom-ā monstru šaušana dod dinamisko gaismu.
+  32-bitu krāsas - izskatās satriecoši labi, it īpaši dinamiskās gaismas.
+ Galvenais ka tas viss bija ļoti ātri, it īpaši ņemotvērā to, ka ir arī visi
+ asemblera faili.
+  Allegro video draiveris tagad pats izveido spēles BITMAP objektu, tā atmiņa
+ tiek rezervēta no zonas atmiņas. Vairāk nav jāatstāj atmiņa priekš Allegro.
+  Poligonu malas tiek pievienotas uzreiz pēc klipinga. Kautkas vēl nav kā
+ vajag.
+24-05-2001
+  Atradu vainu malu pievienošanā.
+  Doom-ā salaboju dekorāciju augstumus.
+25-05-2001
+  OpenGL izveidoju virsmu gaismošanu ar "spēka metodi".
+29-05-2001
+  Pāris vietās atbrīvojos no mainīgā Game.
+01-06-2001
+  Nelieli pārveidojumi progžu izpildē. Steka indeks beidzot aizvietots ar
+ steka pointeri un lokālie mainīgie tiek ņemti no steka. Tas nozīmē ka lokālo
+ mainīgo izmērs tiek ierobežots tikai ar steka atmiņas daudzumu.
+  Debesis tiek zīmētas tikai tad, ja kāda no debesu virsmām ir redzama.
+  Pievienoju sektoru gaismu tumšināšanu lai padarītu līdzīgāku oriģinālam.
+  DOS laika funkcijā izmetu ārā sametimecount kurš radīja problēmas zemās
+ izšķirtspējās uz ātrām mašīnām.
+02-06-2001
+  Monstru šāviņu eksplozijas.
+04-06-2001
+  Krāsainais apgaismojums iekš softa ... mmmmmm. Un pats galvenais kas priecē
+ ir tas, ka tas viss ir ĻOTI vienkārši. Ideja sekojoša: gaismošanas funkcija
+ papildus izveido laitmapus krāsainajam apgaismojumam, protams katrai krāsas
+ komponentei ir savs maps. Krāsas laitmaps nosaka šīs komponentes gaismu.
+ Tiek izveidoti kolormapi katrai krāsas komponentei kuri, kā noprotat, dod
+ attiecīgās krāsas daudzumu atkarībā no šīs krāsas gaismas. Rezultātus
+ apvienojot tiek iegūta rezultējošā krāsa. Lielākam efektam spraiti arī tiek
+ attiecīgi apgaismoti. Kā noprotat, tas ne gluži strādā priekš 8 bitu krāsām,
+ varbūt ir vajadzīga cita pieeja. Bet viens ir skaidrs - softa dziņa ziņā man
+ nav konlurentu.
+05-06-2001
+  Migla tagad ir nevis katra poligona parametrs, bet gan globālais mainīgais.
+ Tas ir darīts tāpēc, ka kolormapu patčošana padarītu spēli pārāk lēnu.
+  Izrādās ka krāsainais apgaismojums 8 bitu krāsās arī ir ļoti vienkārš. Man
+ taču ir RGB tabula un tās indeks ir 15 bitu krāsa, kuru es varu aprēķināt kā
+ 16 bitu režīmā, un tad lukapot krāsu RGB tabulā. Izeidoju arī asemblera
+ versiju, jurā tabulas ir nopatčotas. Fiksētāis kolormaps netiek atbalstīts.
+  Hexen pievienoju gaismas efektus.
+06-06-2001
+  Pievienoju spanu zīmešanas "subdivision 16" versiju, nedaudz ātrāka.
+  Krāsainā apgaismojuma 16 un 32 bitu funkciju asemblera versijas.
+07-06-2001
+  Atradu kļūdu funkcijā CL_TraceLine - netika palielināts validcount. Tagad
+ viss strādā kā vajag un ir korektas ēnas kuras izskatās baigi labi, it īpaši
+ krāsainajām gaismām.
+   Bet lielāko dienas daļu pavadīju optimizējot krāsainā apgaismojuma 16 bitu
+  funkcijas no neefektīvā kompilātora ģenerētā koda uz daudz labāku Pentium
+  optimizētu kodu, "lieliska" nodarbošanās.
+08-06-2001
+  Mainot izšķirtspēju netika atbrīvota virsmu kešatmiņa, kas izsauca atmiņas
+ trūkumu mainot izšķirtspēju - izlabots.
+  Pāris dienas atpakaļ DoomWorld publicēja manu skrīnšotu, un tagad dienas
+ bildēm ir arī komentāri, kas izvērtās par ļoti labu uzziņas vietu, kur var
+ uzzināt, kas patīk un kas nepatīk, kam pievērst uzmanību, kam ne. Piemēram
+ sūdzējās par to, ka OpenGL/Dorect3D nevar mainīt izšķirtspēju spēles laikā,
+ būs jāpievērš vairāk uzmanības.
+  OpenGL virsmas bez laitmapiem un dinamiskajām gaismām tiek zīmētas bez
+ gaismas mapa. Tekstūras tiek korekti atbrīvotas.
+09-06-2001
+  Virsma ar dinamiskajām gaismām netiek vairs pārzīmēta tajā pašā kadrā.
+11-06-2001
+  Izveidoju Direct3D "rupjā spēka" gaismošanu. Maskētās virsmas gan OpenGL,
+ gan Direct3D tiek zīmētas vienā gaismā, gaismošanai vajag multitekstūras.
+  Priekš Direct3D nedaudz labāks veids kā aizliegt teksturāciju, tagad pat uz
+ manas kartes strādā satumšināšana, konsole u.t.t.
+  Nedaudz uzlaboju laitmapu ģenerēšanu.
+12-06-2001
+  OpenGL un Direct3D izveidoju gaismu bloku rezervēšanas sistēmu. Debesis
+ tiek zīmētas ar ļoti tālu z apgabalu.
+  Izrādās ka Borland funkcijai rand maksimālā vērtība ir 0x7fff, kas arī
+ radīja dažas dīvainības.
+13-06-2001
+  Atradu pilnīgi korektu veidu, kā Direct3D aizliegt teksturizāciju, kā arī
+ kā noteikt, vai ir vajadzīgas kvadrātveida tekstūras. Izveidoju spraitu
+ šķirošanu, kuru var izmantot, ja draiverim to vajag. Direct3D sāku mēģināt
+ izmantot multiteksturizāciju, mans dzelzis to neatbalsta un ar softu vēl
+ kautkas nestrādā, droš vien tāpēc, ka softā vienlaicīgi var būt tikai viena
+ tekstūra. Heretic pievienoti gaismas efekti.
+14-06-2001
+  Divas dienas līdz relīzei. Šodien visam jābūt kārtībā.
+  Lai Direct3D testētu multitekstūras jāizmanto references rasteraizers. Viss
+ aizgāja kā smērēts.
+  Salaboju debesis.
+  Pievienoju Direct3D iespēju koriģēt tekstūras koordinātes kartēm, kurās
+ lineārā filtrācija nekorekti strādā.
+  Izveidoju jaunu video režīma menu.
+  Hmmmm, izskatās, ka viss ir.
+15-06-2001
+  Pēdējā brīdī daži sīki labojumi, testēšana.
+
+******************************************************************************
+                            VERSIJA 1.8
+******************************************************************************

@@ -1,0 +1,78 @@
+//**************************************************************************
+//**
+//**    ##   ##    ##    ##   ##   ####     ####   ###     ###
+//**    ##   ##  ##  ##  ##   ##  ##  ##   ##  ##  ####   ####
+//**     ## ##  ##    ##  ## ##  ##    ## ##    ## ## ## ## ##
+//**     ## ##  ########  ## ##  ##    ## ##    ## ##  ###  ##
+//**      ###   ##    ##   ###    ##  ##   ##  ##  ##       ##
+//**       #    ##    ##    #      ####     ####   ##       ##
+//**
+//**    $Id: StrifeLevelInfo.vc 3637 2008-05-18 16:49:35Z dj_jl $
+//**
+//**    Copyright (C) 1999-2006 Jānis Legzdiņš
+//**
+//**    This program is free software; you can redistribute it and/or
+//**  modify it under the terms of the GNU General Public License
+//**  as published by the Free Software Foundation; either version 2
+//**  of the License, or (at your option) any later version.
+//**
+//**    This program is distributed in the hope that it will be useful,
+//**  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//**  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//**  GNU General Public License for more details.
+//**
+//**************************************************************************
+
+class StrifeLevelInfo : LineSpecialLevelInfo;
+
+//==========================================================================
+//
+//  GetDefaultDoorSound
+//
+//==========================================================================
+
+name GetDefaultDoorSound(sector_t* Sector)
+{
+	int			i;
+	name		SeqName = DefaultDoorSound;
+
+	//	Search the front top textures of 2-sided lines on the door sector
+	// for a door sound to use.
+	for (i = 0; i < Sector->linecount; i++)
+	{
+		if (!Sector->lines[i]->backsector)
+		{
+			continue;
+		}
+
+		string TexName = va("%n", GetTextureName(XLevel.Sides[
+			Sector->lines[i]->sidenum[0]].TopTexture));
+		if (StrStartsWith(TexName, "dors"))
+		{
+			SeqName = 'DoorStone';
+		}
+		else if (StrStartsWith(TexName, "dorml"))
+		{
+			SeqName = 'DoorLargeMetal';
+		}
+		else if (StrStartsWith(TexName, "dorwl"))
+		{
+			SeqName = 'DoorLargeWood';
+		}
+		else if (StrStartsWith(TexName, "dorw"))
+		{
+			SeqName = 'DoorSmallWood';
+		}
+	}
+
+	return SeqName;
+}
+
+defaultproperties
+{
+	DefaultDoorSound = 'DoorSmallMetal';
+	bTeleportNewMapBothSides = true;
+	bCheckStrifeStartSpots = true;
+	ExtPlayersBase = 5;
+	Lock103Message = "THIS AREA IS ONLY AVAILABLE IN THE RETAIL VERSION OF STRIFE";
+}

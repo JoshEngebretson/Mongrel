@@ -1,0 +1,98 @@
+//**************************************************************************
+//**
+//**    ##   ##    ##    ##   ##   ####     ####   ###     ###
+//**    ##   ##  ##  ##  ##   ##  ##  ##   ##  ##  ####   ####
+//**     ## ##  ##    ##  ## ##  ##    ## ##    ## ## ## ## ##
+//**     ## ##  ########  ## ##  ##    ## ##    ## ##  ###  ##
+//**      ###   ##    ##   ###    ##  ##   ##  ##  ##       ##
+//**       #    ##    ##    #      ####     ####   ##       ##
+//**
+//**    $Id: MenuChoiceSlot.vc 2857 2007-11-21 18:26:05Z dj_jl $
+//**
+//**    Copyright (C) 1999-2006 Jānis Legzdiņš
+//**
+//**    This program is free software; you can redistribute it and/or
+//**  modify it under the terms of the GNU General Public License
+//**  as published by the Free Software Foundation; either version 2
+//**  of the License, or (at your option) any later version.
+//**
+//**    This program is distributed in the hope that it will be useful,
+//**  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//**  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//**  GNU General Public License for more details.
+//**
+//**************************************************************************
+
+class MenuChoiceSlot : MenuChoice;
+
+int pic_M_LSLEFT;
+int pic_M_LSCNTR;
+int pic_M_LSRGHT;
+
+int pic_M_FSLOT;
+
+//**************************************************************************
+//**
+//**	Slot for saves and input lines
+//**
+//**************************************************************************
+
+//==========================================================================
+//
+//  InitSlot
+//
+//==========================================================================
+
+void InitSlot()
+{
+	if (WadLumpPresent('m_fslot'))
+	{
+		pic_M_FSLOT = R_RegisterPic('m_fslot');
+	}
+	else
+	{
+		pic_M_LSLEFT = R_RegisterPic('m_lsleft');
+		pic_M_LSCNTR = R_RegisterPic('m_lscntr');
+		pic_M_LSRGHT = R_RegisterPic('m_lsrght');
+	}
+}
+
+//==========================================================================
+//
+//  DrawSlot
+//
+//==========================================================================
+
+int DrawSlot(int y, string text, bool entering)
+{
+	int xx;
+	int j;
+
+	if (pic_M_FSLOT != -1)
+	{
+		DrawPic(0, y, pic_M_FSLOT);
+	}
+	else
+	{
+		DrawPic(3, y + 12, pic_M_LSLEFT);
+		for (j = 0, xx = 11; j < 24; j++, xx += 8)
+		{
+			DrawPic(xx, y + 12, pic_M_LSCNTR);
+		}
+		DrawPic(xx, y + 12, pic_M_LSRGHT);
+	}
+
+	SetFont('smallfont');
+	SetTextAlign(hleft, vtop);
+	DrawText(5, y + 5, text);
+	if (entering)
+	{
+		DrawCursor();
+	}
+	return 20;
+}
+
+defaultproperties
+{
+	pic_M_FSLOT = -1;
+}

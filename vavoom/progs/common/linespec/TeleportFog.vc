@@ -1,0 +1,65 @@
+//**************************************************************************
+//**
+//**    ##   ##    ##    ##   ##   ####     ####   ###     ###
+//**    ##   ##  ##  ##  ##   ##  ##  ##   ##  ##  ####   ####
+//**     ## ##  ##    ##  ## ##  ##    ## ##    ## ## ## ## ##
+//**     ## ##  ########  ## ##  ##    ## ##    ## ##  ###  ##
+//**      ###   ##    ##   ###    ##  ##   ##  ##  ##       ##
+//**       #    ##    ##    #      ####     ####   ##       ##
+//**
+//**    $Id: TeleportFog.vc 3796 2008-09-22 17:19:37Z dj_jl $
+//**
+//**    Copyright (C) 1999-2006 Jānis Legzdiņš
+//**
+//**    This program is free software; you can redistribute it and/or
+//**  modify it under the terms of the GNU General Public License
+//**  as published by the Free Software Foundation; either version 2
+//**  of the License, or (at your option) any later version.
+//**
+//**    This program is distributed in the hope that it will be useful,
+//**  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//**  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//**  GNU General Public License for more details.
+//**
+//**************************************************************************
+
+class TeleportFog : Actor;
+
+//==========================================================================
+//
+//	BeginPlay
+//
+//==========================================================================
+
+void BeginPlay()
+{
+	::BeginPlay();
+	PlaySound('misc/teleport', CHAN_VOICE);
+	if (LineSpecialGameInfo(Level.Game).TeleportFogState)
+	{
+		SetState(FindState(LineSpecialGameInfo(Level.Game).TeleportFogState));
+	}
+}
+
+states
+{
+Spawn:
+	TFOG ABABCDEFGHIJ 6 Bright
+	Stop
+
+Raven:
+	TELE ABCDEFGHGFEDC 6 Bright
+	Stop
+
+Strife:
+	TFOG ABCDEFEDCB 6 Bright
+	Stop
+}
+
+defaultproperties
+{
+	RenderStyle = STYLE_Add;
+	Alpha = 0.666;
+	bNoBlockmap = true;
+	bNoGravity = true;
+}

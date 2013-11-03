@@ -1,0 +1,55 @@
+//**************************************************************************
+//**
+//**	##   ##    ##    ##   ##   ####     ####   ###     ###
+//**	##   ##  ##  ##  ##   ##  ##  ##   ##  ##  ####   ####
+//**	 ## ##  ##    ##  ## ##  ##    ## ##    ## ## ## ## ##
+//**	 ## ##  ########  ## ##  ##    ## ##    ## ##  ###  ##
+//**	  ###   ##    ##   ###    ##  ##   ##  ##  ##       ##
+//**	   #    ##    ##    #      ####     ####   ##       ##
+//**
+//**	$Id: PlayerReplicationInfo.vc 2974 2008-01-03 08:36:51Z dj_jl $
+//**
+//**	Copyright (C) 1999-2006 Jānis Legzdiņš
+//**
+//**	This program is free software; you can redistribute it and/or
+//**  modify it under the terms of the GNU General Public License
+//**  as published by the Free Software Foundation; either version 2
+//**  of the License, or (at your option) any later version.
+//**
+//**	This program is distributed in the hope that it will be useful,
+//**  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//**  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//**  GNU General Public License for more details.
+//**
+//**************************************************************************
+
+class PlayerReplicationInfo : Thinker
+	native;
+
+BasePlayer		Player;
+int				PlayerNum;
+
+string			PlayerName;
+string			UserInfo;
+
+byte			TranslStart;
+byte			TranslEnd;
+int				Colour;
+
+int				Frags;
+int				Deaths;
+int				KillCount;
+int				ItemCount;
+int				SecretCount;
+
+replication
+{
+	reliable if (Role == ROLE_Authority)
+		PlayerNum, PlayerName, UserInfo, TranslStart, TranslEnd, Colour,
+		Frags, Deaths, KillCount, ItemCount, SecretCount;
+}
+
+defaultproperties
+{
+	bAlwaysRelevant = true;
+}

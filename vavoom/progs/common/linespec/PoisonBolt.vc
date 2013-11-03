@@ -1,0 +1,77 @@
+//**************************************************************************
+//**
+//**    ##   ##    ##    ##   ##   ####     ####   ###     ###
+//**    ##   ##  ##  ##  ##   ##  ##  ##   ##  ##  ####   ####
+//**     ## ##  ##    ##  ## ##  ##    ## ##    ## ## ## ## ##
+//**     ## ##  ########  ## ##  ##    ## ##    ## ##  ###  ##
+//**      ###   ##    ##   ###    ##  ##   ##  ##  ##       ##
+//**       #    ##    ##    #      ####     ####   ##       ##
+//**
+//**    $Id: PoisonBolt.vc 4042 2009-07-28 21:58:55Z firebrand_kh $
+//**
+//**    Copyright (C) 1999-2006 Jānis Legzdiņš
+//**
+//**    This program is free software; you can redistribute it and/or
+//**  modify it under the terms of the GNU General Public License
+//**  as published by the Free Software Foundation; either version 2
+//**  of the License, or (at your option) any later version.
+//**
+//**    This program is distributed in the hope that it will be useful,
+//**  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//**  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//**  GNU General Public License for more details.
+//**
+//**************************************************************************
+
+class PoisonBolt : Actor;
+
+//==========================================================================
+//
+//  TakeSpecialDamage
+//
+//==========================================================================
+
+int DoSpecialDamage(EntityEx victim, EntityEx source, int damage)
+{
+	A_AttackAlert(source, victim);
+	if (victim.bNoBlood)
+	{
+		// Don't damage actors that don't take poison damage
+		return -1;
+	}
+	if (victim.Health < 100000)
+	{
+		return victim.Health + 10;
+	}
+	return 1;
+}
+
+states
+{
+Spawn:
+	ARWP A 10 A_ActiveSound
+	Loop
+Death:
+	AROW A 1
+	Stop
+}
+
+defaultproperties
+{
+	Radius = 10.0;
+	Height = 10.0;
+	Speed = 1050.0;
+	MaxStepHeight = 4.0;
+	MissileDamage = 500;
+	bMissile = true;
+	bNoBlockmap = true;
+	bNoGravity = true;
+	bDropOff = true;
+	bActivatePCross = true;
+	bNoTeleport = true;
+	bActivateImpact = true;
+	bNoExtremeDeath = true;
+	bStrifeDamage = true;
+	SightSound = 'misc/swish';
+	ActiveSound = 'misc/swish';
+}

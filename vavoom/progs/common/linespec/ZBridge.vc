@@ -1,0 +1,46 @@
+//**************************************************************************
+//**
+//**    ##   ##    ##    ##   ##   ####     ####   ###     ###
+//**    ##   ##  ##  ##  ##   ##  ##  ##   ##  ##  ####   ####
+//**     ## ##  ##    ##  ## ##  ##    ## ##    ## ## ## ## ##
+//**     ## ##  ########  ## ##  ##    ## ##    ## ##  ###  ##
+//**      ###   ##    ##   ###    ##  ##   ##  ##  ##       ##
+//**       #    ##    ##    #      ####     ####   ##       ##
+//**
+//**    $Id: ZBridge.vc 3827 2008-10-19 16:32:43Z firebrand_kh $
+//**
+//**    Copyright (C) 1999-2006 Jānis Legzdiņš
+//**
+//**    This program is free software; you can redistribute it and/or
+//**  modify it under the terms of the GNU General Public License
+//**  as published by the Free Software Foundation; either version 2
+//**  of the License, or (at your option) any later version.
+//**
+//**    This program is distributed in the hope that it will be useful,
+//**  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//**  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//**  GNU General Public License for more details.
+//**
+//**************************************************************************
+
+class ZBridge : Actor
+	game(GAME_Doom)
+	__mobjinfo__(118)
+	__scriptid__(21);
+
+states
+{
+Spawn:
+	TLGL ABCDE 4
+	Loop
+}
+
+defaultproperties
+{
+	Radius = 36.0;
+	Height = 4.0;
+	bSolid = true;
+	bNoGravity = true;
+	bNoLiftDrop = true;
+	bActLikeBridge = true;
+}

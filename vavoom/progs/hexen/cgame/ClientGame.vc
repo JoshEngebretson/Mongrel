@@ -1,0 +1,438 @@
+//**************************************************************************
+//**
+//**    ##   ##    ##    ##   ##   ####     ####   ###     ###
+//**    ##   ##  ##  ##  ##   ##  ##  ##   ##  ##  ####   ####
+//**     ## ##  ##    ##  ## ##  ##    ## ##    ## ## ## ## ##
+//**     ## ##  ########  ## ##  ##    ## ##    ## ##  ###  ##
+//**      ###   ##    ##   ###    ##  ##   ##  ##  ##       ##
+//**       #    ##    ##    #      ####     ####   ##       ##
+//**
+//**    $Id: ClientGame.vc 3817 2008-10-18 17:56:02Z dj_jl $
+//**
+//**    Copyright (C) 1999-2006 Jānis Legzdiņš
+//**
+//**    This program is free software; you can redistribute it and/or
+//**  modify it under the terms of the GNU General Public License
+//**  as published by the Free Software Foundation; either version 2
+//**  of the License, or (at your option) any later version.
+//**
+//**    This program is distributed in the hope that it will be useful,
+//**  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//**  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//**  GNU General Public License for more details.
+//**
+//**************************************************************************
+
+class ClientGame : ClientGameShared;
+
+TitleScreen			GTitle;
+IntermissionScreen	GImission;
+FinaleScreen		GFinale;
+
+int pic_bordt;
+int pic_bordb;
+int pic_bordl;
+int pic_bordr;
+int pic_bordtl;
+int pic_bordtr;
+int pic_bordbl;
+int pic_bordbr;
+
+//==========================================================================
+//
+//  RootWindowCreated
+//
+//==========================================================================
+
+void RootWindowCreated()
+{
+	GTitle = TitleScreen(GRoot.NewChild(TitleScreen));
+	GSBar = StatusBarScreen(GRoot.NewChild(StatusBarScreen));
+	GImission = IntermissionScreen(GRoot.NewChild(IntermissionScreen));
+	GFinale = FinaleScreen(GRoot.NewChild(FinaleScreen));
+	GTitle.ClGame = self;
+	GSBar.ClGame = self;
+	GSBar.Hide();
+	GImission.ClGame = self;
+	GImission.Hide();
+	GFinale.ClGame = self;
+	GFinale.Hide();
+}
+
+//==========================================================================
+//
+//  Connected
+//
+//==========================================================================
+
+void Connected()
+{
+	GTitle.Hide();
+	GTitle.StopDemoLoop();
+	GSBar.Hide();
+	GImission.Hide();
+	GFinale.Hide();
+}
+
+//==========================================================================
+//
+//  Disconnected
+//
+//==========================================================================
+
+void Disconnected()
+{
+	GTitle.Show();
+	GSBar.Hide();
+	GImission.Hide();
+	GFinale.Hide();
+}
+
+//==========================================================================
+//
+//  DemoPlaybackStarted
+//
+//==========================================================================
+
+void DemoPlaybackStarted()
+{
+	GTitle.Hide();
+	GSBar.Hide();
+	GImission.Hide();
+	GFinale.Hide();
+}
+
+//==========================================================================
+//
+//  DemoPlaybackStopped
+//
+//==========================================================================
+
+void DemoPlaybackStopped()
+{
+	GTitle.Show();
+	GSBar.Hide();
+	GImission.Hide();
+	GFinale.Hide();
+}
+
+//==========================================================================
+//
+//  OnHostEndGame
+//
+//==========================================================================
+
+void OnHostEndGame()
+{
+	GTitle.OnHostEndGame();
+}
+
+//==========================================================================
+//
+//  OnHostError
+//
+//==========================================================================
+
+void OnHostError()
+{
+	GTitle.OnHostError();
+}
+
+//==========================================================================
+//
+//  StatusBarStartMap
+//
+//==========================================================================
+
+void StatusBarStartMap()
+{
+	StatusBarScreen(GSBar).cl = Player(cl);
+	GSBar.Show();
+	GSBar.StartMap();
+	GImission.Hide();
+	GFinale.Hide();
+}
+
+//==========================================================================
+//
+//  StatusBarDrawer
+//
+//==========================================================================
+
+void StatusBarDrawer(int sb_view)
+{
+	GSBar.SB_Drawer(sb_view);
+}
+
+//==========================================================================
+//
+//  StatusBarUpdateWidgets
+//
+//==========================================================================
+
+void StatusBarUpdateWidgets(float DeltaTime)
+{
+	GSBar.SB_UpdateWidgets();
+}
+
+//==========================================================================
+//
+//  IintermissionStart
+//
+//==========================================================================
+
+void IintermissionStart()
+{
+	GSBar.Hide();
+	GImission.Show();
+	GImission.Start();
+	GFinale.Hide();
+}
+
+//==========================================================================
+//
+//  StartFinale
+//
+//==========================================================================
+
+void StartFinale(name FinaleType)
+{
+	GSBar.Hide();
+	GImission.Hide();
+	GFinale.Show();
+	GFinale.StartFinale(FinaleType);
+}
+
+//===========================================================================
+//
+//  FinaleResponder
+//
+//===========================================================================
+
+bool FinaleResponder(event_t * event)
+{
+	return false;
+}
+
+//==========================================================================
+//
+//  DeactivateMenu
+//
+//==========================================================================
+
+void DeactivateMenu()
+{
+	ForceMenuOff();
+}
+
+//==========================================================================
+//
+//  MenuResponder
+//
+//==========================================================================
+
+bool MenuResponder(event_t * event)
+{
+	if (!CurrentMenuScreen)
+	{
+		// Pop-up menu?
+		if (event->type == ev_keydown && event->data1 == K_ESCAPE)
+		{
+			PushMenuScreen(SpawnMenu(MenuScreenMain));
+			return true;
+		}
+	}
+	return false;
+}
+
+//==========================================================================
+//
+//  MenuActive
+//
+//==========================================================================
+
+bool MenuActive()
+{
+	return CurrentMenuScreen != none;
+}
+
+//==========================================================================
+//
+//	SetMenu
+//
+//==========================================================================
+
+void SetMenu(string Name)
+{
+	if (!stricmp(Name, "Main"))
+	{
+		PushMenuScreen(SpawnMenu(MenuScreenMain));
+		return;
+	}
+	if (!stricmp(Name, "Save"))
+	{
+		PushMenuScreen(SpawnMenu(MenuScreenSaveGame));
+		return;
+	}
+	if (!stricmp(Name, "Load"))
+	{
+		PushMenuScreen(SpawnMenu(MenuScreenLoadGame));
+		return;
+	}
+	if (!stricmp(Name, "PSetup"))
+	{
+		PushMenuScreen(SpawnMenu(MenuScreenPlayerSetup));
+		return;
+	}
+	if (!stricmp(Name, "Options"))
+	{
+		PushMenuScreen(SpawnMenu(MenuScreenOptions));
+		return;
+	}
+	if (!stricmp(Name, "Controls"))
+	{
+		PushMenuScreen(SpawnMenu(MenuScreenControls));
+		return;
+	}
+	if (!stricmp(Name, "Controls2"))
+	{
+		PushMenuScreen(SpawnMenu(MenuScreenControls2));
+		return;
+	}
+	if (!stricmp(Name, "Mouse"))
+	{
+		PushMenuScreen(SpawnMenu(MenuScreenMouseOptions));
+		return;
+	}
+	if (!stricmp(Name, "Resolution"))
+	{
+		PushMenuScreen(SpawnMenu(MenuScreenScreenResolution));
+		return;
+	}
+	if (!stricmp(Name, "Video"))
+	{
+		PushMenuScreen(SpawnMenu(MenuScreenVideoOptions));
+		return;
+	}
+	if (!stricmp(Name, "Sound"))
+	{
+		PushMenuScreen(SpawnMenu(MenuScreenSoundOptions));
+		return;
+	}
+	if (!stricmp(Name, "Help"))
+	{
+		PushMenuScreen(SpawnMenu(MenuScreenHelp));
+		return;
+	}
+	if (!stricmp(Name, "Quit"))
+	{
+		menu_quit();
+		return;
+	}
+	PushMenuScreen(SpawnMenu(MenuScreenMain));
+}
+
+//==========================================================================
+//
+//  menu_quit
+//
+//==========================================================================
+
+void menu_quit()
+{
+	LocalSound('misc/chat');
+	MessageBoxStartMessage("ARE YOU SURE YOU WANT TO QUIT?", MB_Quit, true);
+}
+
+//==========================================================================
+//
+//  QuitResponse
+//
+//==========================================================================
+
+void QuitResponse(int ch)
+{
+	if (ch != K_y)
+		return;
+
+	CmdBuf_AddText("Quit\n");
+}
+
+//==========================================================================
+//
+//  InitBorder
+//
+//==========================================================================
+
+void InitBorder()
+{
+	pic_bordt = R_RegisterPic('bordt');
+	pic_bordb = R_RegisterPic('bordb');
+	pic_bordl = R_RegisterPic('bordl');
+	pic_bordr = R_RegisterPic('bordr');
+	pic_bordtl = R_RegisterPic('bordtl');
+	pic_bordtr = R_RegisterPic('bordtr');
+	pic_bordbl = R_RegisterPic('bordbl');
+	pic_bordbr = R_RegisterPic('bordbr');
+}
+
+//==========================================================================
+//
+//  DrawBorder
+//
+//  Draws border
+//
+//==========================================================================
+
+void DrawBorder(int x, int y, int w, int h)
+{
+	int i;
+
+	if (!pic_bordb)
+	{
+		InitBorder();
+	}
+
+	for (i = 0; i < w; i += 16)
+		GRoot.DrawPic(x + i, y - 4, pic_bordt);
+
+	for (i = 0; i < w; i += 16)
+		GRoot.DrawPic(x + i, y + h, pic_bordb);
+
+	for (i = 0; i < h; i += 16)
+		GRoot.DrawPic(x - 4, y + i, pic_bordl);
+
+	for (i = 0; i < h; i += 16)
+		GRoot.DrawPic(x + w, y + i, pic_bordr);
+
+	// Draw beveled edge.
+	GRoot.DrawPic(x - 4, y - 4, pic_bordtl);
+	GRoot.DrawPic(x + w, y - 4, pic_bordtr);
+	GRoot.DrawPic(x - 4, y + h, pic_bordbl);
+	GRoot.DrawPic(x + w, y + h, pic_bordbr);
+}
+
+//==========================================================================
+//
+//  DrawViewBorder
+//
+//==========================================================================
+
+void DrawViewBorder(int x, int y, int w, int h)
+{
+	GRoot.FillRectWithFlat(0, 0, 640, 480/* - 39*/, 'f_022');
+	DrawBorder(x, y, w, h);
+}
+
+defaultproperties
+{
+	sb_height = 39;
+	MsgBoxFlat = 'f_019';
+	BigSelectorXOffset = -28;
+	BigSelectorYOffset = -1;
+	BigSelectorAnimSpeed = 2;
+	BigSelectorAnimFrames[0] = 'm_slctr1';
+	BigSelectorAnimFrames[1] = 'm_slctr2';
+	DefaultFinaleMusic = 'hub';
+	DefaultFinaleType = 'EndGameChess';
+}

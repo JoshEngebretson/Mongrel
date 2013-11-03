@@ -1,0 +1,121 @@
+//**************************************************************************
+//**
+//**    ##   ##    ##    ##   ##   ####     ####   ###     ###
+//**    ##   ##  ##  ##  ##   ##  ##  ##   ##  ##  ####   ####
+//**     ## ##  ##    ##  ## ##  ##    ## ##    ## ## ## ## ##
+//**     ## ##  ########  ## ##  ##    ## ##    ## ##  ###  ##
+//**      ###   ##    ##   ###    ##  ##   ##  ##  ##       ##
+//**       #    ##    ##    #      ####     ####   ##       ##
+//**
+//**    $Id: MenuControlKey.vc 4336 2010-09-17 21:54:34Z firebrand_kh $
+//**
+//**    Copyright (C) 1999-2006 Jānis Legzdiņš
+//**
+//**    This program is free software; you can redistribute it and/or
+//**  modify it under the terms of the GNU General Public License
+//**  as published by the Free Software Foundation; either version 2
+//**  of the License, or (at your option) any later version.
+//**
+//**    This program is distributed in the hope that it will be useful,
+//**  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//**  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//**  GNU General Public License for more details.
+//**
+//**************************************************************************
+
+class MenuControlKey : MenuChoice;
+
+string Text;
+string CommandOn;
+string CommandOff;
+
+//==========================================================================
+//
+//  SetOrigin
+//
+//==========================================================================
+
+void SetOrigin(int x, int y)
+{
+	SetPos(x - 160, y);
+}
+
+void OnDraw()
+{
+	int key1;
+	int key2;
+
+	int Col = IsFocus() ? CR_YELLOW : CR_WHITE;
+	SetTextAlign(hright, vtop);
+	DrawText(160, 0, Text, Col);
+
+	IN_GetBindingKeys(CommandOn, &key1, &key2);
+
+	SetTextAlign(hleft, vtop);
+	Col = IsFocus() ? CR_YELLOW : CR_OLIVE;
+	if (key1 >= 0)
+	{
+		DrawText(160 + 10, 0, KeyNameForNum(key1), Col);
+	}
+	else
+	{
+		DrawText(160 + 10, 0, "---", Col);
+	}
+	if (key2 >= 0)
+	{
+		DrawText(160 + 100, 0, KeyNameForNum(key2), Col);
+	}
+	else
+	{
+		DrawText(160 + 100, 0, "---", Col);
+	}
+}
+
+bool OnKeyDown(int key)
+{
+	int key1;
+	int key2;
+
+	switch (key)
+	{
+	case K_LEFTARROW:
+		GetClGame().ControlColumn = 0;
+		MenuScreen(Parent).CursorMoved();
+		return true;
+
+	case K_RIGHTARROW:
+		GetClGame().ControlColumn = 1;
+		MenuScreen(Parent).CursorMoved();
+		return true;
+
+	case K_ENTER:
+	case K_PADENTER:
+	case K_MOUSE1:
+		GetClGame().CurrentCtl = self;
+		GetClGame().MessageBoxStartMessage("Press new key\n\nESC to cancel",
+			ClientGameShared::MB_Control, false);
+		return true;
+
+	case K_BACKSPACE:
+	case K_MOUSE2:
+		IN_GetBindingKeys(CommandOn, &key1, &key2);
+		if (GetClGame().ControlColumn == 0)
+			IN_SetBinding(key1, "", "");
+		if (GetClGame().ControlColumn == 1)
+			IN_SetBinding(key2, "", "");
+		return true;
+	}
+	return false;
+}
+
+void OnMouseClick(int X, int Y)
+{
+	GetClGame().CurrentCtl = self;
+	GetClGame().MessageBoxStartMessage("Press new key\n\nESC to cancel",
+		ClientGameShared::MB_Control, false);
+}
+
+defaultproperties
+{
+	CursorXOffs = 160;
+}

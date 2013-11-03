@@ -1,0 +1,846 @@
+//**************************************************************************
+//**
+//**    ##   ##    ##    ##   ##   ####     ####   ###     ###
+//**    ##   ##  ##  ##  ##   ##  ##  ##   ##  ##  ####   ####
+//**     ## ##  ##    ##  ## ##  ##    ## ##    ## ## ## ## ##
+//**     ## ##  ########  ## ##  ##    ## ##    ## ##  ###  ##
+//**      ###   ##    ##   ###    ##  ##   ##  ##  ##       ##
+//**       #    ##    ##    #      ####     ####   ##       ##
+//**
+//**    $Id: Entity.vc 4411 2011-04-21 12:25:49Z firebrand_kh $
+//**
+//**    Copyright (C) 1999-2006 Jānis Legzdiņš
+//**
+//**    This program is free software; you can redistribute it and/or
+//**  modify it under the terms of the GNU General Public License
+//**  as published by the Free Software Foundation; either version 2
+//**  of the License, or (at your option) any later version.
+//**
+//**    This program is distributed in the hope that it will be useful,
+//**  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//**  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//**  GNU General Public License for more details.
+//**
+//**************************************************************************
+//
+//                              ENTITY DATA
+//
+//  NOTES: Entity
+//
+//  Entities are used to tell the refresh where to draw an image, tell the
+// world simulation when objects are contacted, and tell the sound driver
+// how to position a sound.
+//
+//  The refresh uses the snext and sprev links to follow lists of things in
+// sectors as they are being drawn. The sprite, frame, and angle elements
+// determine which patch_t is used to draw the sprite if it is visible.
+// The sprite and frame values are allmost allways set from state_t
+// structures. The xyz origin point represents a point at the bottom middle
+// of the sprite (between the feet of a biped). This is the default origin
+// position for patch_ts grabbed with lumpy.exe. A walking creature will have
+// its z equal to the floor it is standing on.
+//
+//  The sound code uses the x,y, and z fields to do stereo positioning of any
+// sound effited by the Entity.
+//
+//  The play simulation uses the BlockLinks, x,y,z, radius, height to
+// determine when mobj_ts are touching each other, touching lines in the map,
+// or hit by trace lines (gunshots, lines of sight, etc). The Entity->flags
+// element has various bit flags used by the simulation.
+//
+//  Every Entity is linked into a single sector based on its origin
+// coordinates. The subsector_t is found with R_PointInSubsector(x,y), and
+// the sector_t can be found with subsector->sector. The sector links are
+// only used by the rendering code, the play simulation does not care about
+// them at all.
+//
+//  Any Entity that needs to be acted upon by something else in the play
+// world (block movement, be shot, etc) will also need to be linked into the
+// blockmap. If the thing has the MF_NOBLOCK flag set, it will not use the
+// block links. It can still interact with other things, but only as the
+// instigator (missiles will run into other things, but nothing can run into
+// a missile). Each block in the grid is 128*128 units, and knows about every
+// line_t that it contains a piece of, and every interactable Entity that has
+// its origin contained.
+//
+//  A valid Entity is a Entity that has the proper subsector_t filled in for
+// its xy coordinates and is linked into the sector from which the subsector
+// was made, or has the MF_NOSECTOR flag set (the subsector_t needs to be
+// valid even if MF_NOSECTOR is set), and is linked into a blockmap block or
+// has the MF_NOBLOCKMAP flag set. Links should only be modified by the
+// P_[Un]SetThingPosition() functions. Do not change the MF_NO? flags while
+// a thing is valid.
+//
+//  Any questions?
+//
+//**************************************************************************
+
+class Entity : Thinker
+	native
+	abstract;
+
+enum
+{
+	STYLE_None,					// Do not draw
+	STYLE_Normal,				// Normal; just copy the image to the screen
+	STYLE_Fuzzy,				// Draw silhouette using "fuzz" effect
+	STYLE_SoulTrans,			// Draw translucent with amount in r_transsouls
+	STYLE_OptFuzzy,				// Draw as fuzzy or translucent, based on user preference
+	STYLE_Translucent = 64,		// Draw translucent
+	STYLE_Add					// Draw additive
+};
+
+//	Colour tralslation types.
+enum
+{
+	//	No translation.
+	TRANSL_None,
+	//	Game's standard translations.
+	TRANSL_Standard,
+	//	Per-player translations.
+	TRANSL_Player,
+	//	ACS translations.
+	TRANSL_Level,
+	//	Translations of dead players.
+	TRANSL_BodyQueue,
+	//	Translations defined in DECORATE.
+	TRANSL_Decorate,
+	//	Blood translations, for blood colour
+	TRANSL_Blood,
+
+	TRANSL_Max
+};
+
+const int TRANSL_TYPE_SHIFT = 16;
+
+//	Flags for A_LookEx method
+enum
+{
+	LOF_NOSIGHTCHECK = 1,
+	LOF_NOSOUNDCHECK = 2,
+	LOF_DONTCHASEGOAL = 4,
+	LOF_NOSEESOUND = 8,
+	LOF_FULLVOLSEESOUND = 16
+};
+
+struct LightEffectDef
+{
+	name				Name;
+	byte				Type;
+	int					Colour;
+	float				Radius;
+	float				Radius2;
+	float				MinLight;
+	TVec				Offset;
+	float				Chance;
+	float				Interval;
+	float				Scale;
+};
+
+struct ParticleEffectDef
+{
+	name				Name;
+	byte				Type;
+	byte				Type2;
+	int					Colour;
+	TVec				Offset;
+	int					Count;
+	float				OrgRnd;
+	TVec				Velocity;
+	float				VelRnd;
+	float				Accel;
+	float				Grav;
+	float				Duration;
+	float				Ramp;
+};
+
+struct DropItemInfo
+{
+	class<Entity>		Type;
+	name				TypeName;
+	int					Amount;
+	float				Chance;
+};
+
+struct DamageFactor
+{
+	name				DamageType;
+	float				Factor;
+};
+
+struct PainChanceInfo
+{
+	name				DamageType;
+	float				Chance;
+};
+
+struct tmtrace_t
+{
+	Entity			StepThing;
+	TVec			End;
+	float			BBox[4];
+	float			FloorZ;
+	float			CeilingZ;
+	float			DropOffZ;
+	sec_plane_t*	Floor;
+	sec_plane_t*	Ceiling;
+
+	bool			bFloatOk;	// if true, move would be ok if
+								// within tmtrace.FloorZ - tmtrace.CeilingZ
+
+	// keep track of the line that lowers the ceiling,
+	// so missiles don't explode against sky hack walls
+	line_t*			CeilingLine;
+	// also keep track of the blocking line, for checking
+	// against doortracks
+	line_t*			BlockingLine;
+
+	// keep track of special lines as they are hit,
+	// but don't process them until the move is proven valid
+	array<line_t*>	SpecHit;
+
+	Entity			BlockingMobj;
+};
+
+// Info for drawing: position.
+TVec			Origin;
+
+// Momentums, used to update position.
+TVec			Velocity;
+
+TAVec			Angles;				// orientation
+
+readonly state	State;
+readonly state	DispState;
+float			StateTime;			// state tic counter
+
+//More drawing info.
+byte			SpriteType;				//  How to draw sprite
+name			FixedSpriteName;
+string			FixedModelName;
+byte			ModelVersion;
+
+byte			RenderStyle;
+float			Alpha;
+int				Translation;
+
+float			FloorClip;	// value to use for floor clipping
+
+//	Scaling.
+float			ScaleX;
+float			ScaleY;
+
+native readonly subsector_t*	SubSector;
+native readonly sector_t*		Sector;
+
+// Interaction info, by BLOCKMAP.
+// Links in blocks (if needed).
+native readonly private Entity	BlockMapNext;
+native readonly private Entity	BlockMapPrev;
+
+// Links in sector (if needed).
+native readonly Entity			SNext;
+native readonly Entity			SPrev;
+
+native readonly msecnode_t*		TouchingSectorList;
+
+// The closest interval over all contacted Sectors.
+native float	FloorZ;
+native float	CeilingZ;
+native float	DropOffZ;
+
+//  Closest floor and ceiling, source of floorz and ceilingz
+native sec_plane_t*	Floor;
+native sec_plane_t*	Ceiling;
+
+// If == validcount, already checked.
+int				ValidCount;
+
+//	Flags
+bool bSolid;			// Blocks.
+bool bNoSector;			// don't use the sector links (invisible but touchable)
+bool bNoBlockmap;		// don't use the BlockLinks (inert but displayable)
+bool bIsPlayer;			// PLayer or player-bot
+bool bFixedModel;
+
+bool bNoGravity;		// don't apply gravity every tic
+bool bPassMobj;			// Enable z block checking.  If on,
+						// this flag will allow the mobj
+						// to pass over/under other mobjs.
+bool bColideWithThings;
+bool bColideWithWorld;
+bool bCheckLineBlocking;
+bool bCheckLineBlockMonsters;
+bool bDropOff;			// allow jumps from high places
+bool bFloat;			// allow moves to any height, no gravity
+bool bFly;				// fly mode is active
+bool bBlasted;			// missile will pass through ghosts
+bool bCantLeaveFloorpic; // stay within a certain floor type
+bool bFloorClip;		// if feet are allowed to be clipped
+bool bIgnoreCeilingStep; // continue walk without lowering itself
+bool bIgnoreFloorStep;	// continue walk ignoring floor height changes
+bool bAvoidingDropoff;	// used to move monsters away from dropoffs
+bool bOnMobj;			// mobj is resting on top of another mobj
+bool bCorpse;			// don't stop moving halfway off a step
+bool bFullBright;		// make current state full bright
+bool bInvisible;		// Don't draw this actor
+bool bMissile;			// don't hit same species, explode on block
+bool bDontOverlap;		// Prevent some things from overlapping.
+readonly bool bUseDispState;	// Use DispState for rendering
+bool bActLikeBridge;	// Always allow objects to pass.
+bool bNoDropOff;		// Can't drop off under any circumstances
+bool bBright;			// Always render full bright
+bool bCanJump;			// Can perform standard jump
+bool bStepMissile;		// Missile can "walk" up steps
+
+int				Health;
+
+// For movement checking.
+float			Radius;
+float			Height;
+
+// Additional info record for player avatars only.
+// Only valid if type == MT_PLAYER
+BasePlayer		Player;
+
+readonly int	TID;		// thing identifier
+readonly private Entity	TIDHashNext;
+readonly private Entity	TIDHashPrev;
+
+int				Special;	// special
+int				Args[5];	// special arguments
+
+readonly private int	SoundOriginID;
+
+//  Params
+float			Mass;
+float			MaxStepHeight;
+float			MaxDropoffHeight;
+float			Gravity;
+
+//  Water
+byte			WaterLevel;
+byte			WaterType;
+
+//   For player sounds.
+name			SoundClass;
+name			SoundGender;
+
+	//	Owner entity of inventory item
+Entity			Owner;
+
+replication
+{
+	reliable if (Role == ROLE_Authority)
+		Origin, Angles, FloorClip, State, StateTime, SpriteType,
+		FixedSpriteName, ModelVersion, RenderStyle, Alpha, Translation,
+		ScaleX, ScaleY, bFly, bNoSector, bInvisible, bFullBright, bFixedModel,
+		SoundOriginID, bUseDispState, bBright;
+
+	reliable if (Role == ROLE_Authority && bUseDispState)
+		DispState;
+
+	reliable if (Role == ROLE_Authority && bFixedModel)
+		FixedModelName;
+
+	reliable if (Role == ROLE_Authority && bNetOwner)
+		Owner;
+}
+
+//
+//	Natives
+//
+
+native final void SetTID(int tid);
+
+native final bool SetState(state State);
+native final void SetInitialState(state State);
+native final bool AdvanceState(float deltaTime);
+native final state FindState(name StateName, optional name SubLabel,
+	optional bool Exact);
+native final state FindStateEx(string StateName, optional bool Exact);
+native final state HasSpecialStates(name StateName);
+native final void GetStateEffects(out array<LightEffectDef*> Lights,
+	out array<ParticleEffectDef*> Lights);
+native final bool CallStateChain(Entity Actor, state State);
+
+native final void PlaySound(name SoundName, int Channel, optional float Volume,
+	optional float Atenuation, optional bool Loop);
+native final void StopSound(int Channel);
+native final bool AreSoundsEquivalent(name Sound1, name Sound2);
+native final bool IsSoundPresent(name Sound);
+
+native final void StartSoundSequence(name sequence, int ModeNum);
+native final void AddSoundSequenceChoice(name Choice);
+native final void StopSoundSequence();
+
+native final bool CheckSides(TVec lsPos);
+native final void CheckDropOff(out float DeltaX, out float DeltaY);
+native final bool CheckPosition(TVec Pos);
+native final bool CheckRelPosition(tmtrace_t* tmtrace, TVec Pos);
+native final bool TryMove(TVec newPos, bool AllowDropOff);
+native final bool TryMoveEx(tmtrace_t* tmtrace, TVec newPos, bool AllowDropOff);
+native final bool TestMobjZ();
+
+native final void SlideMove(float StepVelScale);
+native final void BounceWall(float overbounce, float bouncefactor);
+
+native final bool CheckWater();
+
+native final void UpdateVelocity();
+
+native final Entity CheckOnmobj();
+
+native final void LinkToWorld();
+native final void UnlinkFromWorld();
+
+native final bool CanSee(Entity Other);
+
+native final iterator RoughBlockSearch(out Entity EntPtr, int Distance);
+
+native final void SetDecorateFlag(string Name, bool Value);
+
+//===========================================================================
+//
+//  OnMapSpawn
+//
+//===========================================================================
+
+void OnMapSpawn(mthing_t* mthing)
+{
+}
+
+//==========================================================================
+//
+//	BeginPlay
+//
+//==========================================================================
+
+void BeginPlay()
+{
+}
+
+//==========================================================================
+//
+//	Destroyed
+//
+//==========================================================================
+
+void Destroyed()
+{
+}
+
+//==========================================================================
+//
+//	Touch
+//
+//==========================================================================
+
+bool Touch(Entity Other)
+{
+	return !Other.bSolid;
+}
+
+//===========================================================================
+//
+//	CheckForPushSpecial
+//
+//===========================================================================
+
+void CheckForPushSpecial(line_t* line, int side)
+{
+}
+
+//==========================================================================
+//
+//	BlastedHitLine
+//
+//==========================================================================
+
+void BlastedHitLine()
+{
+}
+
+//==========================================================================
+//
+//	PushLine
+//
+//==========================================================================
+
+void PushLine(tmtrace_t* tmtrace)
+{
+}
+
+//==========================================================================
+//
+//	HandleFloorclip
+//
+//==========================================================================
+
+void HandleFloorclip()
+{
+}
+
+//==========================================================================
+//
+//	CrossSpecialLine
+//
+//==========================================================================
+
+void CrossSpecialLine(line_t* ld, int side)
+{
+}
+
+//==========================================================================
+//
+//	ApplyFriction
+//
+//==========================================================================
+
+void ApplyFriction()
+{
+}
+
+//==========================================================================
+//
+//	SectorChanged
+//
+//==========================================================================
+
+bool SectorChanged(int CrushChange)
+{
+	return true;
+}
+
+//===========================================================================
+//
+//  ClearInventory
+//
+//===========================================================================
+
+void ClearInventory()
+{
+}
+
+//===========================================================================
+//
+//  GiveInventory
+//
+//===========================================================================
+
+void GiveInventory(name ItemName, int Amount)
+{
+}
+
+//===========================================================================
+//
+//  TakeInventory
+//
+//===========================================================================
+
+void TakeInventory(name ItemName, int Amount)
+{
+}
+
+//===========================================================================
+//
+//  CheckInventory
+//
+//===========================================================================
+
+int CheckInventory(name ItemName)
+{
+	return 0;
+}
+
+//===========================================================================
+//
+//  UseInventoryName
+//
+//===========================================================================
+
+int UseInventoryName(name ItemName)
+{
+	return 0;
+}
+
+//===========================================================================
+//
+//  GetSigilPieces
+//
+//===========================================================================
+
+int GetSigilPieces()
+{
+	return 0;
+}
+
+//===========================================================================
+//
+//  GetArmorPoints
+//
+//===========================================================================
+
+int GetArmorPoints()
+{
+	return 0;
+}
+
+//===========================================================================
+//
+//  CheckNamedWeapon
+//
+//===========================================================================
+
+int CheckNamedWeapon(name Name)
+{
+	return 0;
+}
+
+//===========================================================================
+//
+//  SetNamedWeapon
+//
+//===========================================================================
+
+int SetNamedWeapon(name Name)
+{
+	return 0;
+}
+
+//===========================================================================
+//
+//  GetAmmoCapacity
+//
+//===========================================================================
+
+int GetAmmoCapacity(name Name)
+{
+	return 0;
+}
+
+//===========================================================================
+//
+//  SetAmmoCapacity
+//
+//===========================================================================
+
+void SetAmmoCapacity(name Name, int Amount)
+{
+}
+
+//===========================================================================
+//
+//  MoveThing
+//
+//===========================================================================
+
+bool MoveThing(TVec Pos, bool Fog)
+{
+	return false;
+}
+
+//==========================================================================
+//
+//	GetStateTime
+//
+//==========================================================================
+
+float GetStateTime(state AState, float AStateTime)
+{
+	return AStateTime;
+}
+
+//==========================================================================
+//
+//	SetActorProperty
+//
+//==========================================================================
+
+void SetActorProperty(int Prop, int IntVal, string StrVal)
+{
+}
+
+//==========================================================================
+//
+//	GetActorProperty
+//
+//==========================================================================
+
+int GetActorProperty(int Prop)
+{
+	return 0;
+}
+
+//==========================================================================
+//
+//	CheckForSectorActions
+//
+//==========================================================================
+
+void CheckForSectorActions(sector_t* OldSec, bool OldAboveFakeFloor,
+	bool OldAboveFakeCeiling)
+{
+}
+
+//==========================================================================
+//
+//	SkyBoxGetAlways
+//
+//==========================================================================
+
+bool SkyBoxGetAlways()
+{
+	return false;
+}
+
+//==========================================================================
+//
+//	SkyBoxGetMate
+//
+//==========================================================================
+
+Entity SkyBoxGetMate()
+{
+	return none;
+}
+
+//==========================================================================
+//
+//	SkyBoxGetPlaneAlpha
+//
+//==========================================================================
+
+float SkyBoxGetPlaneAlpha()
+{
+	return 0.0;
+}
+
+//==========================================================================
+//
+//	ClassifyActor
+//
+//==========================================================================
+
+int ClassifyActor()
+{
+	return 0;
+}
+
+//==========================================================================
+//
+//	MorphActor
+//
+//==========================================================================
+
+int MorphActor(name PlayerClass, name MonsterClass, float Duration,
+	int Style, name MorphFlash, name UnmorphFlash)
+{
+	return 0;
+}
+
+//==========================================================================
+//
+//	UnmorphActor
+//
+//==========================================================================
+
+int UnmorphActor(Entity Activator, int Force)
+{
+	return 0;
+}
+
+//==========================================================================
+//
+//	GetViewEntRenderParams
+//
+//==========================================================================
+
+void GetViewEntRenderParams(out float OutAlpha, out int OutRenderStyle)
+{
+}
+
+//==========================================================================
+//
+//	CalcFakeZMovement
+//
+//==========================================================================
+
+void CalcFakeZMovement(out TVec Ret, float DeltaTime)
+{
+}
+
+//==========================================================================
+//
+//	SetOrigin
+//
+//==========================================================================
+
+final void SetOrigin(TVec NewOrigin)
+{
+	UnlinkFromWorld();
+	Origin = NewOrigin;
+	LinkToWorld();
+}
+
+//==========================================================================
+//
+//	RemoveThing
+//
+//==========================================================================
+
+void RemoveThing()
+{
+	Destroy();
+}
+
+//==========================================================================
+//
+//  DistTo
+//
+//==========================================================================
+
+final float DistTo(Entity Other)
+{
+	return Length(Other.GetCentre() - GetCentre());
+}
+
+//==========================================================================
+//
+//  DistTo2
+//
+//==========================================================================
+
+final float DistTo2(Entity Other)
+{
+	TVec dir;
+
+	dir = Other.Origin - Origin;
+	dir.z = 0.0;
+	return Length(dir);
+}
+
+//==========================================================================
+//
+//	GetCentre
+//
+//==========================================================================
+
+final TVec GetCentre()
+{
+	return Origin + vector(0.0, 0.0, Height * 0.5 - FloorClip);
+}
+
+defaultproperties
+{
+	RenderStyle = STYLE_Normal;
+	Alpha = 1.0;
+	ScaleX = 1.0;
+	ScaleY = 1.0;
+	bColideWithThings = true;
+	bColideWithWorld = true;
+	MaxDropoffHeight = 24.0;
+	Gravity = 1.0;
+	SoundClass = 'player';
+	SoundGender = 'male';
+}

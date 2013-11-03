@@ -1,0 +1,192 @@
+//**************************************************************************
+//**
+//**    ##   ##    ##    ##   ##   ####     ####   ###     ###
+//**    ##   ##  ##  ##  ##   ##  ##  ##   ##  ##  ####   ####
+//**     ## ##  ##    ##  ## ##  ##    ## ##    ## ## ## ## ##
+//**     ## ##  ########  ## ##  ##    ## ##    ## ##  ###  ##
+//**      ###   ##    ##   ###    ##  ##   ##  ##  ##       ##
+//**       #    ##    ##    #      ####     ####   ##       ##
+//**
+//**    $Id: TitleScreen.vc 4082 2009-10-22 11:48:22Z dj_jl $
+//**
+//**    Copyright (C) 1999-2006 Jānis Legzdiņš
+//**
+//**    This program is free software; you can redistribute it and/or
+//**  modify it under the terms of the GNU General Public License
+//**  as published by the Free Software Foundation; either version 2
+//**  of the License, or (at your option) any later version.
+//**
+//**    This program is distributed in the hope that it will be useful,
+//**  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//**  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//**  GNU General Public License for more details.
+//**
+//**************************************************************************
+
+class TitleScreen : Widget;
+
+ClientGameBase ClGame;
+
+// demo loop control
+int demosequence;
+
+float pagetime;
+int page_pic;
+int advisor_pic;
+
+//==========================================================================
+//
+//  AdvanceDemo
+//
+//  This cycles through the demo sequences.
+//
+//==========================================================================
+
+void AdvanceDemo()
+{
+	if (StartTitleMap())
+	{
+		return;
+	}
+
+	demosequence++;
+	demosequence %= 6;
+
+	switch (demosequence)
+	{
+	case 0:
+		pagetime = 10.0;
+		page_pic = R_RegisterPic('title');
+//      S_StartSong("MUS_TITL", P_GetCDTitleTrack(), false);
+		CmdBuf_AddText("music play MUS_TITL\n");
+		break;
+
+	case 1:
+		advisor_pic = R_RegisterPic('advisor');
+		CmdBuf_AddText("PlayDemo demo1\n");
+		break;
+
+	case 2:
+		pagetime = 200.0 / 35.0;
+		page_pic = R_RegisterPic('credit');
+		break;
+
+	case 3:
+		CmdBuf_AddText("PlayDemo demo2\n");
+		break;
+
+	case 4:
+		pagetime = 200.0 / 35.0;
+		if (!WadLumpPresent('e2m1'))
+		{
+			page_pic = R_RegisterPic('order');
+		}
+		else
+		{
+			page_pic = R_RegisterPic('credit');
+		}
+		break;
+
+	case 5:
+		CmdBuf_AddText("PlayDemo demo3\n");
+		break;
+	}
+}
+
+//==========================================================================
+//
+//  ForceTitle
+//
+//==========================================================================
+
+void ForceTitle()
+{
+	pagetime = 10.0;
+	page_pic = R_RegisterPic('title');
+}
+
+//==========================================================================
+//
+//	OnVisibilityChanged
+//
+//==========================================================================
+
+void OnVisibilityChanged(bool bNewVisibility)
+{
+	bTickEnabled = bNewVisibility;
+}
+
+//==========================================================================
+//
+//	Tick
+//
+//==========================================================================
+
+void Tick(float DeltaTime)
+{
+	pagetime -= DeltaTime;
+	if (demosequence == -1 || (/*!ClGame.MenuActive() &&*/ pagetime < 0.0))
+	{
+		AdvanceDemo();
+	}
+}
+
+//==========================================================================
+//
+//  OnDraw
+//
+//==========================================================================
+
+void OnDraw()
+{
+	DrawFullScreenPic(page_pic);
+	if (demosequence == 1)
+	{
+		DrawPic(4, 440, advisor_pic);
+	}
+}
+
+//==========================================================================
+//
+//  OnHostEndGame
+//
+//==========================================================================
+
+void OnHostEndGame()
+{
+	if (demosequence != -1)
+		AdvanceDemo();
+	ForceTitle();
+}
+
+//==========================================================================
+//
+//  OnHostError
+//
+//==========================================================================
+
+void OnHostError()
+{
+	demosequence = -1;
+	ForceTitle();
+}
+
+//==========================================================================
+//
+//  StopDemoLoop
+//
+//==========================================================================
+
+void StopDemoLoop()
+{
+	demosequence = -1;	// not in the demo loop now
+}
+
+defaultproperties
+{
+	bTickEnabled = true;
+	Focusable = true;
+	Width = 320;
+	Height = 200;
+	demosequence = -1;	// -1 = don't play demos
+}

@@ -1,0 +1,66 @@
+//**************************************************************************
+//**
+//**    ##   ##    ##    ##   ##   ####     ####   ###     ###
+//**    ##   ##  ##  ##  ##   ##  ##  ##   ##  ##  ####   ####
+//**     ## ##  ##    ##  ## ##  ##    ## ##    ## ## ## ## ##
+//**     ## ##  ########  ## ##  ##    ## ##    ## ##  ###  ##
+//**      ###   ##    ##   ###    ##  ##   ##  ##  ##       ##
+//**       #    ##    ##    #      ####     ####   ##       ##
+//**
+//**    $Id: PowerGhost.vc 4373 2011-02-27 17:22:59Z firebrand_kh $
+//**
+//**    Copyright (C) 1999-2006 Jānis Legzdiņš
+//**
+//**    This program is free software; you can redistribute it and/or
+//**  modify it under the terms of the GNU General Public License
+//**  as published by the Free Software Foundation; either version 2
+//**  of the License, or (at your option) any later version.
+//**
+//**    This program is distributed in the hope that it will be useful,
+//**  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//**  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//**  GNU General Public License for more details.
+//**
+//**************************************************************************
+
+class PowerGhost : PowerInvisibility;
+
+//==========================================================================
+//
+//	InitEffect
+//
+//==========================================================================
+
+void InitEffect()
+{
+	Owner.RenderStyle = STYLE_Translucent;
+	Owner.Alpha = 0.666;
+	EntityEx(Owner).bShadow = true;
+	EntityEx(Owner).bGhost = true;
+}
+
+//==========================================================================
+//
+//	GetViewEntRenderParams
+//
+//==========================================================================
+
+void GetViewEntRenderParams(out float OutAlpha, out int OutRenderStyle)
+{
+	if (EffectTime > PlayerEx::BLINKTHRESHOLD ||
+		(ftoi(4.0 * EffectTime) & 1))
+	{
+		OutRenderStyle = STYLE_Translucent;
+		OutAlpha = 0.666;
+	}
+	if (Inventory)
+	{
+		Inventory.GetViewEntRenderParams(OutAlpha, OutRenderStyle);
+	}
+}
+
+defaultproperties
+{
+	bGhost = true;
+	EffectTime = 60.0;
+}

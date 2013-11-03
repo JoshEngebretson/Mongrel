@@ -1,0 +1,191 @@
+//	Flat animations
+flat optional F_SCANR5 range F_SCANR8 tics 4
+flat optional F_WATR01 range F_WATR03 tics 8
+flat optional F_PWATR1 range F_PWATR3 tics 11
+flat optional F_SCANR1 range F_SCANR4 tics 4
+flat optional P_VWATR1 range F_VWATR3 tics 4
+flat optional F_HWATR1 range F_HWATR3 tics 4
+flat optional F_TELE1  range F_TELE2  tics 4
+flat optional F_FAN1   range F_FAN2   tics 4
+flat optional F_CONVY1 range F_CONVY2 tics 4
+flat optional F_RDALN1 range F_RDALN4 tics 4
+
+//	Texture animations
+texture optional SCAN05   range SCAN08   tics 4
+texture optional SWTRMG01 range SWTRMG03 tics 4
+texture optional SCAN01   range SCAN04   tics 4
+texture optional COMP01   range COMP04   tics 4
+texture optional COMP05   range COMP08   tics 6
+texture optional COMP09   range COMP12   tics 11
+texture optional COMP13   range COMP16   tics 12
+texture optional COMP17   range COMP20   tics 12
+texture optional COMP21   range COMP24   tics 12
+texture optional COMP25   range COMP28   tics 12
+texture optional COMP29   range COMP32   tics 12
+texture optional COMP33   range COMP37   tics 12
+texture optional COMP38   range COMP41   tics 12
+texture optional COMP42   range COMP49   tics 10
+texture optional BRKGRY13 range BRKGRY16 tics 10
+texture optional BRNSCN01 range BRNSCN04 tics 10
+texture optional CONCRT09 range CONCRT12 tics 11
+texture optional CONCRT22 range CONCRT25 tics 11
+texture optional WALPMP01 range WALPMP02 tics 16
+texture optional WALTEK16 range WALTEK17 tics 8
+texture optional FORCE01  range FORCE04  tics 4
+texture optional FORCE05  range FORCE08  tics 4
+texture optional FAN01    range FAN02    tics 4
+
+//	Switches
+switch GLASS01  on pic GLASS02  tics 0 sound world/glassbreak
+switch GLASS03  on pic GLASS04  tics 0 sound world/glassbreak
+switch GLASS05  on pic GLASS06  tics 0 sound world/glassbreak
+switch GLASS07  on pic GLASS08  tics 0 sound world/glassbreak
+switch GLASS17  on pic GLASS18  tics 0 sound world/glassbreak
+switch GLASS19  on pic GLASS20  tics 0 sound world/glassbreak
+switch SWKNOB01 on pic SWKNOB02 tics 0 sound switches/knob
+switch SWLITE01 on pic SWLITE02 tics 0
+switch SWCHN01  on pic SWCHN02  tics 0 sound switches/chain
+switch COMP01   on pic COMP04B  tics 0 sound world/glassbreak
+switch COMP05   on pic COMP12B  tics 0 sound world/glassbreak
+switch COMP09   on pic COMP12B  tics 0 sound world/glassbreak
+switch COMP12   on pic COMP04B  tics 0 sound world/glassbreak
+switch COMP13   on pic COMP12B  tics 0 sound world/glassbreak
+switch COMP17   on pic COMP20B  tics 0 sound world/glassbreak
+switch COMP21   on pic COMP28B  tics 0 sound world/glassbreak
+switch WALTEK09 on pic WALTEKB1 tics 0 sound world/glassbreak
+switch WALTEK10 on pic WALTEKB1 tics 0 sound world/glassbreak
+switch WALTEK15 on pic WALTEKB1 tics 0 sound world/glassbreak
+switch SWFORC01 on pic SWFORC02 tics 0
+switch SWEXIT01 on pic SWEXIT02 tics 0
+switch DORSBK01 on pic DORSBK02 tics 0 sound switches/stone
+switch SWSLD01  on pic SWSLD02  tics 0
+switch DORWS04  on pic DORWS05  tics 0 sound switches/bolt
+switch SWIRON01 on pic SWIRON02 tics 0
+switch GLASS09  on pic GLASS10  tics 0 sound world/glassbreak
+switch GLASS11  on pic GLASS12  tics 0 sound world/glassbreak
+switch GLASS13  on pic GLASS14  tics 0 sound world/glassbreak
+switch GLASS15  on pic GLASS16  tics 0 sound world/glassbreak
+switch SWFORC03 on pic SWFORC04 tics 0
+switch SWCIT01  on pic SWCIT02  tics 0
+switch SWTRMG01 on pic SWTRMG04 tics 0
+switch SWMETL01 on pic SWMETL02 tics 0
+switch SWWOOD01 on pic SWWOOD02 tics 0
+switch SWTKBL01 on pic SWTKBL02 tics 0
+switch AZWAL21  on pic AZWAL22  tics 0 sound world/glassbreak
+switch SWINDT01 on pic SWINDT02 tics 0
+switch SWRUST01 on pic SWRUST02 tics 0
+switch SWCHAP01 on pic SWCHAP02 tics 0
+switch SWALIN01 on pic SWALIN02 tics 0
+switch SWWALG01 on pic SWWALG02 tics 0
+switch SWWALG03 on pic SWWALG04 tics 0
+switch SWTRAM01 on pic SWTRAM02 tics 0
+switch SWTRAM03 on pic SWTRAM04 tics 0
+switch SWORC01  on pic SWORC02  tics 0
+switch SWBRIK01 on pic SWBRIK02 tics 0
+switch SWIRON03 on pic SWIRON04 tics 0
+switch SWIRON05 on pic SWIRON06 tics 0
+switch SWIRON07 on pic SWIRON08 tics 0
+switch SWCARD01 on pic SWCARD02 tics 0 sound switches/keycard
+switch SWSIGN01 on pic SWSIGN02 tics 0
+switch SWLEV01  on pic SWLEV02  tics 0
+switch SWLEV03  on pic SWLEV04  tics 0
+switch SWLEV05  on pic SWLEV06  tics 0
+switch SWBRN01  on pic SWBRN02  tics 0 sound switches/keycard
+switch SWPIP01  on pic SWPIP02  tics 0 sound switches/valve
+switch SWPALM01 on pic SWPALM02 tics 0 sound switches/scanner
+switch SWKNOB03 on pic SWKNOB04 tics 0 sound switches/knob
+switch ALTSW01  on pic ALTSW02  tics 0
+switch COMP25   on pic COMP28B  tics 0 sound world/glassbreak
+switch COMP29   on pic COMP20B  tics 0 sound world/glassbreak
+switch COMP33   on pic COMP50   tics 0 sound world/glassbreak
+switch COMP42   on pic COMP51   tics 0 sound world/glassbreak
+switch GODSCRN1 on pic GODSCRN2 tics 0 sound switches/fool
+switch ALIEN04  on pic ALIEN05  tics 0
+switch CITADL04 on pic CITADL05 tics 0
+switch SWITE03  on pic SWITE04  tics 0
+switch SWTELP01 on pic SWTELP02 tics 0
+switch BRNSCN01 on pic BRNSCN05 tics 0 sound switches/sizzle quest
+
+animateddoor doraln01
+opensound  DoorOpenAirlock
+closesound DoorCloseAirlock
+pic doraln01
+pic doraln02
+pic doraln03
+pic doraln04
+pic doraln05
+pic doraln06
+pic doraln07
+pic doraln08
+
+animateddoor dorchn01
+opensound  DoorOpenChain
+closesound DoorCloseChain
+pic dorchn01
+pic dorchn02
+pic dorchn03
+pic dorchn04
+pic dorchn05
+pic dorchn06
+pic dorchn07
+pic dorchn08
+	
+animateddoor dorcrg01
+opensound  DoorOpenSmallMetal
+closesound DoorCloseSmallMetal
+pic dorcrg01
+pic dorcrg02
+pic dorcrg03
+pic dorcrg04
+pic dorcrg05
+pic dorcrg06
+pic dorcrg07
+pic dorcrg08
+
+animateddoor dorirs01
+opensound  DoorOpenAirlock
+closesound DoorCloseAirlock
+pic dorirs01
+pic dorirs02
+pic dorirs03
+pic dorirs04
+pic dorirs05
+pic dorirs06
+pic dorirs07
+pic dorirs08
+
+animateddoor dorqtr01
+opensound  DoorOpenAirlock
+closesound DoorCloseAirlock
+pic dorqtr01
+pic dorqtr02
+pic dorqtr03
+pic dorqtr04
+pic dorqtr05
+pic dorqtr06
+pic dorqtr07
+pic dorqtr08
+
+animateddoor dorstn01
+opensound  DoorOpenStone
+closesound DoorCloseStone
+pic dorstn01
+pic dorstn02
+pic dorstn03
+pic dorstn04
+pic dorstn05
+pic dorstn06
+pic dorstn07
+pic dorstn08
+
+animateddoor sigldr01
+opensound DoorOpenLargeMetal
+closesound DoorCloseLargeMetal
+pic sigldr01
+pic sigldr02
+pic sigldr03
+pic sigldr04
+pic sigldr05
+pic sigldr06
+pic sigldr07
+pic sigldr08

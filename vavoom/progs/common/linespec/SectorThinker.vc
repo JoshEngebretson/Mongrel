@@ -1,0 +1,110 @@
+//**************************************************************************
+//**
+//**    ##   ##    ##    ##   ##   ####     ####   ###     ###
+//**    ##   ##  ##  ##  ##   ##  ##  ##   ##  ##  ####   ####
+//**     ## ##  ##    ##  ## ##  ##    ## ##    ## ## ## ## ##
+//**     ## ##  ########  ## ##  ##    ## ##    ## ##  ###  ##
+//**      ###   ##    ##   ###    ##  ##   ##  ##  ##       ##
+//**       #    ##    ##    #      ####     ####   ##       ##
+//**
+//**    $Id: SectorThinker.vc 2177 2007-04-23 19:57:01Z dj_jl $
+//**
+//**    Copyright (C) 1999-2006 Jānis Legzdiņš
+//**
+//**    This program is free software; you can redistribute it and/or
+//**  modify it under the terms of the GNU General Public License
+//**  as published by the Free Software Foundation; either version 2
+//**  of the License, or (at your option) any later version.
+//**
+//**    This program is distributed in the hope that it will be useful,
+//**  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//**  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//**  GNU General Public License for more details.
+//**
+//**************************************************************************
+
+class SectorThinker : Thinker;
+
+sector_t*		Sector;
+SectorThinker	NextAffector;
+
+//==========================================================================
+//
+//	AddAffector
+//
+//==========================================================================
+
+void AddAffector()
+{
+	SectorThinker		Tmp;
+
+	if (!Sector->AffectorData)
+	{
+		Sector->AffectorData = self;
+	}
+	else
+	{
+		Tmp = SectorThinker(Sector->AffectorData);
+		while (Tmp.NextAffector)
+		{
+			Tmp = Tmp.NextAffector;
+		}
+		Tmp.NextAffector = self;
+	}
+	NextAffector = none;
+}
+
+//==========================================================================
+//
+//	RemoveAffector
+//
+//==========================================================================
+
+void RemoveAffector()
+{
+	SectorThinker		Tmp;
+
+	if (Sector->AffectorData == self)
+	{
+		Sector->AffectorData = NextAffector;
+	}
+	else
+	{
+		Tmp = SectorThinker(Sector->AffectorData);
+		while (Tmp && Tmp.NextAffector != self)
+		{
+			Tmp = Tmp.NextAffector;
+		}
+		if (Tmp && Tmp.NextAffector == self)
+		{
+			Tmp.NextAffector = NextAffector;
+		}
+	}
+	NextAffector = none;
+}
+
+//==========================================================================
+//
+//	SectorStartSequence
+//
+//==========================================================================
+
+final void SectorStartSequence(sector_t * sector, name sequence, int ModeNum)
+{
+	Level.SectorStartSequence(sector, sequence, ModeNum);
+}
+
+//==========================================================================
+//
+//	SectorStopSequence
+//
+//==========================================================================
+
+final void SectorStopSequence(sector_t * sector)
+{
+	Level.SectorStopSequence(sector);
+}
+
+defaultproperties
+{
+}

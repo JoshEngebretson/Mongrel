@@ -1,0 +1,70 @@
+//**************************************************************************
+//**
+//**    ##   ##    ##    ##   ##   ####     ####   ###     ###
+//**    ##   ##  ##  ##  ##   ##  ##  ##   ##  ##  ####   ####
+//**     ## ##  ##    ##  ## ##  ##    ## ##    ## ## ## ## ##
+//**     ## ##  ########  ## ##  ##    ## ##    ## ##  ###  ##
+//**      ###   ##    ##   ###    ##  ##   ##  ##  ##       ##
+//**       #    ##    ##    #      ####     ####   ##       ##
+//**
+//**    $Id: HexenWeapon.vc 3787 2008-09-15 22:10:09Z dj_jl $
+//**
+//**    Copyright (C) 1999-2006 Jānis Legzdiņš
+//**
+//**    This program is free software; you can redistribute it and/or
+//**  modify it under the terms of the GNU General Public License
+//**  as published by the Free Software Foundation; either version 2
+//**  of the License, or (at your option) any later version.
+//**
+//**    This program is distributed in the hope that it will be useful,
+//**  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//**  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//**  GNU General Public License for more details.
+//**
+//**************************************************************************
+
+class HexenWeapon : Weapon
+	abstract;
+
+class<Actor> WeaponClass;
+
+//==========================================================================
+//
+//  TryPickup
+//
+//==========================================================================
+
+bool TryPickup(EntityEx Toucher)
+{
+	if (!ClassIsChildOf(Toucher.Class, GetClassReplacement(WeaponClass)))
+	{
+		// Wrong class, but try to pick up for mana
+		if (ShouldStay() && !bDropped)
+		{
+			return false;
+		}
+		bool gaveMana = false;
+		if (PlayerEx(Toucher.Player).GiveAmmo(AmmoType1, AmmoGive1))
+		{
+			gaveMana = true;
+		}
+		if (PlayerEx(Toucher.Player).GiveAmmo(AmmoType2, AmmoGive2))
+		{
+			gaveMana = true;
+		}
+		if (gaveMana)
+		{
+			GoAwayAndDie();
+			GiveQuest(Toucher);
+			return true;
+		}
+		return false;
+	}
+
+	return ::TryPickup(Toucher);
+}
+
+defaultproperties
+{
+	Kickback = 150.0;
+}

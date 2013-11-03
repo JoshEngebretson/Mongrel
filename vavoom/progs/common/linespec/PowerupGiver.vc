@@ -1,0 +1,76 @@
+//**************************************************************************
+//**
+//**    ##   ##    ##    ##   ##   ####     ####   ###     ###
+//**    ##   ##  ##  ##  ##   ##  ##  ##   ##  ##  ####   ####
+//**     ## ##  ##    ##  ## ##  ##    ## ##    ## ## ## ## ##
+//**     ## ##  ########  ## ##  ##    ## ##    ## ##  ###  ##
+//**      ###   ##    ##   ###    ##  ##   ##  ##  ##       ##
+//**       #    ##    ##    #      ####     ####   ##       ##
+//**
+//**    $Id: PowerupGiver.vc 4129 2010-03-01 13:09:25Z firebrand_kh $
+//**
+//**    Copyright (C) 1999-2006 Jānis Legzdiņš
+//**
+//**    This program is free software; you can redistribute it and/or
+//**  modify it under the terms of the GNU General Public License
+//**  as published by the Free Software Foundation; either version 2
+//**  of the License, or (at your option) any later version.
+//**
+//**    This program is distributed in the hope that it will be useful,
+//**  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//**  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//**  GNU General Public License for more details.
+//**
+//**************************************************************************
+//**
+//**	Base class for items that give owner a powerup when activated.
+//**
+//**************************************************************************
+
+class PowerupGiver : Inventory
+	abstract;
+
+class<Powerup>	PowerupType;
+//	Non-0 to override powerup's default time.
+float			EffectTime;
+int				BlendColour;
+name			Mode;
+
+//==========================================================================
+//
+//	Use
+//
+//==========================================================================
+
+bool Use(bool Pickup)
+{
+	Powerup Pw = Spawn(PowerupType,,,, false);
+
+	if (EffectTime)
+	{
+		Pw.EffectTime = EffectTime > 0.0 ? EffectTime : -EffectTime * 35.0;
+	}
+	if (BlendColour)
+	{
+		Pw.BlendColour = BlendColour;
+	}
+	if (Mode)
+	{
+		Pw.Mode = Mode;
+	}
+	Pw.bAlwaysPickup = bAlwaysPickup;
+	Pw.bAdditiveTime = bAdditiveTime;
+	if (!Pw.TryPickup(EntityEx(Owner)))
+	{
+		Pw.Destroy();
+		return false;
+	}
+	return true;
+}
+
+defaultproperties
+{
+	MaxAmount = DefMaxAmount;
+	bInvBar = true;
+	PickupSound = 'misc/p_pkup';
+}

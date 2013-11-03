@@ -1,0 +1,1028 @@
+
+29-06-2001
+  Pēc relīzes es spēlēju Desperados - Wanted dead or alive. Iziešana prasīja
+ diezgan ilgu laiku. Pa vidu paspēju veikt progžu failu paplašinājuma maiņu
+ no .c uz .vc.
+  Izveidoju 3D grīdu caurredzamību.
+30-06-2001
+  vlumpy atbrīvojos no Allegro izmantošanas.
+  Izveidoju speciālu clienta versiju līmeņa objekta struktūrai. Atbrīvojos
+ no sektoru linkiem.
+  Izveidoju subsektoru linkus, sektora redzamības pārbaudei serveris tagad
+ izmanto vis datus. No klienta/servera neizdarītajām lietām palicis ir tikai
+ mainīto tekstūru informācijas sūtīšana jauniem klientiem.
+  Salaboju spraitu zīmēšanu 2D gadījumiem.
+  Sāku mēģināt ieviest Quake modeļus.
+02-07-2001
+  Turpinu darbu pie modeļiem. Portēju zīmēšanu, bet vēl neiet kā gribētos.
+  Šodien ir diezgan lielas pārmaiņas, es nopirku GeForce2 un man tagd ir īsts
+ akselerātors. Lielāko dienas daļu pavadīju izmēģinot dažādas ar OpenGL un
+ Direct3D akselerētās spēles. Īpaši priecē akselerētais OpenGL. Atklājās arī
+ viens OpenGL bags - caurspīdīgie spraiti vispār nav redzami. Izskatās ka
+ karte veic alfas testu galīgajam pikselim, nevis izejas tekstūrai.
+03-07-2001
+  Kautkā salaboju caurspīdīgos spraitus.
+  Šo to pielaboju pie modeļiem, nestrādā kā vajag.
+04-07-2001
+  Pilnībā salaboju caurspīdīgos spraitus.
+  Half-Life: Opposing Force ar akselerātoru beidzot iet spēlējamā ātrumā, būs
+ jāiziet.
+10-07-2001
+  Izgāju Half-Life:Opposing Force - baigi labais.
+  Izveidoju mipmaping iekš OpenGL, ātruma pieaugums ir jūtams.
+11-07-2001
+  Uzlaboju alfa testu Direct3D. Testēju Dot3 bumpmapingu, izskatās sološi,
+ bet tas prasīs diezgan lielu darbu, tākā es šaubos vai kautkas būs.
+12-07-2001
+  Izveidoju "lens flares", tās ir no visiem gaismas objektiem, tāpēc tās vēl
+ nebūs pieejamas. Arī redzamības pārbaudi vajag labāku.
+13-07-2001
+  Sāku veidot jaunu līmeni, ieviesu statisku gaismu izstarojošiem objektiem
+ iespēju definēt gaismas rādiusu.
+14-07-2001
+  Dabūju DirectX 8 SDK. Ir diezgan lielas izmaiņas. No jaunajām Direct3D
+ īpašībām man vislabāk patīk Vertex shaders un Pixel shaders - ar dzelzi kas
+ tos atbalsta iespējas pieaug manāmi. Diemžēl mana jaunā GeForce2 neatbalsta
+ tos.
+17-07-2001
+  Saņēmu vēstuli no puiša kurš testēja OpenGL uz LINUX. Kā jau varēja saprast
+ viss strādā normāli. Toties ir problēmas ar krāsu dziļumu lielāku par 16 bitu
+ krāsām, cerams ka izveidoju 32 bitu krāsu atbalstu LINUX OpenGL versijai.
+  Salaboju automapu priekš OpenGL un Direct3D.
+  No līmeņa ielādēšanas izmetu ārā lieko, jo tagad vienmēr jābūt GL nodiem.
+18-07-2001
+  Atkārtoti mēģinu ieviest modeļu atbalstu. Šoreiz veiksmīgi. Pamazām sāku
+ pāriet uz md2 formāta atbalstu.
+19-07-2001
+  Atbrīvojos no onseam un facesfront, iekšēji pārveidoju uz md2 formātu, t.i.
+ tiek atbalstīts md2 formāts. Pievienoju md2 formāta modeļu ielādēšanu, viss
+ strādā normāli. Pēc nelielām pārdomām vecais mdl formāts tika izmests ārā.
+ Netaisos atbalstīt mdl formātu, jo to elementāri var konvertēt md2 formātā.
+ Un tā ir softa atbalsts md2 modeļiem. Pašlaik tikai 8 bitu krāsām, bet tā
+ nav problēma. Tāpat ar OpenGL un Direct3D arī nebūs problēmu.
+20-07-2001
+  Vispirms es izmetu ārā "subdivision" modeļu rendēšanu. Iespējams ka vēlāk
+ es to pievienošu atpakaļ. Pagaidām jātiek galā ar parasto rendēšanu. Ieviesu
+ atbalstu 16 un 32 bitu krāsām. Tākā viss ir kārtībā, modeļu rendēšana tia
+ pievienota pie TDrawer un ieviestas OpenGL un Direct3D versijas.
+  Izmetu ārā "lens flares". Nedomāju ka ir vērts to darīt, jo pat Quake3 to
+ pēc noklusēšanas nedara. Un arī reālajā dzīvē normāli tās nav redzamas.
+  Atklājās liela kļūda - softā modeļi tiek zīmēti spoguļatēlā. Būs darbiņš
+ rītdienai.
+21-07-2001
+  Salaboju modeļu zīmēšanu softā.
+  Apgreidoju Allegro uz jaunāko versiju.
+  OpenGL un Direct3D izveidoju teksturētas partikles, izskatās nedaudz labāk.
+  Pievienoju visu nepieciešamo modeļu atbalstam pievienojot jaunus laukus
+ objektu struktūrās, attiecīgās izmaiņas tīkla protokolā. Modeļus definē
+ progžos stāvokļu tabulā aiz spraita kadra nummura, bet tas nav obligāti -
+ ja seko simbolu virkne, tad tas ir modelis, citādi stāvoklin modeļa nav.
+23-07-2001
+  Izveidoju utilītu modeļu salabošanai Vavoom vajadzībām.
+  Pabeidzu izmaiņas protokolā.
+  Ja nav atniņas skrīnšotam, programma nebeigs darbu ar kļūdu, bet gan tikai
+ izmetīs paziņojumu konsolē. Skrīnšotu faili tagad sauksies shot$$$$.pcx.
+  Spēles datu direktorija tika pārdēvēta uz basev, wad failu inicializācija
+ pārnesta uz failu moduli.
+24-07-2001
+  Nedaudz uzlaboju ievadu.
+  Kādu laiku atpakaļ es Allegro sorceforge.net lapā pastāstīju par problēmām
+ ar xalleg.h, kuras tika izlabotas. Pieteicu Soundscape kļūdu.
+  Sāku interesēties par sourceforge.net. Piereģistrējos kā lietotājs, kā arī
+ pieteicu Vavoom projektu. Sāku interesēties par CVS.
+25-07-2001
+  Pievienoju carspīdību modeļiem OpenGL un Direct3D versijās. Kas gan tik
+ nav vajadzīgs softa rendēšanai - krāsainais apgaismojums, caurspīdība un abi
+ kopā. Darba pietiek. Tas nozīmē, ka otrs plānotais mērķis šai versijai -
+ VavoomC valodas padarīšana par objekt-orientētu valodu - netiks realizēts
+ šajā versijā, tāpēc nemaz neko neuzsākšu.
+  Direct3D izmetu ārā visu, kas bija vajadzīgs priekš S3 Trio3D, kad man ir
+ GeForce2, man tas vairs nav vajadzīgs, tāpat kā jebkurai normālai 3D kartei.
+  Sāku pievienot modeļus.
+  sourceforge.net projekts ir pieņemts. Sagatavoju aploudot iekš CVS, ko
+ vakarā arī izdarīju. Tas prasīja ļoti ilgu laiku, tas droši vien ir tādēļ ka
+ dati netiek kompresēti, ļoti nepatīkami.
+26-07-2001
+    Atklāju ka TASM exterdef nav obligāti vajadzīgs norādīt tipu. Tādējādi visi
+ eksterni tika pārnesti uz asm_i386.h, izveidoju kopīgu sistēmas asemblera
+ moduli sys_i386.s, priekš Windows tas tiek konvertēts. Windows asemblerī arī
+ izmetu ārā headeri un tagad .asm faili ir tīri ģenerētie faili.
+  Pievienoti gandrīz visi pirmā Doom monstru modeļi, nolēmu modeļus kārtot pēc
+ tipa direktorijās - lai ir kārtība.
+  Pārtaisīju fixmd2, tagad viss tiek definēts komandrindā. Atsevišķas komandas
+ tiek prefiksētas ar attiecīgu burtu, tagad to izmantot ir daudz parocīgāk.
+  Pēc nelielām pūlēm izdevās čekoutot no CVS - bija vispirms jāieloginojas
+ CVS serverī lai tiktu izveidota mana jūzera direktorija. Šoreiz, atšķirībā
+ no aplouda, tika ieslēgta datu kompresija. Atklāju ko dara dažas direktīvas.
+27-07-2001
+  Nolēmu visiem failiem pievienot Id un Log direktīvas lai CVS automātiski
+ dod logu kā tas ir dažos citos projektos un kas man diezgan labi patīk. Pēc
+ tam veicu pirmo lielo komitu. Bija diezgan liels čakars ar failu apskates
+ laikiem (kautkas saistīts ar RHIDE), bet beigās viss tika normāli komitots.
+ Un protams smuki tika apdeitotas direktīvas, kā man tas patīk.
+  Salaboju apdeitu, ja trūkst modeļa. Tāpat modeļu caurredzamība nestrādāja
+ jo tā netika atļauta. Tā arī nestrādāja korekti, jo modeļi netika pareizi
+ šķiroti, ko es arī izlaboju.
+  Aizsūtīju skrīnšotu uz DoomCenter un DoomWorld.
+  Turpinu pievienot monstru modeļus. Gandrīz visi Doom monstru modeļi ir jau
+ pievienoti, bet vēl nepārbaudīti.
+28-07-2001
+  Salaboju modeļus objektiem, kuri netiek animēti.
+  Lai samazinātu modeļu informācijas paketi direktorija models modeļa ceļā
+ netiek rakstīta.
+  Ar monstriem esmu ticis galā, sākas citi objekti.
+30-07-2001
+  Ar modeļiem iet uz beigām. Tā izskatās, ka visi ir pievienoti. Bija jāsalabo
+ ieroču modeļu rendēšana.
+  Vēl priekšā neliels darbiņš pie spēlētāja "ādām" un ieroča modeļa.
+31-07-2001
+  Pabeidzu ar modeļiem, arī no papildus paketes.
+  Ieviesu pilno apgaismojumu modeļiem.
+  Sāku darbu pie failu sistēmas. Tagad katrai atbalstītajai spēlei ir sava
+ spēles direktorija. Tagad katrai spēlei būs savi konfigurācijas faili, demo
+ faili un saglabātās spēles. Katrā spēles direktorijā tiek pievienoti visi wad
+ faili wad0.wad, wad1.wad ... līdz viens trūkst.
+  Programmas tagad pašas nosaka kura spēles versija - normālā, shareware vai
+ paplašinātā - tiek lietota pārbaudot vai ir vajadzīgā wad iedaļa (lump).
+  Nolēmu, ka titullapa un demo cikls ir jāpārnes uz programmām. Tādējādi varēs
+ atbrīvoties no vienas atkarības no spēles.
+  Salaboju kursoru tukšām simbolu virknēm.
+01-08-2001
+  Salaboju translētos spraitus OpenGL draiverī - bija pāris ļoti nopietnas
+ kļūdas.
+  Salaboju spraita zīmēšanu spēlētāja konigurācijas menu.
+  Direct3D salaboju noteikšanu, kad vajag šķirot spraitus.
+  OpenGL un Direct3D uzlaboju partikļu zīmēšanu.
+  Mēģinu salabot krāsas dziļuma maiņu OpenGL Windows verijā - neveicās. Beigās
+ atradu iemeslu - SetPixelFormat logam var tikt lietots tikai vienu reizi.
+  Sienām vispirms meklē tekstūru tekstūru sarakstā un tikai pēc tam flatos.
+ Tas salaboja RaiseToTexture speciālu. Starp citu tajā es atradu vienu Doom
+ oriģimālo kļudu - ņem vērā tekstūru 0.
+02-08-2001
+  Jaunie klienti tiek informēti par mainītajām tekstūrām.
+  Pievienoju trūkstošās 32 bitu funkciju asemblera versijas.
+  Softā izveidoju modeļu zīmēšanu ar krāsaino apgaismojumu un caurspīdīgos
+ modeļus.
+  Novācu caurspīdību lāpām - tomēr izskatās labāk.
+  Direct3D izveidoju atbalstu ādām ar ne-2 pakāpju izmēriem un lielākiem par
+ maksimālu izmēru. Atbalsts itkā to prasa, kaut arī tas ir ļoti nevēlami.
+ Visām ādām būtu jābūt kvadrātiem ar 2 pakāpes izmēriem. Pamatpaketes modeļu
+ ādas visas atbilst šīm prasībām, bet papilduspaketē 8 ādas neatbilst. 7 ādas
+ ar stulbām kļūdām tika izlabotas. Palika vēl plazmas ieroča āda. Ar to būs
+ nedaudz jāpadarbojas vēlāk. Galvenā problēma ir tā, ka tas ir Quake modelis
+ ar ļoti platu ādu. Puse ādas tika pārnesta zem otras puses lai tā nebūtu tik
+ plata un nedaudz augstāka. Tagad to vajag samazināt līdz 256x256. Nu ko, būs
+ jāsāk nodarboties ar modeļu veidošanu.
+03-08-2001
+  Pārnesu titullapu un demo ciklu uz progžiem. Pateicoties tam dzinim vairs
+ neinteresē vai ir paplašinātā wad versija. Heretic-ā shareware versijā fonam
+ bija cits flats nekā reģistrētajā versijā. Atceļot to dzinim arī neinteresē
+ vai ir shareware, vai nē. Atkarība no spēles ir kļuvusi vēl mazāka.
+  Ieviesu z-hakošanu ieroču modeļiem. Tagad tie var būt nedaudz lielāku.
+  Salaboju miglu Direct3D.
+  OpenGL sāku mēģināt izmantot paplašinājumus. Arī izmetu ārā z triku.
+  Beidzot man atsūtīja jautājumus intervijai.
+04-08-2001
+  OpenGL ieviesu multitekstūru atbalstu. Sākumā mēģināju GL_SGIS_multitexture,
+ bet nestrādāja. Tad pamēģināju GL_ARB_multitexture. Nedaudz labāk, bet arī
+ kaut kas nestrādāja. Pēc nelielām pūlēm noskaidroju, ka funkciju pointeri ir
+ jādefinē kā APIENTRY, lai Windows zin kā pareizi tās izsaukt. Kā rezultātā
+ aizgāja. Pamēģināju atgriezsties pie GL_SGIS_multitexture, bet nez kāpēc tas
+ nestrādāja. Tādēl es palieku pie GL_ARB_multitexture.
+  Ieviesu sākuma versiju spēles bāzes skriptam.
+06-08-2001
+  Strādāju pie spēlētāju modeļiem un ādām. Pirmie objekti ir rezervēti priekš
+ spēlētāju objektiem. Servera pusē pagaidām tie ir tukši un tikai apdeitojot
+ klientam reālie spēlētāju objekti tiek apdeitoti kā pirmie. Tādējādi klients
+ var atrast atbilstošo modeli un ādu. Katram spēlētājam var būt savs modelis
+ un sava āda. Bet pats labākais ir tas, ka ierocis spēlētāja rokās ir nevis
+ kautkāds mistisks ierocis, bet gan reālais ierocis. Tādējādi var pat redzēt
+ kāds ierocis ir oponenta rokās. Tas tika realizēts sekojoši: katrā spēlētāja
+ modeLa direktorijā jābūt diviem modeļiem - tris.md2 ar pašu modeli, kā arī
+ weapon.md2 ar trijstūri, kurš attēlo ieroča pozīciju un virzienu. Vēl tikai
+ jāsalabo modeļi.
+  Klienta pusē atbrīvojos no floorclip.
+07-08-2001
+  Normāli redz ieroci spēlētāja rokās. Vēl tikai jāpielabo pozīcijas, arī BFG
+ ir nedaudz par lielu. Vispār vislabāk būtu, ja ierocis normāli būtu vērsts uz
+ priekšu.
+  Atradu 2 Heretic modeļus, kurus arī pievienoju.
+  Sagatavojos scēnas rendēšanai.
+  Seivgeimi ir apakšdirektorijā saves.
+08-08-2001
+  Konsole veroties ciet vairs nav aktīva.
+  DOS-ā pievienoju pārbaudes klaviatūras inicializācijai. Dažreiz nostrādāja
+ aizsardzība. Tas nozīmē ka vairs nebūs gļuka, kad nospiežot taustiņu mašina
+ uzkarās vai pārstartējās.
+  Pievienoju modeli spēlētāja konfigurācijas menu.
+  Sāku optimizēt modeļu rendēšanu pievienojot asembleri.
+09-08-2001
+  Strādāju pie modeļu zīmēšanas asemblera.
+10-08-2001
+  Ieviesu iepriekš aprēķinātas tabulas izmantošanu 32 bitu caurspīdībai.
+  Bija vēl viens kļūda gadījumā, kad nav modeļu.
+  Atbrīvojos no pāris atkarībām no spēles tekstūru daļā. Dzinis pats atpazīst
+ straifa tekstūru formātu un debesu tekstūru augstumi tiek pielaboti apskatot
+ patču.
+  Salaboju finālus - tagad tie strādā, bet vēl šis tas ir jāpielabo.
+  Padarīju strādājošu Straifa statusbāru, protams ne gluži strādājošu, toties
+ dzinis vairs to neignorēs.
+11-08-2001
+  Salaboju Doom 3 epizodes finālu, vēl paliek Heretic 2 epizodes fināls.
+  Uzlaboju objektu apdeitu.
+  Turpinu darbu pie modeļu rendēšanas asemblera.
+13-08-2001
+  Turpinu strādāt ar asembleri.
+  Izmetu ārā wipe efektus - tie jau bija atslēgti, kāpēc turēt?
+  Metodei FillRectWithFlat tiek iedoas tekstūru koordinātes.
+14-08-2001
+  Vēl divas r_alias.cpp funkcijas ir asembler.
+15-08-2001
+  Asembleris - vēl uzlaboju šo to d_aliasa.s, sāku veidot asemblera versijas
+ d_edge.cpp funkcijām, sāku ar D_EmitEdge.
+16-08-2001
+  Asemblera versija D_ClipEdge, D_EmitEdge ir inlainots.
+17-08-2001
+  Linux distributīva maiņa. Man tagad ir Linux Mandrake 8.0 ar kuru beidzot
+ mana videokarte strādā. Diemžēl nestrādā OpenGL, drošivien vajadzīgi draiveri
+ no nVidia.
+20-08-2001
+  Nolēmu progžos simbolu virknes padarīt par reāliem pointeriem.
+  Izveidoju video opciju menu.
+  SetTexture atpazīst flatus. Tekstūru animācijai ir speciāla funkcija.
+  Optimizēju asemblerī D_GenerateSpans.
+  Ieviesu fl_devmode (parametrs -devgame). Izmetu ārā -devmaps.
+  Lokalizēju GL/glu.h.
+  Pēc noklusēšanas r_darken ir atlēgts.
+22-08-2001
+  OpenGL mipmapu ģenerāciju veicu es pats, glu vairs netiek izmantots.
+23-08-2001
+  Video režīma maiņa ir atsevišķā apakšmenu kā iepriekš.
+  Sākuma atbalsts zīmējumiem ar citām paletēm. OpenGL zīmē Heretic 2 epizodes
+ finālu kā vajag.
+  glVIS atpazīst visus GL līmeņus.
+  Sāku darbu pie mipmapinga Direct3D.
+  Praktiski atrisināju visas problēmas ar OpenGL uz LINUX.
+  Izrādās ka Allegro ir pievienoti jauni taustiņu kodi, tagad atkal uz LINUX
+ klaviatūrai strādā visi taustiņi.
+24-08-2001
+  Direct3D ir mipmapings.
+  Precīzāks gaismmapu atrēķināšanas režīms.
+25-08-2001
+  Windows versijā OpenGL draiveris tagad izveido jaunu logu rendēšanai. Tagad
+ strādā video režīma maiņa uz citu krāsu dziļumu.
+  Atdalīju atsevišķi d3d_info.cpp.
+  Ieviesu CVAR_LATCH.
+27-08-2001
+  Nedaudz uzlaboju objektu apdeitu.
+28-08-2001
+  Pievienoju Sys_FileTime, wad failu modulis to izmanto lai noteiktu, vai gwa
+ fails nav vecāks par pašu wad failu.
+  Pievienoju opciju -iwad, pārstrādāju komandlīniju parametru izmantošanu
+ spēles noteikšanā pēc iwad faila.
+29-08-2001
+  Pārnesu rāmi un paziņojumu uz progžiem. Pauze ir statuslīnijas sastāvdaļa.
+  Izveidoju konfigurājamas automama krāsas.
+  Pārdēvēju konsoles komandas Commands par CmdList un Cvars par CvarList.
+  Datagram tīkla savienošanās pakete atkal sākas ar VAVOOM un nevis ar spēles
+ vārdu.
+  Beigās pilnībā atbrīvojos no mainīgā Game. Tiešām nedomāju ka tik ātri
+ tikāu ar to galā.
+  Izveidoju objektiem skaņu kanālus.
+30-08-2001
+  Pabeidzu darbu pie objektu skaņu kanāliem.
+  Atradu kļūdu ar rullējošām tekstūrām un gaismām.
+  Līmeņa apdeitā izmantoju ātrāku salīdzināSanu.
+  Atbrīvijos no atmiņas caurumiem pēc startupa.
+  Fināla teksts LINUX versijai.
+31-08-2001
+  Progžos izmetu ārā vektoru makro.
+  Pievienoju anisotropo filtrāciju.
+  Pilns bāzes spēles skripts. Arī spēļu identifikācijai ir ārējs skripts.
+01-09-2001
+  Salaboju "gibs" modeli spēlētājam.
+03-09-2001
+  OpenGL partikļu efekts izmantojot GL_EXT_point_parameters.
+  Pārdēvēju model.cpp par r_model.cpp, salaboju modeļu kešošanu.
+04-09-2001
+  Daži zīki labojumi.
+  Nolēmu laist klajā.
+
+******************************************************************************
+                            VERSIJA 1.9
+******************************************************************************
+
+05-09-2001
+  Atradās pāris problēmas kompilējot Linux-am kā ārī neliels gļuks Windows
+ versijā.
+06-09-2001
+  Nolēmu paskatīties kādas īsti izmaiņas kodā rada exceptions un RTTI. Protams
+ ka exceptions nemaina neko klasēs, bet gan pievieno kaudzi leiblu un kaut
+ kādus tur vēl datus. RTTI izmaiņas ir tikai klasēs ar virtuālajām funkcijām
+ jur virtuālo funkciju tabulā tiek pievienota vēl viena funkcija, kura citādi
+ ir nulles pointeris. Jāsāk tas viss izmantot.
+08-09-2001
+  Izmēģināju glBSP plugin-u. viss strādā normāli. Pagaidām tas ir tikai kā
+ konsoles komanda.
+  Sāku pārveidot glVIS lai izveidotu plugin-u. Tas tiks realizēts kā C++ klase
+ ar virtuālajām funkcijām. Kļūdas gadījumā tiks izmests exception.
+10-09-2001
+  glVIS plugin-s ir gatavs, pievienoju pie Vavoom, viss strādā. Arī konsoles
+ komanda.
+11-09-2001
+  Windows OpenGL versijā pievienoju loga režīmu.
+12-09-2001
+  glVIS plaugin-ā nolēmu Malloc un Free izveidot kā funkcijas pointerus darba
+ ātruma dēļ.
+13-09-2001
+  Pārstrādāju wad failu moduli, katrs wad fails ir kā objekts un ir ļoti
+ viegli pievienot gwa failu.
+14-09-2001
+  Pievienoju dinamisko gwa failu veidošanu.
+  Direct3D versijā pārgāju uz DirectX 8 izmantojot ifdefus lai varētu pāriet
+ atpakaļ. Pāc pāris stundām viss bija kārtībā un strādāja. Bet tagad aliktās
+ ziņas - tas ir lēns. Rendēšanas ātruma tests deva sekojošus rezultātus:
+   DirectX 8 -  9,4 FPS
+   DirectX 7 - 17,9 FPS
+   OpenGL    - 31,2 FPS
+ Tas tikai apliecina to, par cik OpenGL ir pārāks.
+15-09-2001
+  Sāku pārstrādāt kompilātoru. Pievienotas klases, var tikt definētas metodes
+ kuras var izmantot this pointeri. Metodes vāl nav klases sastāvdaļa.
+17-09-2001
+  Salaboju glBSP poliobjektu noteikšanu, vēl ir palikušas pāris nianses.
+  Paņēmu no vcc preprocesoru, izveidoju to kā bibliotēku un pievienoju pie
+ vcc. Vairs nav vajadzīgs cits kompilātors lai kompilētu progžus.
+  Pievienotas metodes pie klasēm, metodes var izmantot klases parametrus pa
+ tiešo, metodes var izsaukt. Arī jauns mainīgā tips classid. Klasu informācija
+ ir pievienota virtuālās mašīnas failam.
+  Saņēmu piedāvājumu pievienoties Korax-Heritage projektam.
+18-09-2001
+  Pievienoju modeļus no Korax-Heritage projekta.
+  Izveidoju utilītu ar kuru var apdeitot failus nesačakarējot logus.
+  Iznākusi jaunākā Allegro versija kurā ir izlabotas manis pieteiktās kļūdas.
+  ģlBSP pluginā sākot jaunu karti tiek pārzīmēts viss ekrāns.
+  Pievienoju atbalstu TGA modeļu ādām.
+  Progžu klasēs virtuālās tabulas sākumā pievienoju informāciju par klasi -
+ tās id un izmēru.
+  Sāku izmantot klases progžos un pārbaudīt kā tās strādā.
+19-09-2001
+  Atbrīvojos no degenmobj_t. ACS domātāja klase ir definēta progžos.
+20-09-2001
+  Salaboju pārdefinētās metodes.
+  Salabiju zīmējumu palielināšanu kad viena dimensija nemainās, tagad visi
+ zīmējumi tiek palielināti un nevis tiek pievienota tukša vieta.
+  Windows OpenGL versijā beidzot ir kļūdas message box.
+  Endžinē vairs netiek rezervēta vieta papildus laukiem, tagad tiek izmantots
+ progžu klases izmērs.
+21-09-2001
+  Pārveidoju seivošanu, dzinī atbrīvojos no special_t.
+  Sāku sadalīt special atsevišķās klasēs. Ar Doom ir pabeigts. Pie reizes es
+ arī pārveidoju to visu uz peldošā komata laika izmantošanu.
+24-09-2001
+  Pabeidzu ar Heretic un Hexen.
+25-09-2001
+  Straifā nolēmu pāriet uz Hexen formātu vienkārši pārkopējot visu no Doom.
+  Aizvietoju menu konsoles funkcijas ar vienu funkciju, kurā tiek iedots menu
+ vārds tādējādi progžos var pievienot jaunus menu, kurus var izsaukt ar kāda
+ taustiņa palīdzību.
+  Pievienoju atbalstu bāzes klases metodes izsaukšanai.
+26-09-2001
+  Pārveidoju LavaInflictor par pointeri.
+  Sāku ieviest atbalstu līmeņa objektu tipiem.
+  makeinfo utilītā pievienoju efektus, statiskās gaismas un objektu augstumu
+ koriģēšanu.
+27-09-2001
+  Katram objekta tipam ir sava klase.
+  Pirmais baga reports SourceForge lapā. Neliela problēma ar ievada līnijām -
+ māģinot ievadīt informāciju uzkarās. Viss ātri tika salabots.
+  Izlaista jauna glBSP versija. Poliobjektu kodu viņš tomēr pats salaboja.
+28-09-2001
+  Pārslēdzos uz jauno glBSP. Tomēr dažus poliobjekta sektorus neatrod.
+29-09-2001
+  Iespēja definēt metodes iekš klases deklarācijas.
+  Neliels uzlabojums lai paātrinātu kompileri. Diemžēl nav neko ātrāks.
+  Aktīvo domātāju pointeri ir kā pievienotie lauki.
+01-10-2001
+  Objektu stāvokļu maiņas funkcijas pārmesu uz katru spēli.
+  Sāku pārstrādāt statusbāru.
+02-10-2001
+  Preprocesors veido izejas failu atmiņā.
+  Statusa bārs pārstrādāts.
+03-10-2001
+  Atbrīvojos no pāris warning-iem.
+  Izlaboju gļuku Hexen-ā, kad neatrodoties uz zemes kustējās pilnā ātrumā.
+04-10-2001
+  Atdalīju atsevišķi paziņojumu tekstu un centra teksta funkcijas.
+  Implementēju atliušos konsoles mainīgo karodziņus.
+  Konfigurācijas fails tiek saglabāts izmantojot strīmus.
+05-10-2001
+  Sāku zimantot exception-us.
+  Dažādas klienta un servera līmeņu struktūras.
+  Konsole tiek zīmēta ar mazākiem burtiem.
+  Četri va buferi.
+  Pārnesu visu no v_draw.cpp uz r_ moduļiem.
+  Saņemot servera informāciju klients nomet signons uz 0, vairs nav vajadzīga
+ komanda Reconnect.
+  Atrisināju problēmu ar objektu z-koordināti virs ūdens.
+  Nezīmeju tekstūru 0.
+06-10-2001
+  Radās vēlme sākt savu līmeNa redaktoru, ko es arī sāku realizēt. Protams
+ zīmēšanai es izmantoju OpenGL. Izskatās jauki.
+  Atbilde no Korax-Heritage puišiem ar jautājumu kā izveidot slīpās virsmas
+ un 3D-grīdas, būs jāraksta dokumentācija.
+08-10-2001
+  Pārdēvēju p_info.cpp par mapinfo.cpp ar attiecīgu header failu.
+  Dzinis tagad atgriež pointeri uz serveru sarakstu, dzinī tas tagad ir tīkla
+ daļā.
+09-10-2001
+  Pievienoju debesu zīmēšanas sākšanas un beigšanas metodes.
+  Salaboju līmeņu ielādi no atsevišķiem failiem.
+  Pēc noklusēšanas klasei nevar izmantot lauku pievienošanu.
+  Uzlaboju statistiku sūtīšanu.
+  Salaboju slēdžu skaņu.
+  Progžos katra spēle definē savu mobj_t. Statiskās gaismas pārnesu uz katras
+ spēles progžiem. Serverim ir savs definīciju fails.
+10-10-2001
+  Kā apsolīju RambOrc, ieviesu spraitu zīmēšanu līdzīgi kā DoomsDay dzinī.
+  Papildinājumi pie MAPINFO skripta. Tiek definēts noslēpuma līmenis, debesu
+ kubs un, pats interesentākais, līmeņu nummuru norādes uz līmeņu vārdiem.
+  Hexen sāk spēli līmenī ar warptrans 1 (kā oriģināli).
+  Debesu dati salikti struktūrā.
+  Skripti devmodē tiek lādēti no faila.
+  Iedevu Korax' Heritage komandai testēšanai ala versiju.
+11-10-2001
+  Uzātru roku uzcepu utilītu, kas pārveido tekstūru sarakstu par skriptā un
+ otrādi.
+12-10-2001
+13-10-2001
+  Atbalsts ādām ar jebkuru paleti.
+  Atsevišķa klase raķetēm.
+  Iespēja atslēgt dinamiskās gaismas.
+  Miglas parametru konsoles mainīgie.
+15-10-2001
+  Hexen progžos dažas fizikas funkcijas ir metodes. Raķešu klasei ir savas
+ fizikas metodes.
+  Pēc noklusēšanas ir izslēgta Quake modeļu gaismošana.
+  Pilns TGA faila visu zināmo formātu atbalsts, TGA skrīnšoti.
+16-10-2001
+  Izveidoju debesu kuba skriptu, viss strādā perfekti.
+  Nedaudz uzlaboju slīdēšanu uz slīpām virsmām.
+  Radās vēlme pāriet uz peldošā komata leņķiem.
+17-10-2001
+  Spēlētāja skatīšnās leņķi caur spēlētāja struktūru.
+  Klienta pusē tiek izmantoti peldošā komata leņķi.
+  Vairs neslīd uz ne pārāk slīpām virsmām.
+  Hexen vēl pāris domātāji izmanto peldošā komata laiku. Vēl ir palikšu tikai
+ poliobjektu rotēšanas domātāji, kuriem vispirms derētu peldošā komata leņķi.
+  Miglas konsoles mainīgie ir kopīgi.
+  Atradu kļūdu glBSP kuras dēļ tika sapists REJECT.
+18-10-2001
+  glVIS tagad arī veido REJECT datus, ja GL-nodi ir wad failā.
+19-10-2001
+  Objektā tipa nummurs aizvietots ar klases identifikātoru.
+  Sāku pilnu leņķu floatifikāciju. Pilnībā pabeidzu dzini, rpogžos visas
+ iebūvētās funkcijas izmanto peldošā kamata leņķus. Doom progži jau strādā.
+20-10-2001
+  Pabeidzu ar leņķiem pārējās spēlēs.
+22-10-2001
+  Pilnībā atbrīvojos no veco leņķu paliekām.
+23-10-2001
+  Pievienoju vēl pāris Heretic un Hexen modeļus.
+  Pēc lūguma ieviesu gammu OpenGL un Direct3D draiveros.
+24-10-2001
+  Hexen nolēmu nedaudz savādāk izmantot objekt-orientāciju fizikā.
+  Vavoom C atbalsts konstruktoriem un destruktoriem.
+25-10-2001
+  Iespēja definēt papildus konsoles mainīgos.
+  Praktiski visas Hexen fizikas funkcijas ir metodes.
+  Dabūju Cammand & Conquer: Yuri's revenge - tas būs uz kādu nedēļu.
+27-10-2001
+  Nelielas problēmas ar tekošo glVIS versiju, kuras tika ātri izlabotas.
+29-10-2001
+  DamageMobj ir metode.
+31-10-2001
+  Pārstrādāju debesu zīmēšanu.
+02-11-2001
+  Pabeidzu debesis.
+06-11-2001
+  Piebeidzu Yuri's revenge - labais!
+  Objektu lauki tiek inicializēti konstruktorā.
+  Sāku darbu pie referenču ieviešanas vcc.
+07-11-2001
+  Klasu references strādā normāli.
+08-11-2001
+  Pārnesu ievada līnijas funkcijas uz progžiem.
+  Atradu kļudu kuras dēļ izmeta bojātu tīkla paketi.
+  Pievienoju "spekulārās" gaismas.
+  Pievienoju funkcijas failu saraksta iegūšanai. Seivgeimi tagad atrod visus
+ līmeņus, arī tos ar nestandarta nosaukumiem.
+09-11-2001
+  Sagatavoju visu relīzei - testēju, pielaboju sīkas kļūdiņas, aploudoju to
+ visu iekš CVS un rakstu dokumentāciju.
+10-11-2001
+  Relīze. Galvenokārt dokumentācijas rakstīšana.
+
+******************************************************************************
+                            VERSIJA 1.10
+******************************************************************************
+
+26-11-2001
+  Tikko pabeidzu Deus Ex - baigi labais.
+  Nedaudz paātrināju kompilātoru.
+  Windows versijā konsoles mainīgie sistēmas taustiņu un augstās prioritātes
+ atslēgšanai.
+  Iespēja ielādēt skripta testa pakotni.
+  Nolēmu skriptā ieviest atslēgvārdu self, kas būs reference uz objektu.
+27-11-2001
+  MSG_Select vietā tagad ir divas funkcijas.
+  Nolēmu ieviest bāzes klasi visiem skripta objektiem.
+  Sāku praktiski izmantot objektu references, atslēgvārds self arī strādā.
+  Sāku visos skriptos pārveidot fizikas funkcijas par metodēm.
+  Ieviesu speciālu tīkla draiveri botiem. Normāli tika radīts bots. Tikai
+ pašlaik viņš neko nedara.
+  Nokačāju DeusEx SDK, rīt būs jāpamēģina.
+28-11-2001
+  Atkal uzinstalēju MSVC. Pamēģināju kompilēt, atradās pāris kļūdas.
+  Ieviesu none kā tukšo referenci.
+  Turpinu pārveidot Doom fizikas funkcijas par metodēm.
+  Normāli noinstalēju DeusEx SDK, ekstraktēju skriptu kodus. Būs kur smelties
+ informāciju AI veidošanā.
+29-11-2001
+  Papildināju plakni ar papildus laikiem.
+  Sāku pārstrādāt menu.
+  Arī Heretic un Strife fizikas funkcijas ir metodes.
+30-11-2001
+  Atklāju nopietnu problēmu ar mantotās funkcijas izsaukšanu. Vecāka virtuālā
+ funkcija neko nedod - gluži pretēji, izsaucot vecāka funkciju kura savukārt
+ izsauc tās vecāka funkciju īstenībā izsauc sevi, kā rezultātā tur viss ņem un
+ ieciklojas. Tas arī bija iemesls kāpēc mani pārveidojumi Hexen neizdevās.
+ Radās ideja konstruktorā un destruktorā iedot virtuālo tabulu kā parametru,
+ bet citām metodēm tas nederēs.
+  Mēģināju tālāk pārveidot menu, bet augšminētā iemesla dēļ tas neizdevās.
+01-12-2001
+  Atrisināju vakar atrasto problēmu ļoti vienkāršā veidā - izsaucot pa tiešo.
+  Ieviesu VObject, veidošu struktūru līdzīgi Unreal dzinim.
+  Tīkla spēlē atdzimstot bija šķībs ekrāns - atrisināts.
+03-12-2001
+  Bija vajadzīgs vēl viens operāciju kods, kad netiešas izsaukšanas funkcijas
+ parametrs ir vektors.
+  Skriptos konstruktors vietā tiek izmantots defaultproperties.
+  Sāku pievienot SkullTag botus.
+04-12-2001
+  Salaboju spēlētāju modeļus, tagad līķiem saglabājas modelis un āda.
+  Boti strādā. Tas ir cool! Kaut gan īpaši sajūsmā par viņu intelektu es
+ neesmu.
+  Salaboju MSVC savietojamību, ar MSVC normāli kompilējas un strādā.
+05-12-2001
+  Skatos kautko priekš VObject.
+  Nedaudz piestrādāju pie kompilatora.
+06-12-2001
+  Pievienoju dinamisko masīvu sagataves klasi. Tā ir ļoti laba lieta. Ar kuru
+ ļoti viegli var atbrīvoties no ierobežojumiem.
+07-12-2001
+  Pateicoties dinamiskajiem masīviem atbrīvojos no animāciju un slēdžu skaita
+ ierobežojumie.
+  Sāku pārveidot stāvokļu funkcijas par metodēm. Izmantojot tiešo funkcijas
+ numuru nav atšķirīibas.
+08-12-2001
+  Turpinu darbu pie stāvokļu funkciju pārveidošanas par metodēm. Ar Doom
+ tākā būtu pabeights.
+10-12-2001
+  Stāvokļu funkciju pārveidošana par metodēm turoinās pie citām spēlēm.
+11-12-2001
+  Atdalīju atsevošķi ieroču stāvokļus, funkcijas ir ieroča objekta metodes.
+13-12-2001
+  Skriptā nomainīju atslēgvārdu extern pret native.
+  Skriptos atbalsts dinamiskajai tipu maiņai. Windows-ā negrib strādāt.
+  Pārveidoju CVar_ funkcijas par statiskām TCvar metodēm.
+  Salaboju kāršanos pēc plakņu struktūras paplašināšanas.
+  Domātāju saraksts bez VThinker objekta izmantošanas.
+  Skripta koda patčošana.
+  VObject kods tiek ieviests praksē.
+14-12-2001
+  Viss ko skriptu kodā var nopatčot ir nopatčots.
+  MSVC pievienoju asemblera failu kompilēšanu.
+  Sāku lietot praksē VClass objektus, tipu identifikācija izmantojot klases.
+15-12-2001
+  Man nedeva mieru viena lieta - Windows normāli izsauc iebūvētās funkcijas,
+ tādējādi es pamēģināju atrisināt C++ funkcijas tiešās izsaukšanas problēmu
+ izmantojot netiešo izsaukšanu. Rezultāts - veiksmīgs.
+  Visas skripta izpildes metodes ir statiskas, objektu spaunošana nav TProgs
+ sastāvdaLa. Korekti tiek reģistrētas un izmantotas iebūvētās klases.
+17-12-2001
+  Visām spēlēm pievienoju poliobjektus.
+  Pievienoju FArchive, nedaudz pārveidoju seivošanu.
+  Izmantoju savas vecās AngleMod metodes, jo tās ir precīzākas.
+18-12-2001
+  Lielākā daļa Hexen līniju speciālo funkciju ir visās spēlēs.
+  Pievienoju globālu nosaukumu apakšsistēmu.
+20-12-2001
+  Atbrīvojos no thinker-u saraksta.
+  No Entity izmetu ārā type, jo tā vietā var izmantot lauku Class vai metodi
+ IsA.
+  Pievienoju miskastes savākšanas sākuma variantu. Metode Destroy neiznīcina
+ uzreiz, bet gan marķē objektu kā iznīcinātu un reālā iznīcināšana notiek
+ miskastes savākšānas laikā.
+  Izmetu no skriptiem destruktorus un C++ stila konstruktorus, kā arī visu
+ lieko no virtuālo funkciju tabulas.
+21-12-2001
+  Pabeidzu lauka type izmešanu. Atdalīju VClass atsevišķā failā. Salaboju
+ seivošanu, classid lauki tiek korekti apstrādāti.
+22-12-2001
+  Visi spēles laikā izmantotie funkciju numuri un globālo mainīgo indeksi
+ tiek atrasti ielādes laikā.
+27-12-2001
+  Skriptā spawnhealth tagad tiek inicializēts funkcijā OnMapSpawn.
+  Atradu kāpēc tik daudz tiek lietots strcmp - 2D zīmējumu informācijas
+ iegūšanā, pārveidoju tā, lai informācija tiktu lasīta tikai vienreiz. Arī
+ CheckHeap prasa daudz.
+28-12-2001
+  Spēlētāja informācija tiek sūtīta tikai savienojuma sākumā.
+  Pāris sīki labojumi pēdējā brīdī.
+  Pārsteidzoši ir tas, ka relīzes versijā līmeņu ielāde ir daudz ātrāka.
+
+******************************************************************************
+                            VERSIJA 1.11
+******************************************************************************
+
+02-01-2002
+  Salaboju Straifa galveno menu.
+  Pievienoju guard makors.
+  glVIS pārslēdzos no float uz double.
+03-01-2002
+  Salaboju ieročus.
+  Pievienoju SDL portu.
+04-01-2002
+  Salaboju šķībo ekrānu pēc nāves.
+  P_CheckSight pievienota aizsardzība kas atrisina problēmas ar botiem.
+07-01-2002
+  Izmainīju autortiesību gadu.
+  glBSP izmaiņas poliobjektu kodā.
+08-01-2002
+  Pievienoju vcc nosaukumu apakšsistēmu.
+09-01-2002
+  Pievienoju atbalstu EDGE 3D grīdām.
+  Sāku izmantot nosaukumus progs failā un kompilātorā.
+10-01-2002
+  Pamēģināju nokompilēt ar MinGW. Diemžēl nav skaņas, Direct3D nemēģināju. Bet
+ galvenā problēma ir tā, ka ir vajadzīgs -fvtable-thunks, kas nozīmē ka ir
+ jāpārkompilē libstdc++.a, tādēļ atbalsts MinGW pagaidām nebūs.
+  Skriptā pievienoju vārdu tipu "name", izmetu ārā atbalstu skaitļiem bez
+ zīmes.
+  Skaņu saraksts kā dinamisks masīvs, izmanto vārdu sistēmu.
+11-01-2002
+  Pievienoju dinamisko simbola virkņu klasi.
+  Sāku izmantot nosaukumus skriptā. Visi spraitu, modeļu, skaņu un sekvenču
+ vārdi ir ar nosaukuma tipu.
+12-01-2002
+  Objektu skaņas tiek inicializētas ar nosaukumu palīdzību.
+  Stāvokļu tabulās aizvietoju funkcijas pointeri ar stāvokļa kodu.
+  Aizvietoju pāris C stila tipa pārveidošanas ar diamisko tipu pārveidošanu.
+14-01-2002
+  Līmeņa speciālu kodā aizvietoti daudzi pointeri ar referencēm.
+  Ieviesu relatīvo un absolūto pozīcijas pārbaudi.
+15-01-2002
+  Pārnesu visu no Entity uz Actor, sākšu veidot Entity kā kopēju klasi.
+  Pārdēvēju objektu laukus uz vārdiem ar lielo sākuma burtu.
+  Viens puisis ieteica pāris uzlabojumus. Nav slikti.
+16-01-2002
+  Pāris uzlabojumu sakarā ar P_TouchSpecialThing. Augstums tiek pārbaudīts
+ iepriekš un atbilst priekšmeta augstumam.
+  Hexen pārdēvēju objektu klases. Baigais darbs.
+17-01-2002
+  Pārdēvēju objektu klases pārējās spēlēs. Atšķirība no Hexen ir ļoti jūtama.
+  Objekta nummurs līmeņa redaktorā tagad tiek norādīts klases definīcijā.
+  Izlaboju kļūdas ar Hexen klasēm un Heretic un Hexen statusbāriem.
+18-01-2002
+  Sāku darbu pie atbrīvošanās no C stila tipu maiņām, citiem vārdiem sakot
+ pie menu.
+19-01-2002
+  Turpinu darbu pie menu. Lielākā daļa menu ir mantotas no MenuScreen.
+ Ieviesu izvēles bāzes klasi un izvēļu sarakstu.
+  Windows versijā salaboju 32 bitu režīmu.
+21-01-2002
+  Pilnībā visi menu ir mantoti no MenuScreen.
+  Menu kursors kā atsevišķs objekts.
+  Klasu konstruktori bez nosaukumiem.
+  MSVC nevajadzīgie warning-i tiek aizliegti.
+22-01-2002
+  Menu nosaukuma objekts. Lielākā daļa izvēļņu tipu kā objekti.
+23-01-2002
+  Pabeidzu darbu pie menu. Pareizāk sakot - pagaidā. Visi izvēļņu lauki ir kā
+ objekti. Bet pats galvenais kādēļ es to darīju bija atbrīvošanās no C stila
+ tipu pārveidošanas. Nu tas ir izdarīts un kompilātors to vairs neatbalsta.
+24-01-2002
+  Atdalīju Entity klasi atsevišķā kopējā failā, pievienoju stāvokļa maiņas
+ funkcijas.
+  Pievienoju Touch funkciju Actor klasei.
+  MF2_PASSMOBJ aizvietoju ar inversu flagu MF2_NOPASSMOBJ.
+  Johaidī! 35 kadru imitācija serverī tiešām radīja "lēnās kustēšanās" efektu.
+ Nomainot kadra laiku uz drusciņ palielinātu laiku atrisināja šo problēmu.
+25-01-2002
+  Kaudze funkciju pārveidotas par Actor funkcijām.
+  Vismaz viens cilvēks bija ļoti ieinteresēts dzirdot par "lēnās kustības"
+ baga izlabošanu. Un tas patiešām ir labs iemesls izlaist jaunu versiju kurā
+ visi atrastie bagi ir izlaboti. Domāju to izdarīt rīt.
+26-01-2002
+  Pievienoju konsoles mainīgos DirectSound3D parametriem.
+  Tika laista klajā versija 1.11.2.
+  Salaboju dinamisko tipu pārveidošanu.
+29-01-2002
+  Salaboju superšotgana vertikālo rotāciju.
+  Kaudze funkciju ir Actor funkcijas, aizvietoti kaudze pointeru ar klasu
+ referencēm.
+  Visām spēlēm ir MCROSS un PCOSS flagi.
+  Heretic salaboju podu teleportāciju.
+  Salabiju Hexen līmeņu mūziku.
+  Uzlaboju response failus.
+  Pievienoju DirectSound3D minimālo distanci un problēma tika atrisināta.
+  Salaboju spēlētāju objektu apdeitu.
+30-01-2002
+  Iebūvētās funkcijas var tikt definētās klases definīcijā.
+  Utilītos aizvietoju pointerus ar referencēm.
+  Salaboju Hexen statusbāra tīkla spēles gemus.
+  Dzinī FFunction pointeri visur tiešām ir FFunction pointeri un nevis int
+ mainīgie.
+01-02-2002
+  Salaboju pārāk garos Heretic fināla mesidžus.
+  Salaboju lidošanas pārtraukšanu.
+  TeleportNewMap bez argumentiem nestrādā, ja nav starp līmeņiem. Tam būtu
+ jāatrisina problēma tīkla spēlē kad pārlec līmeņiem.
+  Iespējams ka iemesls kāpēc atsevišķajam klientam ir jāpieslēdzas no jauna
+ ir tas ka sūtot servera informāciju tīkla sokets ir aizņemts.
+  Sākuma versija ddf2vc konverterim var tikt nokompilēta.
+02-02-2002
+  Iterātoru funkcijās klasu pointeri aizvietoti ar referencēm.
+04-02-2002
+  Sāku sadalīt flagus boolean mainīgajos. Pagaidām tie ir 4 baitu mainīgie un
+ šī darbība ļoti palielinās struktūru izmērus, bet brīzumā tiks ieviesti bool
+ mainīgie.
+05-02-2002
+  Turpinu ar flagiem.
+  Pievienoju Hexen botus.
+06-02-2002
+  Pabeidzu ar flagiem.
+  Salaboju vadības taustiņu menu kursoru kā arī noklusēto kursora pozīciju
+ grūtības pakāpes menu.
+07-02-2002
+  Pārnesu CheckPosition un Entity failu.
+08-02-2002
+  Atbrīvojos no spraitu vārdu konstantēm. Piestrādāju pie P_CheckRelPosition.
+  Forumā viens iedeva linku kur var nokačāt pilnu Strife.
+09-02-2002
+  Nokačāju Strife, būs nekavējoties jāiziet.
+13-02-2002
+  Pabeidzu Strife, vienkārši super spēle, tas nekas ka grafika ir novecojusi
+ un ievads nav īpaši ērts neskatoties uz to ka vecie Doom laiki tika pavadīti
+ ar šādu ievadu.
+  Pārdēvēju parametru origin uz Origin.
+  Strife versijā 1.2 ir izmainīts sarunu skriptu formāts. Tajā ir iekļauts
+ bildes un skaņas vārds.
+14-02-2002
+  Vārdu pārdēvēšana visiem pārējiem Entity laukiem. Pievienoju lauku Sector
+ un flagu bIsPlayer. Pievienoju StepSpeed, jo tas nav gluži ātrums bet gan
+ soļa izmērs.
+  Salaboju Hexen minotauru.
+  Salaboju botus pēc līmeņa maiņas.
+15-02-2002
+  Izmetu ārā iepriekš atrastos skaņu indeksus.
+  Pāris uzlabojumi Strife.
+  PārdEvēju laukus dzinī.
+16-02-2002
+  Ieviesu bool mainīgos.
+  Pievienoju līniju teleportus un caurredzamas līnijas.
+  Ceru ka salaboju problēmu kad ne-lokālie klienti nemainīja līmeni.
+18-02-2002
+  player_t un ViewEntity lauku pārdēvēšana, skaņas funkcijas pieder Entity.
+ Aizvācu no stāvokļu tabulas misc1 un misc2 laukus, bet beigās vairs nekas
+ neiet.
+19-02-2002
+  Atradu kļūdu kāpēc kārās.
+20-02-2002
+  Strife tagad pievieno arī voices.wad.
+21-02-2002
+  P_CheckRelPosition ir kopīgs.
+22-02-2002
+  Pārējo Actor un player_t lauku pārdēvēšana.
+23-02-2002
+  Kaudze funkciju tagad ir Actor funkcijas.
+25-02-2002
+  Kompilātorā pievienoju speciālo lauku tipu informācijas eksportu. Atklāju
+ ka Hexen virtuālās tabulas aizņem pusmegabaitu. Sadalīšana klasēs šo skaitli
+ noteikti samazinās.
+26-02-2002
+  Salaboju Hexen tīkla spēles menu un citas menu problēmas.
+  Spēļu seivošana izmanto lauku tipu informāciju, vārdi, references un klasu
+ pointeri tiek apstrādāti automātiski.
+  Aizvietoju target ar Enemy un Owner, meklētājraķetes tagad var izmantot
+ Target kā mērķa pointeri.
+27-02-2002
+  Ieviesu ieroču klases. Hexen tās ir smuki sakārtotas.
+  Pievienojot spekulārās gaismas tiek atslēgta migla.
+28-02-2002
+  Lietotāja interfeisā pievienoju Pad-Enter atbalstu.
+  Pārdēvēju Enemy atpakaļ uz Tatget.
+  Sakārtoju ieroču klases Heretic un Strife.
+  Pievienoju komandu MapList.
+01-03-2002
+  Sāku sakārot Hexen monstru klases savos failos.
+  Uzlaboju redzamības pārbaudi ar trīs stariem.
+02-03-2002
+  Principā esmu beidzis ar Hexem monstru klasēm.
+04-03-2002
+  Ieviesu flagus bColideWithWorld un bColideWithThings.
+  Mainot līmeni pazuda ierocis. Iemesls izrādās bija tas, ka mainot līmeni
+ tiek pa jaunu inicializēti ieroču spraiti un boti. Pievienoju jaunu funkciju
+ PutClientIntoServer kurā tiek inicializēti ieroču spraiti un boti, un tas
+ notiks tikai vienu reizi.
+  Hexen atdalīju atsevišķi spēlētāju objektu definīcijas.
+05-03-2002
+  Pievienoju visu nepieciešamo atbalstu iebūvēto funkciju definēšanai ārpus
+ pr_cmds.cpp.
+  Entity tagad ir iebūvēta klase, tās funkcijas ir iebūvētas.
+06-03-2002
+  Gravitāte ir atkarīga no masas. Gravitātes funkcija ir iebūvēta.
+07-03-2002
+  Atbrīvojos no funkciju pointeriem. SetState ir iebūvētas, pārējās izmanto
+ funkcijas vārdu.
+  Salabiju "Tome of power"
+08-03-2002
+  CheckOnMobj ir iebūvēts.
+09-03-2002
+  Hexen pāris mainīgie pārnesti no Actor us Pawn. ThrustFloor klases pārnestas
+ uz savu failu. Izveidoju klasi Pickup.
+11-03-2002
+  Klasēm var lietot atslēgvArdus abstract un native.
+  cprint nav vajadzīgs \n beigās.
+  Nodarbojos ar Hexen paceļano objektu sakārtošanu. Pagaidām viss ir pārnests
+ uz inter.vc kurā arī tiek veidotas kopējās bāzes klases.
+12-03-2002
+  Pabeidzu ar Hexen paceļamājiem priekšmetiem.
+14-03-2002
+  Pamatīgs darbs pie Hexen. Pilnībā atbrīvojos no mobj_t.
+15-03-2002
+  Heretic ieviesu Pawn klasi.
+16-03-2002
+  Pievienoju speciālu operācijas kodu virtuālās funkcijas ielikšanai stekā.
+  Kaudze funkciju no user.vc un usersubs.vc is PlayerPawn funkcijas.
+  Uzskaistinājumi Doom.
+  Izlaidu trešo beta versiju.
+18-03-2002
+  Izveidoju utilītu tekstūru pārdēvēšanai priekš Korax' Heritage.
+19-03-2002
+  Darbs ar Heretic paņemamajiem priekšmetiem.
+  Pievienoju atbalstu DeepSea augstajiem patčiem.
+  Mēģināju ieviest atbalstu tekstūru izmēru koeficientiem. Kautkas sadalīšanā
+ nestrādā.
+20-03-2002
+  Visās spēlēs atbrīvojos no mobj_t, cik iespējams funkcijas pieder klasēm.
+ Arī klasu pointeri tiek aizvietoti ar referencēm. Arī nolēmu tomēr pārdēvēt
+ Target par Enemy un Owner par Instigator.
+  Pa jaunu nohakoju Strife, šoreiz no reģstrētās versijas exe faila un atradu
+ ka ir pāris izmaiņas. Būs ko darīt pēc relīzes.
+21-03-2002
+  Salaboju Archvile bagu.
+  Salaboju Heretic menu slaiderus.
+  Salaboju negatīvos fragus.
+  Vienspēlētāja režīmā izmantoju četrreiz lielāku tīkla paketes buferi.
+  Daļēji atbrīvojos no texorg.
+  Atradu kļūdu poligonu sadalīšanā. Tekstūru izmēru koeficienti strādā.
+22-03-2002
+  Salaboju minotaurus tīkla spēlēs - vienkārši viņš tika uzreiz iznīcināts jo
+ bija atkarīgs no nomonsters.
+  Nolēmu tomēr kautko padarīt ar DDF konverteri. Sāku eksportēt objektu
+ klases.
+23-03-2002
+  Izlaidu ceturto beta versiju.
+25-03-2002
+  Doom un Strife pārveidoju itemu respaunu līdzīgi tam kā to dara Heretic un
+ Hexen.
+  Sakārtoju tekstūru palielināšanu. Pilnībā atbrīvojos no texorg.
+26-03-2002
+  Atbrīvojos no SetStateNF.
+  Pārveidoju Heretic sektoru speciālus ZDoom stilā.
+27-03-2002
+  Novācu pārbaudi uz objekta raķetēm.
+  Salaboju D'Sparil-a burvju izsaukšanu.
+  Salaboju Hexen nepareizos ieroču vārdus.
+  Uzlaboju Hexen gaismas speciālo funkciju.
+  Palielināju gaismas karšu tekstūru skaitu.
+  Pārbaudīju palielinātās tekstūras, strādā lieliski.
+28-03-2002
+  Pēdējais kas bija palicis no pārdēvējamajiem laukiem - mo player_t struktūrā
+ tika pārdēvēts.
+  Tika izlabotas vēl pāris kļūdas.
+
+******************************************************************************
+                            VERSIJA 1.12
+******************************************************************************
+
+08-04-2002
+  vlumpy pievienoju tga atbalstu un 15 bitu vpic veidošanu.
+11-04-2002
+  Tick funkcija.
+  TryMove iebūvēta.
+19-04-2002
+  Sāku darbu pie Strife datu tabulu apvienošanas. Dati tika ienesti makeinfo
+ utilītā.
+20-04-2002
+  Sāku darbu pie skripta. Ir viss nepieciešamais lai kompilētu.
+22-04-2002
+  Ieviesti līdz šim lietotie stāvokļu, priekšmetu un skaņu vārdi.
+  Apvienoti ieroči. Nekādu atšķirību.
+23-04-2002
+  Atradu iemeslu problēmai ar klipingu. Vienādībai var būt ļoti liela nozīme.
+  Sāku apvienošanu un sadalīšanu pa failiem. Salaboju pārdevēju spraitu krāsu
+ maiņu. Atdalīti zemnieki.
+24-04-2002
+  Pabeidzu ar zemniekiem, atdalīju pārdevējus, ubagus un rebelus.
+25-04-2002
+  Atdalīti sargi, Macils.
+26-04-2002
+  Atdalīti roboti.
+27-04-2002
+  Visi Strife monstri tākā būtu atdalīti.
+29-04-2002
+  Hexen bija sajaukti ūdens tipi.
+  Sakārtota Strife mūzika, ceru ka pareizi.
+  Strife ieviesu Pickup klasi.
+  Simbola virkņu, pareizāk sakot ofsetu, saglabāšana.
+02-05-2002
+  S_NULL tiek definēts klasē Entity.
+  Sāku pārkārtot Doom objektus. Visi objekti jau ir sadalīti failos.
+03-05-2002
+  Turpinu darbu ar Doom objektiem. Vairākas kopējas funkcijas tiek dublētas.
+ Arī līķu stāvokļi tiek dublēti.
+14-05-2002
+  Doom nebiju nomainījis PlayerPawn bāzes klasi uz Pawn, kā dēļ spēlētājs
+ nebija nošaujams.
+  Sāku eksperimentēt ar EAX.
+15-05-2002
+  EAX tiek aprēķināts telpas izmērs.
+  Sāku piestrādāt pie DDF atbalsta.
+  Pārkārtoju klases lai nebūtu nepieciešamība tās iepriekš pieteikt.
+  Pārdēvēju SpawnState uz IdleState.
+16-05-2002
+  Ar papildus flagiem atbrīvojos no skripta pamatkoda atkarības no monstru un
+ citām klasēm.
+17-05-2002
+  DDF tiek eksportēti ieroči.
+  Piestrādāju pie FArchive klases. Tagad tā ir globāla, var tikt izmantota
+ failu lasīšanai.
+18-05-2002
+  DDF korekti sākuma ieroči.
+  FArchive tiek izmantots demo ierakstīšanai un lasīšanai.
+  Speciāla funkcija spēles paziņojumu drukāšanai, tie vairs nav konsoles
+ paziņojumi un var netikt drukāti konsolē. Pievienoju klasi FOutputDevice,
+ kurai vajadzētu aizvietot iostream izveidošanu.
+21-05-2002
+  DDF ieviestas noklusētās vērtības samazinot izmērus. Ir gandrīz visi DDF
+ priekšmetu parametri.
+24-05-2002
+  Nolēmu sākt veidot logu sistēmu.
+25-05-2002
+  Izveodoju primitīvu GC klasi, pārnesu menu zīmēšanu caur šo klasi. Pamazām
+ veidoju Window klasi, kautkas baigi karās un es nevaru saprast kāpēc.
+27-05-2002
+  Atradu kāpēc kārās. Ieviesu logu linkoto listu.
+28-05-2002
+  Pievienoju logu tipu, clipinga taisnstūri, kurš pagaidām tiek izmantots
+ tikai zīēšnas pozīcijām. Pievienoju RootWindow. Zīmēšanu veic dzinis.
+29-05-2002
+  Logiem pievienoju Tick funkciju, atbrīvojos no menu laika.
+30-05-2002
+  Pievienoju logu jūtību.
+31-05-2002
+  Pievienoju ModalWindow klasi.
+06-05-2002
+  No DDF tiek eksportēti uzbrukumu tipi un gandrīz visi ieroču parametri.
+07-05-2002
+  Pārnesti visi parametri no DDFActor uz Actor, jo tie ir vajadzīgi arī
+ priekš PlayerPawn. Eksportēju benefitus. Strādājoši uzbrukumi. Vispār viss
+ konvertētais pamazām sāk strādāt.
+  Pārstrādāju priekšmetu pacelšanu.
+08-06-2002
+  Pamatīgi pārstādāti paņemamie priekšmeti. Tie tiek ieviesti DDF.
+10-06-2002
+  DDF priekšmeti strādā. Atbalsts stāvokļiem at citu uzbrukuma objektu.
+11-06-2002
+  Stāvokļi iekļauj sevī vārdu, tos var atrast pēc vārda.
+  Priekš DDF implementētas kaudze funkciju.
+  Salabots DeHackEd atbalsts.
+  Hexen atdalīti raķešu objekti.
+  Windows versijā GUID-i tiek definēti iekš sys_win.cpp.
+12-06-2002
+  Pievienotas vēl pāris funkciju priekš DDF.
+13-06-2002
+  Vēl pāris lietas priekš DDF - ieroču pārslēgšana, pārlādēšana, un vēl pāris
+ sīkumu.
+  Kompilātora eksportētajā klasu informācijā tiek ņemti vērā arī masīvi un
+ struktūras.
+14-06-2002
+  Pirms relīzes ir vēl pāris sīki labojumi.
+
+******************************************************************************
+                            VERSIJA 1.13
+******************************************************************************
+  

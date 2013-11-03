@@ -1,0 +1,24 @@
+03-01-2000
+  Sāku veidot. ACC faili ir direktorijā SOURCE1, QCC faili ir direktorijā
+ SOURCE2. Līdzīgi arī objektu faili ir direktorijās OBJ1 un OBJ2 un testa
+ programmas direktorijās TEMP1 un TEMP2. Kopīgie izejas faili būs direktorijā
+ SOURCE.
+04-01-2000
+  Izveidots kopīgs starta modulis dcc.c, kļūdu modulis error.c un dažādu
+ funkciju modulis misc.c. Lai atšķirtu kompilātorus, ACC izmanto definētu
+ ACC. Sāku veidot kopīgu token.c, sis fails ir kopīgs, un tā beigās tiek
+ iekļauts vecais fails token1.c, kurš katram kompilātoram ir atšķirīgs.
+ QCC izmetu ārā vektorus.
+05-01-2000
+  Lielākā daļa no token.c ir kopīga. No ACC token tipiem izmesti ārā visi
+ atslēgvārdi, sāku izmest ārā arī speciālos simbolus.
+06-01-2000
+  Izmesti ārā no token tipiem visi speciālie simboli. Principā token.c
+ galvenā daļa ir kopīga. Apvienots strlist.c, arī pcode.c operāciju koda
+ rakstīšana ir pieejama abiem. Sāku apvienot izteiksmju sadalīšanu.
+07-01-2000
+   Ir kopīga izteiksmju bloks. Konstantu izteiksmju aprēķināšana atdaīta
+  atsevišķi.
+08-01-2000
+  Ir gatava 1. versija.
+  

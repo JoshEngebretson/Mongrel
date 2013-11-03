@@ -1,0 +1,105 @@
+//**************************************************************************
+//**
+//**    ##   ##    ##    ##   ##   ####     ####   ###     ###
+//**    ##   ##  ##  ##  ##   ##  ##  ##   ##  ##  ####   ####
+//**     ## ##  ##    ##  ## ##  ##    ## ##    ## ## ## ## ##
+//**     ## ##  ########  ## ##  ##    ## ##    ## ##  ###  ##
+//**      ###   ##    ##   ###    ##  ##   ##  ##  ##       ##
+//**       #    ##    ##    #      ####     ####   ##       ##
+//**
+//**    $Id: PowerShadow.vc 4003 2009-03-04 20:08:00Z dj_jl $
+//**
+//**    Copyright (C) 1999-2006 Jānis Legzdiņš
+//**
+//**    This program is free software; you can redistribute it and/or
+//**  modify it under the terms of the GNU General Public License
+//**  as published by the Free Software Foundation; either version 2
+//**  of the License, or (at your option) any later version.
+//**
+//**    This program is distributed in the hope that it will be useful,
+//**  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//**  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//**  GNU General Public License for more details.
+//**
+//**************************************************************************
+
+class PowerShadow : PowerInvisibility;
+
+int				ShadowStage;
+
+//==========================================================================
+//
+//	HandlePickup
+//
+//	If player already has it, picking it up again makes him completely
+// ivisible.
+//
+//==========================================================================
+
+bool HandlePickup(Inventory Item)
+{
+	if (ShadowStage == 0 && Item.Class == Class)
+	{
+		Powerup Pow = Powerup(Item);
+		//	Permanent powerups can be always picked up.
+		if (!Pow.EffectTime)
+		{
+			Item.bPickupGood = true;
+			return true;
+		}
+		//	Only increase effect time.
+		if (EffectTime < Pow.EffectTime)
+		{
+			EffectTime = Pow.EffectTime;
+		}
+		//	Go to stage 2
+		ShadowStage = 1;
+		Item.bPickupGood = true;
+		return true;
+	}
+
+	if (Inventory)
+	{
+		return Inventory.HandlePickup(Item);
+	}
+	return false;
+}
+
+//==========================================================================
+//
+//	InitEffect
+//
+//==========================================================================
+
+void InitEffect()
+{
+	Owner.RenderStyle = ShadowStage == 0 ? STYLE_Translucent : STYLE_None;
+	Owner.Alpha = ShadowStage == 0 ? 0.25 : 0.0;
+	EntityEx(Owner).bShadow = true;
+}
+
+//==========================================================================
+//
+//	GetViewEntRenderParams
+//
+//==========================================================================
+
+void GetViewEntRenderParams(out float OutAlpha, out int OutRenderStyle)
+{
+	if (EffectTime > PlayerEx::BLINKTHRESHOLD ||
+		(ftoi(4.0 * EffectTime) & 1))
+	{
+		OutRenderStyle = STYLE_Translucent;
+		OutAlpha = 0.25;
+	}
+	if (Inventory)
+	{
+		Inventory.GetViewEntRenderParams(OutAlpha, OutRenderStyle);
+	}
+}
+
+defaultproperties
+{
+	EffectTime = 55.0;
+	bHubPower = true;
+}

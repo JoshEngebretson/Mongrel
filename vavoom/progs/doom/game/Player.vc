@@ -1,0 +1,419 @@
+//**************************************************************************
+//**
+//**    ##   ##    ##    ##   ##   ####     ####   ###     ###
+//**    ##   ##  ##  ##  ##   ##  ##  ##   ##  ##  ####   ####
+//**     ## ##  ##    ##  ## ##  ##    ## ##    ## ## ## ## ##
+//**     ## ##  ########  ## ##  ##    ## ##    ## ##  ###  ##
+//**      ###   ##    ##   ###    ##  ##   ##  ##  ##       ##
+//**       #    ##    ##    #      ####     ####   ##       ##
+//**
+//**    $Id: Player.vc 4324 2010-07-09 19:19:37Z firebrand_kh $
+//**
+//**    Copyright (C) 1999-2006 Jānis Legzdiņš
+//**
+//**    This program is free software; you can redistribute it and/or
+//**  modify it under the terms of the GNU General Public License
+//**  as published by the Free Software Foundation; either version 2
+//**  of the License, or (at your option) any later version.
+//**
+//**    This program is distributed in the hope that it will be useful,
+//**  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//**  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//**  GNU General Public License for more details.
+//**
+//**************************************************************************
+
+class Player : PlayerEx;
+
+BotPlayer Bot;
+
+//==========================================================================
+//
+//  CreateBot
+//
+//==========================================================================
+
+void CreateBot()
+{
+	Bot = BotPlayer(SpawnObject(BotPlayer));
+	Bot.player = self;
+	Bot.OnBeginPlay();
+	bAutoAim = true;
+}
+
+//==========================================================================
+//
+//  DestroyBot
+//
+//==========================================================================
+
+void DestroyBot()
+{
+	if (Bot != none)
+	{
+		Bot.Destroy();
+		Bot = none;
+	}
+}
+
+//==========================================================================
+//
+//  UserinfoChanged
+//
+//==========================================================================
+
+void UserinfoChanged()
+{
+	if (!bSpawned)
+	{
+		return;
+	}
+	SetClientModel();
+}
+
+//==========================================================================
+//
+//	SetClientModel
+//
+//==========================================================================
+
+void SetClientModel()
+{
+	string model;
+
+	model = Info_ValueForKey(UserInfo, "model");
+	if (!model)
+	{
+		MO.bFixedModel = false;
+		return;
+	}
+
+	MO.bFixedModel = true;
+	MO.FixedModelName = va("players/%s/player.xml", model);
+}
+
+//==========================================================================
+//
+//  BotOnSpawn
+//
+//==========================================================================
+
+void BotOnSpawn()
+{
+	Bot.OnSpawn();
+}
+
+//==========================================================================
+//
+//  DoClearPlayer
+//
+//==========================================================================
+
+void DoClearPlayer()
+{
+	BotPlayer b;
+
+	b = Bot;
+	::DoClearPlayer();
+	Bot = b;
+}
+
+//==========================================================================
+//
+//  GetRebornHealth
+//
+//==========================================================================
+
+int GetRebornHealth()
+{
+	return MainGameInfo(Level.Game).INITIAL_HEALTH;
+}
+
+//==========================================================================
+//
+//	GotAmmo
+//
+//==========================================================================
+
+void GotAmmo(Ammo NewAmmo)
+{
+	// We were down to zero,
+	// so select a new weapon.
+	// Preferences are not user selectable.
+	if (!ReadyWeapon || ReadyWeapon.bWimpyWeapon)
+	{
+		Weapon Best = BestWeapon(class<Ammo>(NewAmmo.Class));
+		if (Best && (!ReadyWeapon ||
+			Best.SelectionOrder < ReadyWeapon.SelectionOrder))
+		{
+			PendingWeapon = Best;
+		}
+	}
+}
+
+//==========================================================================
+//
+//  PlayerImpulse
+//
+//==========================================================================
+
+void PlayerImpulse()
+{
+	int impulse;
+
+	impulse = Impulse;
+	Impulse = 0;
+
+	if (impulse <= LineSpecialGameInfo::NUM_WEAPON_SLOTS)
+	{
+		ChangeWeapon(impulse);
+	}
+	else if (impulse == 13)
+	{
+		InventoryLeft();
+	}
+	else if (impulse == 14)
+	{
+		InventoryRight();
+	}
+	else if (impulse == 15)
+	{
+		InventoryUse();
+	}
+	else if (impulse == 16)
+	{
+		//  Suicide
+		Actor(MO).Damage(none, none, 10000);
+	}
+	else if (impulse == 17)
+	{
+		PrevWeapon();
+	}
+	else if (impulse == 18)
+	{
+		NextWeapon();
+	}
+	else if (impulse >= 200 && impulse <= 205)
+	{
+		LineSpecialLevelInfo(Level).ConChoiceImpulse(impulse - 200);
+	}
+}
+
+//==========================================================================
+//
+//  BotTick
+//
+//==========================================================================
+
+void BotTick(float deltaTime)
+{
+	Bot.BotTick(deltaTime);
+}
+
+//==========================================================================
+//
+//  Cheat_Gimme
+//
+//==========================================================================
+
+const int
+	GIMME_INVULNERABILITY	= 0x00040000,
+	GIMME_STRENGTH			= 0x00080000,
+	GIMME_INVISIBILITY		= 0x00100000,
+	GIMME_IRONFEET			= 0x00200000,
+	GIMME_ALLMAP			= 0x00400000,
+	GIMME_INFRARED			= 0x00800000,
+	GIMME_HEALTH			= 0x01000000,
+	GIMME_HEALTH2			= 0x02000000,
+	GIMME_ARMOR				= 0x04000000,
+	GIMME_ARMOR2			= 0x08000000,
+	GIMME_KEYS				= 0x0003f000,
+	GIMME_POWERS			= 0x00fc0000,
+	GIMME_ALL				= 0xffffffff;
+
+void Cheat_Gimme()
+{
+	int					i;
+	int					i1;
+	class<Inventory>	Cls;
+
+	i1 = 0;
+	// All
+	if (Cmd_CheckParm("All"))
+		i1 |= GIMME_ALL;
+
+	// Powers
+	if (Cmd_CheckParm("Powers"))
+		i1 |= GIMME_POWERS;
+	if (Cmd_CheckParm("Invulnerability"))
+		i1 |= GIMME_INVULNERABILITY;
+	if (Cmd_CheckParm("Bersek"))
+		i1 |= GIMME_STRENGTH;
+	if (Cmd_CheckParm("Invisibility"))
+		i1 |= GIMME_INVISIBILITY;
+	if (Cmd_CheckParm("Suit"))
+		i1 |= GIMME_IRONFEET;
+	if (Cmd_CheckParm("AllMap"))
+		i1 |= GIMME_ALLMAP;
+	if (Cmd_CheckParm("LiteAmp"))
+		i1 |= GIMME_INFRARED;
+
+	// Health
+	if (Cmd_CheckParm("Health"))
+		i1 |= GIMME_HEALTH;
+	if (Cmd_CheckParm("Health2"))
+		i1 |= GIMME_HEALTH2;
+
+	// Armor
+	if (Cmd_CheckParm("Armor"))
+		i1 |= GIMME_ARMOR;
+	if (Cmd_CheckParm("Armor2"))
+		i1 |= GIMME_ARMOR2;
+
+	// Weapons
+	if (Cmd_CheckParm("Weapons") || Cmd_CheckParm("All"))
+	{
+		foreach AllClasses(Weapon, Cls)
+		{
+			if (!FindClassState(Cls, 'Ready'))
+			{
+				//	An abstract base class.
+				continue;
+			}
+			Weapon Wpn = Weapon(Level.Spawn(Cls,,,, false));
+			Wpn.AmmoGive1 = 0;
+			Wpn.AmmoGive2 = 0;
+			if (!Wpn.TryPickup(EntityEx(MO)))
+			{
+				Wpn.Destroy();
+			}
+		}
+	}
+
+	// Backpack
+	if (Cmd_CheckParm("Backpack") || Cmd_CheckParm("All"))
+	{
+		BackpackItem Pack = Level.Spawn(Backpack,,,, false);
+		Pack.bDropped = true;
+		if (!Pack.TryPickup(EntityEx(MO)))
+		{
+			Pack.Destroy();
+		}
+	}
+
+	// Ammo
+	if (Cmd_CheckParm("Ammo") || Cmd_CheckParm("All"))
+	{
+		foreach AllClasses(Ammo, Cls)
+		{
+			//	Only direct descendants.
+			if (GetClassParent(Cls) != Ammo)
+			{
+				continue;
+			}
+			Inventory AmmoItem = EntityEx(MO).FindInventory(Cls);
+			if (!AmmoItem)
+			{
+				AmmoItem = Level.Spawn(Cls,,,, false);
+				if (!AmmoItem.TryPickup(EntityEx(MO)))
+				{
+					AmmoItem.Destroy();
+					AmmoItem = none;
+				}
+			}
+			if (AmmoItem)
+			{
+				AmmoItem.Amount = AmmoItem.MaxAmount;
+			}
+		}
+	}
+
+	// Keys
+	if (Cmd_CheckParm("Keys") || Cmd_CheckParm("All"))
+	{
+		foreach AllClasses(Key, Cls)
+		{
+			if (!FindClassState(Cls, 'Spawn'))
+			{
+				//	Abstract class
+				continue;
+			}
+			EntityEx(MO).GiveInventoryType(Cls);
+		}
+	}
+
+	// Powers
+	if (i1 & GIMME_INVULNERABILITY)
+		EntityEx(MO).GiveInventoryType(InvulnerabilitySphere);
+	if (i1 & GIMME_STRENGTH)
+		EntityEx(MO).GiveInventoryType(PowerStrength);
+	if (i1 & GIMME_INVISIBILITY)
+		EntityEx(MO).GiveInventoryType(PowerInvisibility);
+	if (i1 & GIMME_IRONFEET)
+		EntityEx(MO).GiveInventoryType(PowerIronFeet);
+	if (i1 & GIMME_INFRARED)
+		EntityEx(MO).GiveInventoryType(PowerLightAmp);
+
+	//  Items
+	if (i1 & GIMME_ALLMAP)
+		EntityEx(MO).GiveInventoryType(Allmap);
+
+	// Health
+	if ((i1 & GIMME_HEALTH) && (Health < 100))
+	{
+		Health = 100;
+		MO.Health = 100;
+	}
+	if (i1 & GIMME_HEALTH2)
+	{
+		Health = 200;
+		MO.Health = 200;
+	}
+
+	// Armor
+	if (i1 & GIMME_ARMOR)
+	{
+		EntityEx(MO).GiveInventoryType(GreenArmor);
+	}
+	if (i1 & GIMME_ARMOR2)
+	{
+		EntityEx(MO).GiveInventoryType(BlueArmor);
+	}
+	cprint("YOU GOT IT");
+}
+
+//==========================================================================
+//
+//	KilledActor
+//
+//==========================================================================
+
+void KilledActor(EntityEx Victim)
+{
+	// Check for frag changes
+	if (Victim.bIsPlayer)
+	{
+		if (bIsBot)
+		{
+			Bot.Killed(Victim);
+		}
+
+		if (Victim.Player.bIsBot)
+		{
+			Player(Victim.Player).Bot.Died(EntityEx(MO));
+		}
+
+		if (MO == Victim)
+		{
+			Frags--;
+		}
+		else
+		{
+			Frags++;
+		}
+	}
+}
+
+defaultproperties
+{
+}

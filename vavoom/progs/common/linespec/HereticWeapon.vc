@@ -1,0 +1,49 @@
+//**************************************************************************
+//**
+//**    ##   ##    ##    ##   ##   ####     ####   ###     ###
+//**    ##   ##  ##  ##  ##   ##  ##  ##   ##  ##  ####   ####
+//**     ## ##  ##    ##  ## ##  ##    ## ##    ## ## ## ## ##
+//**     ## ##  ########  ## ##  ##    ## ##    ## ##  ###  ##
+//**      ###   ##    ##   ###    ##  ##   ##  ##  ##       ##
+//**       #    ##    ##    #      ####     ####   ##       ##
+//**
+//**    $Id: HereticWeapon.vc 3788 2008-09-17 18:59:31Z dj_jl $
+//**
+//**    Copyright (C) 1999-2006 Jānis Legzdiņš
+//**
+//**    This program is free software; you can redistribute it and/or
+//**  modify it under the terms of the GNU General Public License
+//**  as published by the Free Software Foundation; either version 2
+//**  of the License, or (at your option) any later version.
+//**
+//**    This program is distributed in the hope that it will be useful,
+//**  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//**  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//**  GNU General Public License for more details.
+//**
+//**************************************************************************
+
+class HereticWeapon : Weapon
+	abstract;
+
+//==========================================================================
+//
+//	AttachToOwner
+//
+//==========================================================================
+
+void AttachToOwner(EntityEx NewOwner)
+{
+	::AttachToOwner(NewOwner);
+	//	In deathmatch powered-up weapons use the same amount of ammo per
+	// shot as non-powered ones.
+	if (bPoweredUp && Level.Game.deathmatch && SisterWeapon)
+	{
+		AmmoUse1 = SisterWeapon.AmmoUse1;
+	}
+}
+
+defaultproperties
+{
+	Kickback = 150.0;
+}

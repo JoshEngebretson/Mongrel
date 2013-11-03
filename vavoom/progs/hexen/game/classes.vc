@@ -1,0 +1,54 @@
+//**************************************************************************
+//**
+//**    ##   ##    ##    ##   ##   ####     ####   ###     ###
+//**    ##   ##  ##  ##  ##   ##  ##  ##   ##  ##  ####   ####
+//**     ## ##  ##    ##  ## ##  ##    ## ##    ## ## ## ## ##
+//**     ## ##  ########  ## ##  ##    ## ##    ## ##  ###  ##
+//**      ###   ##    ##   ###    ##  ##   ##  ##  ##       ##
+//**       #    ##    ##    #      ####     ####   ##       ##
+//**
+//**    $Id: classes.vc 3803 2008-10-09 20:20:33Z dj_jl $
+//**
+//**    Copyright (C) 1999-2006 Jānis Legzdiņš
+//**
+//**    This program is free software; you can redistribute it and/or
+//**  modify it under the terms of the GNU General Public License
+//**  as published by the Free Software Foundation; either version 2
+//**  of the License, or (at your option) any later version.
+//**
+//**    This program is distributed in the hope that it will be useful,
+//**  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//**  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//**  GNU General Public License for more details.
+//**
+//**************************************************************************
+
+import 'linespec';
+
+#include "HexenDefs.vc"
+#include "MainGameInfo.vc"
+#include "HexenLevelInfo.vc"
+#include "Player.vc"
+#include "BotPlayer.vc"
+#include "PlayerSpeed.vc"
+
+class ArtiHealth : HealthPickup decorate;
+class Mana1 : Ammo decorate;
+class Mana2 : Ammo decorate;
+class ArtiInvulnerability : PowerupGiver decorate;
+class FighterPlayer : PlayerPawn decorate;
+class ClericPlayer : PlayerPawn decorate;
+class MagePlayer : PlayerPawn decorate;
+class ArtiPork : CustomInventory decorate;
+class PorkFX : MorphProjectile decorate;
+class PunchPuff : Actor decorate;
+class HolyMissile : Actor decorate;
+class FWeapFist : Weapon decorate;
+class FWeapHammer : Weapon decorate;
+class FWeapQuietus : Weapon decorate;
+class CWeapMace : Weapon decorate;
+class CWeapStaff : Weapon decorate;
+class CWeapFlame : Weapon decorate;
+class MWeapWand : Weapon decorate;
+class MWeapFrost : Weapon decorate;
+class MWeapLightning : Weapon decorate;

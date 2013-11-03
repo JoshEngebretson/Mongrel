@@ -1,0 +1,93 @@
+//**************************************************************************
+//**
+//**    ##   ##    ##    ##   ##   ####     ####   ###     ###
+//**    ##   ##  ##  ##  ##   ##  ##  ##   ##  ##  ####   ####
+//**     ## ##  ##    ##  ## ##  ##    ## ##    ## ## ## ## ##
+//**     ## ##  ########  ## ##  ##    ## ##    ## ##  ###  ##
+//**      ###   ##    ##   ###    ##  ##   ##  ##  ##       ##
+//**       #    ##    ##    #      ####     ####   ##       ##
+//**
+//**    $Id: MenuScreenEpisode.vc 3722 2008-07-14 16:42:23Z dj_jl $
+//**
+//**    Copyright (C) 1999-2006 Jānis Legzdiņš
+//**
+//**    This program is free software; you can redistribute it and/or
+//**  modify it under the terms of the GNU General Public License
+//**  as published by the Free Software Foundation; either version 2
+//**  of the License, or (at your option) any later version.
+//**
+//**    This program is distributed in the hope that it will be useful,
+//**  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//**  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//**  GNU General Public License for more details.
+//**
+//**************************************************************************
+
+class MenuScreenEpisode : MenuScreen;
+
+//==========================================================================
+//
+//	CreateChoices
+//
+//==========================================================================
+
+void CreateChoices()
+{
+	MenuChoiceEpisode	Epi;
+	int					currentY;
+	int					i;
+	EpisodeDef*			EDef;
+
+	currentY = ChoicesStartY;
+	for (i = 0; i < P_GetNumEpisodes(); i++)
+	{
+		EDef = P_GetEpisodeDef(i);
+		if (EDef->bOptional && !IsMapPresent(EDef->Name))
+		{
+			continue;
+		}
+		Epi = MenuChoiceEpisode(NewChild(MenuChoiceEpisode));
+		Epi.SetPos(ChoicesStartX, currentY);
+		if (EDef->PicName)
+		{
+			Epi.PicHandle = R_RegisterPic(EDef->PicName);
+		}
+		else if (EDef->bLookupText)
+		{
+			Epi.Text = GetLangString(StrToName(EDef->Text));
+		}
+		else
+		{
+			Epi.Text = EDef->Text;
+		}
+		Epi.EDef = EDef;
+		Epi.Activated = ActivateEpisode;
+		currentY += Epi.Height;
+	}
+}
+
+//==========================================================================
+//
+//	ActivateEpisode
+//
+//==========================================================================
+
+void ActivateEpisode(Object Sender)
+{
+	MenuChoiceEpisode Epi = MenuChoiceEpisode(Sender);
+	if (!IsMapPresent(Epi.EDef->Name))
+	{
+		ClGame.MessageBoxStartMessage("ONLY AVAILABLE IN THE REGISTERED VERSION",
+			ClientGameShared::MB_Shareware, false);
+		return;
+	}
+	ClientGameShared(ClGame).SetEpisode(Epi.EDef);
+}
+
+defaultproperties
+{
+	ChoicesStartX = 48;
+	ChoicesStartY = 40;
+	SelectorType = MenuSelector_Big;
+	Title = "WHICH EPISODE?";
+}
