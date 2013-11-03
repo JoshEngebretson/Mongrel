@@ -25,8 +25,6 @@
 
 // HEADER FILES ------------------------------------------------------------
 
-#ifdef SDL_DISABLED
-
 #include <SDL.h>
 #include "gamedefs.h"
 
@@ -35,6 +33,11 @@
 #ifndef MAX_JOYSTICK_BUTTONS
 #define MAX_JOYSTICK_BUTTONS 100
 #endif
+
+//FIXME
+#define SDLK_LAST 1024
+
+SDL_Window* mgGetSDLWindow();
 
 // TYPES -------------------------------------------------------------------
 
@@ -175,7 +178,7 @@ VSdlInputDevice::VSdlInputDevice()
 		SDL_EventState(SDL_MOUSEMOTION,     SDL_IGNORE);
 		mouse_oldx = ScreenWidth / 2;
 		mouse_oldy = ScreenHeight / 2;
-		SDL_WarpMouse(mouse_oldx, mouse_oldy);
+        SDL_WarpMouseInWindow(mgGetSDLWindow(), mouse_oldx, mouse_oldy);
 	}
 
 	//	Initialise joystick
@@ -252,10 +255,12 @@ void VSdlInputDevice::ReadInput()
 				vev.data1 = K_MOUSE2;
 			else if (ev.button.button == SDL_BUTTON_MIDDLE)
 				vev.data1 = K_MOUSE3;
+            /*
 			else if (ev.button.button == SDL_BUTTON_WHEELUP)
 				vev.data1 = K_MWHEELUP;
 			else if (ev.button.button == SDL_BUTTON_WHEELDOWN)
 				vev.data1 = K_MWHEELDOWN;
+            */
 			else
 				break;
 			vev.data2 = 0;
@@ -293,7 +298,9 @@ void VSdlInputDevice::ReadInput()
 		vev.data2 = mouse_x - ScreenWidth / 2;
 		vev.data3 = ScreenHeight / 2 - mouse_y;
 		GInput->PostEvent(&vev);
-		SDL_WarpMouse(ScreenWidth / 2, ScreenHeight / 2);
+
+        SDL_WarpMouseInWindow(mgGetSDLWindow(), ScreenWidth / 2, ScreenHeight / 2);
+
 #if 0
 		SDL_GetRelativeMouseState(&rel_x, &rel_y);
 		vev.type = ev_mouse;
@@ -405,4 +412,3 @@ VInputDevice* VInputDevice::CreateDevice()
 	return new VSdlInputDevice();
 }
 
-#endif

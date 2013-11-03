@@ -295,8 +295,7 @@ VInput::~VInput()
 void VInput::Init()
 {
 	guard(VInput::Init);
-    // MONGREL
-    Device = NULL;//VInputDevice::CreateDevice();
+    Device = VInputDevice::CreateDevice();
 	unguard;
 }
 
@@ -349,7 +348,7 @@ void VInput::KeyEvent(int key, int press)
 		return;
 	}
 	Events[EventHead].type = press ? ev_keydown : ev_keyup;
-	Events[EventHead].data1 = key;
+    Events[EventHead].data1 = key;
 	Events[EventHead].data2 = 0;
 	Events[EventHead].data3 = 0;
 	EventHead = (EventHead + 1) & (MAXEVENTS - 1);
@@ -367,7 +366,7 @@ void VInput::KeyEvent(int key, int press)
 void VInput::ProcessEvents()
 {
 	guard(VInput::ProcessEvents);
-    /*
+
 	Device->ReadInput();
 
 	for (; EventTail != EventHead; EventTail = (EventTail + 1) & (MAXEVENTS - 1))
@@ -479,7 +478,7 @@ void VInput::ProcessEvents()
 		if (CL_Responder(ev))
 			continue;
 	}
-    */
+
 	unguard;
 }
 

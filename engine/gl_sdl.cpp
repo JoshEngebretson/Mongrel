@@ -32,10 +32,16 @@
 
 // TYPES -------------------------------------------------------------------
 
+static SDL_Window* window = NULL;
+
+SDL_Window* mgGetSDLWindow()
+{
+    return window;
+}
+
 class VSdlOpenGLDrawer : public VOpenGLDrawer
 {
 public:
-    SDL_Window *window;
     SDL_Renderer *renderer;
     // Create an OpenGL context associated with the window.
     bool contextInitialized;
