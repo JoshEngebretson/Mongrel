@@ -228,7 +228,7 @@ set_option(RENDER_D3D          "Enable the Direct3D render driver" ${WINDOWS})
 
 # TODO: We should (should we?) respect cmake's ${BUILD_SHARED_LIBS} flag here
 # The options below are for compatibility to configure's default behaviour.
-set(SDL_SHARED ON CACHE BOOL "Build a shared version of the library")
+set(SDL_SHARED OFF CACHE BOOL "Build a shared version of the library")
 set(SDL_STATIC ON CACHE BOOL "Build a static version of the library")
 
 # General source files
@@ -1202,6 +1202,9 @@ if(SDL_STATIC)
 endif(SDL_STATIC)
 
 ##### Installation targets #####
+
+if(SDL_DO_INSTALL)
+
 install(TARGETS ${_INSTALL_LIBS}
   LIBRARY DESTINATION "lib${LIB_SUFFIX}"
   ARCHIVE DESTINATION "lib${LIB_SUFFIX}")
@@ -1234,3 +1237,5 @@ if(NOT WINDOWS OR CYGWIN)
   # TODO: what about the .spec file? Is it only needed for RPM creation?
   install(FILES "${SDL2_SOURCE_DIR}/sdl2.m4" DESTINATION "share/aclocal")
 endif(NOT WINDOWS OR CYGWIN)
+
+endif()
