@@ -6,7 +6,7 @@ file ( GLOB ENGINE_HEADERS *.h )
 
 add_executable( mongrel ${ENGINE_SOURCE} ${ENGINE_HEADERS} )
 
-target_link_libraries(mongrel vendor SDL2 common glbsp glvis "-framework OpenGL" -lz)
+target_link_libraries(mongrel vendor SDL2-static common glbsp glvis "-framework OpenGL" -lz)
 
 get_target_property(ENGINE_BIN mongrel LOCATION)
 

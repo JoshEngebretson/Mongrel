@@ -506,7 +506,7 @@ int main(int argc,char** argv)
 {
 
     // fixme
-    chdir("/Users/josh/Dev/ThunderBeastGames/Mongrel-build/engine");
+    chdir("/Users/josh/Dev/ThunderBeastGames/Mongrel/artifacts");
 
 	try
 	{

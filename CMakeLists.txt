@@ -4,6 +4,8 @@ cmake_minimum_required(VERSION 2.8)
 
 # set(CMAKE_OSX_ARCHITECTURES "i386")
 
+set(DATADIR ${CMAKE_SOURCE_DIR}/artifacts)
+
 include_directories( common vendor/jpeg9 vendor/lpng )
 
 add_subdirectory(vendor)
