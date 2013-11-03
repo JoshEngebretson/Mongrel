@@ -1,19 +1,4 @@
-add_executable(acc
-	acc.c
-	common.h
-	error.c
-	error.h
-	misc.c
-	misc.h
-	parse.c
-	parse.h
-	pcode.c
-	pcode.h
-	strlist.c
-	strlist.h
-	symbol.c
-	symbol.h
-	token.c
-	token.h
-)
-set_target_properties(acc PROPERTIES OUTPUT_NAME ../bin/acc)
+file ( GLOB ACC_SOURCE *.c )
+file ( GLOB ACC_HEADERS *.h )
+
+add_executable(acc ${ACC_SOURCE} ${ACC_HEADERS} )

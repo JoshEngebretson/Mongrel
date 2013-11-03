@@ -13,7 +13,7 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #ifndef unix
-#include <io.h>
+//#include <io.h>
 #endif
 #endif
 #ifdef __GNUC__

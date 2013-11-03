@@ -16,7 +16,7 @@
 #include <libc.h>
 #else
 #ifndef unix
-#include <io.h>
+//#include <io.h>
 #endif
 #include <limits.h>
 #include <fcntl.h>
