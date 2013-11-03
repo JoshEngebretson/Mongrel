@@ -981,9 +981,11 @@ void VAudio::UpdateSfx()
 
 	if (SoundDevice->Sound3D && cl)
 	{
+        /*
 		SoundDevice->UpdateListener(cl->ViewOrg, TVec(0, 0, 0),
 			ListenerForward, ListenerRight, ListenerUp,
 			GSoundManager->FindEnvironment(cl->SoundEnvironment));
+        */
 	}
 
 	SoundDevice->Tick(host_frametime);
@@ -1269,6 +1271,7 @@ void VAudio::PlaySong(const char* Song, bool Loop)
 	Strm->Serialise(Hdr, 4);
 	if (!memcmp(Hdr, MUSMAGIC, 4))
 	{
+        /*
 		// convert mus to mid with a wonderfull function
 		// thanks to S.Bacquet for the source of qmus2mid
 		Strm->Seek(0);
@@ -1287,6 +1290,7 @@ void VAudio::PlaySong(const char* Song, bool Loop)
 		MidStrm->Seek(0);
 		MidStrm->BeginRead();
 		Strm = MidStrm;
+        */
 	}
 
 	//	Try to create audio codec.

@@ -23,6 +23,8 @@
 //**
 //**************************************************************************
 
+#pragma once
+
 #ifdef _MSC_VER
 // Disable some unwanted warnings
 #pragma warning(disable : 4097) // typedef-name '' used as synonym for class-name ''
@@ -44,6 +46,8 @@
 #ifndef _WIN32
 #define __declspec(whatever)
 #endif
+
+typedef unsigned short      word;
 
 //==========================================================================
 //
@@ -153,7 +157,19 @@ template<class T> T Clamp(T val, T low, T high)
 //
 //==========================================================================
 
-class	VName;
-class	VMemberBase;
-class	VStruct;
-class	VObject;
+class   VName;
+class   VStr;
+class   VStream;
+
+class   VMemberBase;
+class   VPackage;
+class   VField;
+class   VMethod;
+class   VState;
+class   VConstant;
+class   VStruct;
+class   VClass;
+class   VNetObjectsMap;
+struct  mobjinfo_t;
+
+class   VObject;

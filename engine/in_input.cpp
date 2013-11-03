@@ -295,7 +295,8 @@ VInput::~VInput()
 void VInput::Init()
 {
 	guard(VInput::Init);
-	Device = VInputDevice::CreateDevice();
+    // MONGREL
+    Device = NULL;//VInputDevice::CreateDevice();
 	unguard;
 }
 

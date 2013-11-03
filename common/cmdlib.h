@@ -28,7 +28,7 @@
 
 // HEADER FILES ------------------------------------------------------------
 
-#include "../../libs/core/core.h"
+#include "core.h"
 
 #include <ctype.h>
 

@@ -25,6 +25,8 @@
 
 // HEADER FILES ------------------------------------------------------------
 
+#ifdef SDL_SND_DISABLED
+
 #include <SDL.h>
 #include <SDL_mixer.h>
 
@@ -609,3 +611,5 @@ void VSDLSoundDevice::StrmCallback(void* ptr, Uint8* stream, int len)
 	}
 	unguard;
 }
+
+#endif

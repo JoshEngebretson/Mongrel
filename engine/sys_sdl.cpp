@@ -32,7 +32,8 @@
 #include <unistd.h>
 #include <signal.h>
 #include <dirent.h>
-#include <SDL.h>
+
+//#include <SDL.h>
 
 #include "gamedefs.h"
 
@@ -288,7 +289,7 @@ void Sys_Quit(const char* EndText)
 	// Shutdown system
 	Host_Shutdown();
 
-	SDL_Quit();
+    //SDL_Quit();
 
 	// Throw the end text at the screen
 	if (EndText)
@@ -507,11 +508,10 @@ int main(int argc,char** argv)
 	{
 		GArgs.Init(argc, argv);
 
-		// if( SDL_InitSubSystem(SDL_INIT_VIDEO) < 0 )
-		if (SDL_Init(SDL_INIT_VIDEO) < 0)
-		{
-			Sys_Error("SDL_InitSubSystem(): %s\n",SDL_GetError());
-		}
+        //if (SDL_Init(SDL_INIT_VIDEO) < 0)
+        //{
+        //	Sys_Error("SDL_InitSubSystem(): %s\n",SDL_GetError());
+        //}
 
 		//	Install signal handlers
 		signal(SIGABRT, signal_handler);
@@ -538,7 +538,7 @@ int main(int argc,char** argv)
 		printf("\n%s\n", e.message);
 		dprintf("\n\nERROR: %s\n", e.message);
 
-		SDL_Quit();
+        //SDL_Quit();
 		exit(1);
 	}
 	catch (...)
@@ -549,3 +549,4 @@ int main(int argc,char** argv)
 		throw;
 	}
 }
+

@@ -189,8 +189,8 @@ void VSoundManager::Init()
 	{
 		if (W_LumpName(Lump) == NAME_reverbs)
 		{
-			ParseReverbs(new VScriptParser(*W_LumpName(Lump),
-				W_CreateLumpReaderNum(Lump)));
+            //ParseReverbs(new VScriptParser(*W_LumpName(Lump),
+            //	W_CreateLumpReaderNum(Lump)));
 		}
 	}
 	unguard;

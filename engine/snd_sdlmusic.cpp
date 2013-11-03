@@ -25,6 +25,8 @@
 
 // HEADER FILES ------------------------------------------------------------
 
+#ifdef SDL_SND_DISABLED
+
 #include <SDL.h>
 #include <SDL_mixer.h>
 
@@ -272,3 +274,5 @@ bool VSDLMidiDevice::IsPlaying()
 	return !!music;
 	unguard;
 }
+
+#endif
