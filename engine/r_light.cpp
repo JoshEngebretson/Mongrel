@@ -652,10 +652,11 @@ dlight_t* VRenderLevelShared::AllocDlight(VThinker* Owner)
 		dl = DLights;
 		for (i = 0; i < MAX_DLIGHTS; i++, dl++)
 		{
-			if (dl->Owner == Owner)
+            // 64 bit fix
+            if (dl->OwnerIndex == (Owner->GetIndex() + 1) )
 			{
 				memset(dl, 0, sizeof(*dl));
-				dl->Owner = Owner;
+                dl->OwnerIndex = dl->OwnerIndex = Owner->GetIndex() + 1;
 				return dl;
 			}
 		}
@@ -668,7 +669,8 @@ dlight_t* VRenderLevelShared::AllocDlight(VThinker* Owner)
 		if (dl->die < Level->Time)
 		{
 			memset(dl, 0, sizeof(*dl));
-			dl->Owner = Owner;
+            if (Owner)
+                dl->OwnerIndex = Owner->GetIndex() + 1;
 			return dl;
 		}
 	}
@@ -687,7 +689,8 @@ dlight_t* VRenderLevelShared::AllocDlight(VThinker* Owner)
 	}
 	dl = &DLights[bestnum];
 	memset(dl, 0, sizeof(*dl));
-	dl->Owner = Owner;
+    if (Owner)
+        dl->OwnerIndex = Owner->GetIndex() + 1;
 	return dl;
 	unguard;
 }
