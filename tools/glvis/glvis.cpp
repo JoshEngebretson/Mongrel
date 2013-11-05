@@ -176,6 +176,8 @@ static void ShowUsage()
 //
 //==========================================================================
 
+#ifdef DISABLED
+
 int main(int argc, char *argv[])
 {
 	char *srcfile = NULL;
@@ -263,3 +265,4 @@ int main(int argc, char *argv[])
 
 	return 0;
 }
+#endif
