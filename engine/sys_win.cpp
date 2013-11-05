@@ -36,9 +36,6 @@
 
 #include <SDL.h>
 
-// SDL is defining main on windows, look into this
-#undef main
-
 // MACROS ------------------------------------------------------------------
 
 #define R_OK	4
