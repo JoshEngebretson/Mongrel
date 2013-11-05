@@ -216,6 +216,7 @@ VRenderLevelShared::VRenderLevelShared(VLevel* ALevel)
 , AllocatedDrawSegs(NULL)
 , AllocatedSegParts(NULL)
 , cacheframecount(0)
+, MaxDrawSegs(0)
 {
 	guard(VRenderLevelShared::VRenderLevelShared);
 	memset(MainTransSprites, 0, sizeof(MainTransSprites));

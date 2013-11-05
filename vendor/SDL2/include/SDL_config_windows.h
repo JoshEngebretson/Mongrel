@@ -19,6 +19,8 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
+// Modified by Lasse Oorni for Urho3D
+
 #ifndef _SDL_config_windows_h
 #define _SDL_config_windows_h
 
@@ -144,14 +146,16 @@ typedef unsigned int uintptr_t;
 
 /* Enable various audio drivers */
 #define SDL_AUDIO_DRIVER_DSOUND 1
-#define SDL_AUDIO_DRIVER_XAUDIO2    1
-#define SDL_AUDIO_DRIVER_WINMM  1
+// Urho3D: disable XAudio2 for now, and do not use winmm
+//#define SDL_AUDIO_DRIVER_XAUDIO2    1
+//#define SDL_AUDIO_DRIVER_WINMM  1
 #define SDL_AUDIO_DRIVER_DISK   1
 #define SDL_AUDIO_DRIVER_DUMMY  1
 
 /* Enable various input drivers */
-#define SDL_JOYSTICK_DINPUT 1
-#define SDL_HAPTIC_DINPUT   1
+// Urho3D: do not enable joystick & force feedback support by default, requires certain include files
+//#define SDL_JOYSTICK_DINPUT 1
+//#define SDL_HAPTIC_DINPUT   1
 
 /* Enable various shared object loading systems */
 #define SDL_LOADSO_WINDOWS  1

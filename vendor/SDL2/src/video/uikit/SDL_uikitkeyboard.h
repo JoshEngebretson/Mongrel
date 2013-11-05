@@ -1,6 +1,6 @@
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2013 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2012 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -19,34 +19,14 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-// Modified by Lasse Oorni for Urho3D
+#ifndef sdl_uikitkeyboard_h
+#define sdl_uikitkeyboard_h
 
-#ifndef _SDL_config_h
-#define _SDL_config_h
+extern DECLSPEC int SDLCALL SDL_iPhoneKeyboardShow(SDL_Window * window);
+extern DECLSPEC int SDLCALL SDL_iPhoneKeyboardHide(SDL_Window * window);
+extern DECLSPEC SDL_bool SDLCALL SDL_iPhoneKeyboardIsShown(SDL_Window * window);
+extern DECLSPEC int SDLCALL SDL_iPhoneKeyboardToggle(SDL_Window * window);
 
-#include "SDL_platform.h"
-
-/**
- *  \file SDL_config.h
- */
-
-// Urho3D: choose from prebuilt config files on all platforms
-#if defined(__WIN32__)
-#include "SDL_config_windows.h"
-#elif defined(__MACOSX__)
-#include "SDL_config_macosx.h"
-#elif defined(__IPHONEOS__)
-#include "SDL_config_iphoneos.h"
-#elif defined(__ANDROID__)
-#include "SDL_config_android.h"
-#elif defined(__PSP__)
-#include "SDL_config_psp.h"
-#else
-#include "SDL_config_linux.h"
-#endif /* platform config */
-
-#ifdef USING_GENERATED_CONFIG_H
-#error Wrong SDL_config.h, check your include path?
 #endif
 
-#endif /* _SDL_config_h */
+/* vi: set ts=4 sw=4 expandtab: */

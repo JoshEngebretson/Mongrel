@@ -10,7 +10,7 @@ get_target_property(ENGINE_BIN mongrel LOCATION)
 
 if (MSVC)
 
-target_link_libraries(mongrel vendor SDL2-static SDL2main common glbsp glvis OpenGL32 kernel32 advapi32 COMCTL32 COMDLG32 USER32 ADVAPI32 GDI32 WINMM WSOCK32 Ws2_32)
+target_link_libraries(mongrel vendor SDL2 common glbsp glvis OpenGL32 kernel32 advapi32 COMCTL32 COMDLG32 USER32 ADVAPI32 GDI32 WINMM WSOCK32 Ws2_32 Imm32 Version)
 
 add_custom_command(TARGET mongrel
         POST_BUILD

@@ -18,6 +18,9 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
+
+// Modified by Lasse Oorni for Urho3D
+
 #include "SDL_config.h"
 
 /* Set up for C function definitions, even when using C++ */
@@ -27,7 +30,8 @@ extern "C" {
 /* *INDENT-ON* */
 #endif
 
-#include <EGL/eglplatform.h>
+// Urho3D: do not use EGL includes to allow compiling on API level 8
+// #include <EGL/eglplatform.h>
 #include <android/native_window_jni.h>
 
 #include "SDL_rect.h"

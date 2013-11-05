@@ -18,44 +18,10 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-
-// Modified by Lasse Oorni for Urho3D
-
 #include "SDL_config.h"
 
-#if SDL_VIDEO_DRIVER_ANDROID
+/* General fatal signal handling code for SDL */
 
-/* Android SDL video driver implementation */
-
-#include "SDL_video.h"
-#include "../SDL_egl.h"
-#include "SDL_androidwindow.h"
-
-#include "SDL_androidvideo.h"
-#include "../../core/android/SDL_android.h"
-
-#include <android/log.h>
-
-#include <dlfcn.h>
-
-SDL_EGL_CreateContext_impl(Android)
-SDL_EGL_MakeCurrent_impl(Android)
-
-void
-Android_GLES_SwapWindow(_THIS, SDL_Window * window)
-{
-    /* FIXME: These two functions were in the Java code, do we really need them? */
-    // Urho3D: disabled
-    //_this->egl_data->eglWaitNative(EGL_CORE_NATIVE_ENGINE);
-    //_this->egl_data->eglWaitGL();
-    SDL_EGL_SwapBuffers(_this, ((SDL_WindowData *) window->driverdata)->egl_surface);
-}
-
-int
-Android_GLES_LoadLibrary(_THIS, const char *path) {
-    return SDL_EGL_LoadLibrary(_this, path, (NativeDisplayType) 0);
-}
-
-#endif /* SDL_VIDEO_DRIVER_ANDROID */
-
+extern void SDL_InstallParachute(void);
+extern void SDL_UninstallParachute(void);
 /* vi: set ts=4 sw=4 expandtab: */
