@@ -19,7 +19,40 @@ if ( MSVC )
     include_directories("C:\\Program Files (x86)\\Microsoft DirectX SDK (June 2010)\\Include")
     link_directories("C:\\Program Files (x86)\\Microsoft DirectX SDK (June 2010)\\Lib\\x86")
 
-    add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+    #add_definitions(-DZONE_DEBUG)
+
+    add_definitions(-D_CRT_SECURE_NO_WARNINGS -D__FLTUSED__)
+
+    # Warnings as errors is /WX in C and CXX flags
+    SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /arch:SSE2")
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc /arch:SSE2")
+    #SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /NODEFAULTLIB:LIBCMT")
+    #SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /NODEFAULTLIB:LIBCMTD")
+
+    STRING(REPLACE "/GX" "" CMAKE_CXX_FLAGS_INIT ${CMAKE_CXX_FLAGS_INIT})
+    STRING(REPLACE "/GX" "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
+
+    #statically link
+    FOREACH(flag_var CMAKE_CXX_FLAGS
+    CMAKE_CXX_FLAGS_DEBUG
+    CMAKE_CXX_FLAGS_RELEASE
+    CMAKE_CXX_FLAGS_MINSIZEREL
+    CMAKE_CXX_FLAGS_RELWITHDEBINFO
+    CMAKE_C_FLAGS_DEBUG
+    CMAKE_C_FLAGS_RELEASE
+    CMAKE_C_FLAGS_MINSIZEREL
+    CMAKE_C_FLAGS_RELWITHDEBINFO )
+        IF(${flag_var} MATCHES "/MD")
+            STRING(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
+        ENDIF(${flag_var} MATCHES "/MD")
+
+        IF(${flag_var} MATCHES "/MDd")
+            STRING(REGEX REPLACE "/MDd" "/MTd" ${flag_var} "${${flag_var}}")
+        ENDIF(${flag_var} MATCHES "/MDd")
+
+        SET(${flag_var} "${${flag_var}} /MP4")
+
+    ENDFOREACH(flag_var)
 
 endif( MSVC )
 
