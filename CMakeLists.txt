@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 2.8)
 
 set(DATADIR ${CMAKE_SOURCE_DIR}/artifacts)
 
-include_directories( common vendor/jpeg9 vendor/lpng )
+include_directories( common vendor/jpeg9 vendor/lpng vendor/zlib )
 
 add_subdirectory(vendor)
 add_subdirectory(common)
