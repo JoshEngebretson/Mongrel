@@ -24,6 +24,7 @@
 //**************************************************************************
 
 //FIXME put this in configure
+#ifndef _MSC_VER
 #ifndef __BEOS__
 
 // HEADER FILES ------------------------------------------------------------
@@ -587,3 +588,4 @@ int VUdpDriver::SetSocketPort(sockaddr_t* addr, int port)
 }
 
 #endif // __BEOS__
+#endif // __MSC_VER

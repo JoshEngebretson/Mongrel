@@ -30,8 +30,11 @@
 
 #ifdef _WIN32
 #include "winlocal.h"
-#endif
+#include <GL/gl.h>
+#else
 #include <OpenGL/gl.h>
+#endif
+
 
 #ifndef APIENTRY
 #define APIENTRY

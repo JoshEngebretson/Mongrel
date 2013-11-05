@@ -25,6 +25,8 @@
 
 // HEADER FILES ------------------------------------------------------------
 
+#ifndef _MSC_VER
+
 #include <sys/time.h>
 #include <time.h>
 #include <fcntl.h>
@@ -554,3 +556,4 @@ int main(int argc,char** argv)
 	}
 }
 
+#endif

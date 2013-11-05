@@ -61,15 +61,25 @@ add_executable(vcc
 	vcc.cpp
 	vcc.h
 )
-target_link_libraries(vcc common -lz)
+target_link_libraries(vcc vendor common )
 
 get_target_property(VCC_BIN vcc LOCATION)
+
+if (MSVC)
+
+add_custom_command(TARGET vcc
+        POST_BUILD
+        COMMAND echo f | xcopy /F /Y \"${VCC_BIN}\" \"${CMAKE_SOURCE_DIR}/artifacts/vcc.exe\"
+    )
+
+else()
 
 add_custom_command(TARGET vcc
     POST_BUILD
     COMMAND mkdir -p ${CMAKE_SOURCE_DIR}/artifacts
     COMMAND cp ${VCC_BIN} ${CMAKE_SOURCE_DIR}/artifacts/vcc
 )
+endif()
 
 
 

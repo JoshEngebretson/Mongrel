@@ -6,13 +6,28 @@ file ( GLOB ENGINE_HEADERS *.h )
 
 add_executable( mongrel ${ENGINE_SOURCE} ${ENGINE_HEADERS} )
 
-target_link_libraries(mongrel vendor SDL2-static common glbsp glvis "-framework OpenGL" -lz)
-
 get_target_property(ENGINE_BIN mongrel LOCATION)
+
+if (MSVC)
+
+target_link_libraries(mongrel vendor SDL2-static common glbsp glvis OpenGL32.lib wsock32.lib)
+
+add_custom_command(TARGET mongrel
+        POST_BUILD
+        COMMAND echo f | xcopy /F /Y \"${ENGINE_BIN}\" \"${CMAKE_SOURCE_DIR}/artifacts/mongrel.exe\"
+    )
+
+else()
+
+target_link_libraries(mongrel vendor SDL2-static common glbsp glvis "-framework OpenGL" -lz)
 
 add_custom_command(TARGET mongrel
     POST_BUILD
     COMMAND mkdir -p ${CMAKE_SOURCE_DIR}/artifacts
     COMMAND cp ${ENGINE_BIN} ${CMAKE_SOURCE_DIR}/artifacts/mongrel
 )
+
+endif()
+
+
 

@@ -25,7 +25,7 @@
 
 // HEADER FILES ------------------------------------------------------------
 
-#ifdef THIS_IS_CURRENTLY_DISABLED
+#ifdef _MSC_VER
 
 #include "winlocal.h"
 #include <errno.h>
