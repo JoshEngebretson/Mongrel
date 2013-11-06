@@ -19,7 +19,15 @@ add_custom_command(TARGET mongrel
 
 else()
 
-target_link_libraries(mongrel vendor SDL2-static common glbsp glvis "-framework OpenGL" -lz)
+target_link_libraries( mongrel vendor SDL2 common glbsp glvis
+                              "-framework AudioUnit"
+                              "-framework Carbon"
+                              "-framework Cocoa"
+                              "-framework CoreAudio"
+                              "-framework ForceFeedback"
+                              "-framework IOKit"
+                              "-framework OpenGL"
+                              "-framework CoreServices" )
 
 add_custom_command(TARGET mongrel
     POST_BUILD
