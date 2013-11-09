@@ -354,6 +354,9 @@ void SB_DrawMainBar()
 		return;
 	}
 
+	// disable status bar
+	return;
+
 	// draw something in the blank spaces
 	// check which version of Doom we are playing
 #ifdef DOOM2
@@ -530,6 +533,9 @@ void SB_DrawFullscreenStats()
 	{
 		return;
 	}
+
+	// disable
+	return;
 
 	// health
 	SB_DrawTallNum(ST_TDHEALTHX, ST_TDHEALTHY, cl.Health, 0.6, false);

@@ -940,7 +940,8 @@ void VRenderLevelShared::RenderPlayerView()
 	if (fov <= 90.0 && cl->MO == cl->Camera &&
 		GGameInfo->NetMode != NM_TitleMap)
 	{
-		DrawPlayerSprites();
+		// MONGREL: disabled
+		//DrawPlayerSprites();
 	}
 
 	Drawer->EndView();
