@@ -376,9 +376,10 @@ void VOpenGLDrawer::WorldDrawingShaders()
 
 	//	For sky areas we just write to the depth buffer to prevent drawing
 	// polygons behind the sky.
+    /*
 	if (RendLev->SkyPortalsHead)
     {
-        /*
+
 		p_glUseProgramObjectARB(SurfZBufProgram);
 		glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 		for (surf = RendLev->SkyPortalsHead; surf; surf = surf->DrawNext)
@@ -398,8 +399,9 @@ void VOpenGLDrawer::WorldDrawingShaders()
 			glEnd();
 		}
         glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-        */
+
     }
+      */
 
 	//	Draw surfaces.
 	if (RendLev->SimpleSurfsHead)

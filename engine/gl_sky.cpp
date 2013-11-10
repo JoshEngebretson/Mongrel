@@ -137,7 +137,6 @@ void VOpenGLDrawer::RenderProcSky( TPlane* frustum, TVec* nOffset)
     glPushMatrix();
     glLoadIdentity();
 
-
     glDisable( GL_DEPTH_TEST );
 
     // TODO: flip so we don't need to disable cull
@@ -151,16 +150,8 @@ void VOpenGLDrawer::RenderProcSky( TPlane* frustum, TVec* nOffset)
 
     glBindTexture( GL_TEXTURE_2D, skyTexId );
 
-    glClear(GL_COLOR_BUFFER_BIT);
-
     // Planes are in order: lower, upper, left, right
     glBegin( GL_QUADS );
-
-
-    // Vavoom: left 0 right 1 top 2 bottom 3
-
-
-    // Eihort: lower 0 upper 1 left 2 right 3
 
     // Upper left corner
     n = CrossProduct( view_clipplanes[0].normal, view_clipplanes[2].normal );
