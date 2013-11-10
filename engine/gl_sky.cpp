@@ -37,6 +37,14 @@ static vuint32 moonTexId = 0;
 
 static float dayTime = 0.0f;
 
+// deal with MSVC not being standard
+#if defined(_WIN32) || defined(_WIN64)
+#define fmax max
+#define fmin min
+#define GL_BGRA 0x80E1
+#define GL_CLAMP_TO_EDGE 0x812F
+#endif
+
 inline vuint32 interp255( vuint32 bits1, vuint32 bits2, vuint32 shift, vuint32 t )
 {
     bits1 = (bits1 >> shift) & 0xff;
@@ -105,7 +113,7 @@ float VOpenGLDrawer::ProcSkySetTime(float time) {
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
   for (vuint32 i=  0; i < sizeof(skyTex) / sizeof(*skyTex); ++i)
-    skyTex[i] = uint32_t(LittleLong(uint32_t(skyTex[i]))); // DEBUG
+    skyTex[i] = vuint32(LittleLong(vuint32(skyTex[i]))); // DEBUG
 #endif
 
     glBindTexture( GL_TEXTURE_2D, skyTexId );
