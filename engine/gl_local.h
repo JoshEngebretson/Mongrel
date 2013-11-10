@@ -641,6 +641,10 @@ protected:
 	GLint					ShadowsModelFogTexCoordLoc;
 	GLint					ShadowsModelFogAlphaLoc;
 
+    GLhandleARB				ProcSkyProgram;
+    GLint					ProcSkyTextureLoc;
+    GLint					ProcSkyOffsetVLoc;
+
 	//
 	//	Console variables
 	//

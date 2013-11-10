@@ -604,6 +604,8 @@ glshaders/surf_sky.fs			@CMAKE_CURRENT_SOURCE_DIR@/glshaders/surf_sky.fs
 glshaders/surf_sky.vs			@CMAKE_CURRENT_SOURCE_DIR@/glshaders/surf_sky.vs
 glshaders/surf_zbuf.fs			@CMAKE_CURRENT_SOURCE_DIR@/glshaders/surf_zbuf.fs
 glshaders/surf_zbuf.vs			@CMAKE_CURRENT_SOURCE_DIR@/glshaders/surf_zbuf.vs
+glshaders/procsky.fs            @CMAKE_CURRENT_SOURCE_DIR@/glshaders/procsky.fs
+glshaders/procsky.vs            @CMAKE_CURRENT_SOURCE_DIR@/glshaders/procsky.vs
 
 //	Console font
 $load @CMAKE_CURRENT_SOURCE_DIR@/confont.pcx

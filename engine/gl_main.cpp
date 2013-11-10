@@ -649,6 +649,15 @@ void VOpenGLDrawer::InitResolution()
 		ShadowsModelFogVert2Loc = p_glGetAttribLocationARB(ShadowsModelFogProgram, "Vert2");
 		ShadowsModelFogTexCoordLoc = p_glGetAttribLocationARB(ShadowsModelFogProgram, "TexCoord");
 		ShadowsModelFogAlphaLoc = p_glGetUniformLocationARB(ShadowsModelFogProgram, "InAlpha");
+
+        // ProcSky
+        VertexShader = LoadShader(GL_VERTEX_SHADER_ARB, "glshaders/procsky.vs");
+        FragmentShader = LoadShader(GL_FRAGMENT_SHADER_ARB, "glshaders/procsky.fs");
+        ProcSkyProgram = CreateProgram(VertexShader, FragmentShader);
+        ProcSkyTextureLoc = p_glGetUniformLocationARB(ProcSkyProgram, "SkyTex");
+        ProcSkyOffsetVLoc = p_glGetUniformLocationARB(ProcSkyProgram, "OffsetV");
+
+
 	}
 	unguard;
 }
