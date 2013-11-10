@@ -31,11 +31,18 @@ void OnMapSpawn(mthing_t * mthing)
 	float l;
 
 	Destroy();
+
 	if (!mthing->arg1)
 		l = 200.0;
 	else
 		l = itof(mthing->arg1) * 8.0;
-	Level.AddStaticLightRGB(vector(mthing->x, mthing->y, mthing->height), l,
+
+    TVec org;
+    org.x = mthing->x;
+    org.y = mthing->y;
+    org.z = GetPlanePointZ(&XLevel.PointInSector(org)->floor, org) + mthing->height;
+
+	Level.AddStaticLightRGB(org, l,
 		RGB(mthing->arg2, mthing->arg3, mthing->arg4));
 }
 
