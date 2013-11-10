@@ -35,6 +35,8 @@ static vuint32 skyTexId = 0;
 static vuint32 sunTexId = 0;
 static vuint32 moonTexId = 0;
 
+static float dayTime = 0.0f;
+
 inline vuint32 interp255( vuint32 bits1, vuint32 bits2, vuint32 shift, vuint32 t )
 {
     bits1 = (bits1 >> shift) & 0xff;
@@ -123,6 +125,10 @@ void VOpenGLDrawer::RenderProcSky( TPlane* frustum, TVec* nOffset)
     _nOffset.y = 0;
     _nOffset.z = .1;
     // build
+
+    ProcSkySetTime(dayTime);
+
+    dayTime += .001f;
 
     glMatrixMode( GL_PROJECTION );
     glPushMatrix();
