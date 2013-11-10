@@ -645,6 +645,11 @@ protected:
     GLint					ProcSkyTextureLoc;
     GLint					ProcSkyOffsetVLoc;
 
+    float ProcSkySetTime(float time);
+    void RenderProcSky(TPlane* frustum, TVec* nOffset);
+    void InitProcSky();
+    void ShutdownProcSky();
+
 	//
 	//	Console variables
 	//
