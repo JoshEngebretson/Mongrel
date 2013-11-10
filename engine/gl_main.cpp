@@ -656,9 +656,11 @@ void VOpenGLDrawer::InitResolution()
         ProcSkyProgram = CreateProgram(VertexShader, FragmentShader);
         ProcSkyTextureLoc = p_glGetUniformLocationARB(ProcSkyProgram, "SkyTex");
         ProcSkyOffsetVLoc = p_glGetUniformLocationARB(ProcSkyProgram, "OffsetV");
-
-
 	}
+
+    // proc sky
+    InitProcSky();
+
 	unguard;
 }
 

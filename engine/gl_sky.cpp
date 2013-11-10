@@ -116,6 +116,13 @@ float VOpenGLDrawer::ProcSkySetTime(float time) {
 void VOpenGLDrawer::RenderProcSky( TPlane* frustum, TVec* nOffset)
 {
     TVec n;
+    TPlane plane;
+    TPlane _frustum[4];
+    TVec _nOffset;
+    _nOffset.x = 0;
+    _nOffset.y = 0;
+    _nOffset.z = .1;
+    // build
 
     glMatrixMode( GL_PROJECTION );
     glPushMatrix();
@@ -124,35 +131,48 @@ void VOpenGLDrawer::RenderProcSky( TPlane* frustum, TVec* nOffset)
     glPushMatrix();
     glLoadIdentity();
 
+
     glDisable( GL_DEPTH_TEST );
+
+    // TODO: flip so we don't need to disable cull
+    glDisable( GL_CULL_FACE );
+
     glDepthMask( 0 );
 
     p_glUseProgramObjectARB(ProcSkyProgram);
     p_glUniform1iARB(ProcSkyTextureLoc, 0);
-    p_glUniform3fvARB(ProcSkyOffsetVLoc, 1, &nOffset->x);
+    p_glUniform3fvARB(ProcSkyOffsetVLoc, 1, &_nOffset.x);
 
     glBindTexture( GL_TEXTURE_2D, skyTexId );
+
+    glClear(GL_COLOR_BUFFER_BIT);
 
     // Planes are in order: lower, upper, left, right
     glBegin( GL_QUADS );
 
+
+    // Vavoom: left 0 right 1 top 2 bottom 3
+
+
+    // Eihort: lower 0 upper 1 left 2 right 3
+
     // Upper left corner
-    n = CrossProduct( frustum[2].normal, frustum[1].normal );
+    n = CrossProduct( view_clipplanes[0].normal, view_clipplanes[2].normal );
     glNormal3fv( &n.x );
     glVertex3f( -1.0f, 1.0f, 0.5f );
 
     // Lower left corner
-    n = CrossProduct( frustum[0].normal, frustum[2].normal );
+    n = CrossProduct( view_clipplanes[3].normal, view_clipplanes[0].normal );
     glNormal3fv( &n.x );
     glVertex3f( -1.0f, -1.0f, 0.5f );
 
     // Lower right corner
-    n = CrossProduct( frustum[3].normal, frustum[0].normal );
+    n = CrossProduct( view_clipplanes[1].normal, view_clipplanes[3].normal );
     glNormal3fv( &n.x );
     glVertex3f( 1.0f, -1.0f, 0.5f );
 
     // Upper right corner
-    n = CrossProduct( frustum[1].normal, frustum[3].normal );
+    n = CrossProduct( view_clipplanes[2].normal, view_clipplanes[1].normal );
     glNormal3fv( &n.x );
     glVertex3f( 1.0f, 1.0f, 0.5f );
     glEnd();
@@ -160,7 +180,7 @@ void VOpenGLDrawer::RenderProcSky( TPlane* frustum, TVec* nOffset)
     glEnable( GL_DEPTH_TEST );
     glDepthMask( 1 );
 
-    //skyShader.unbind();
+    glEnable( GL_CULL_FACE );
 
     glPopMatrix();
     glMatrixMode( GL_PROJECTION );
