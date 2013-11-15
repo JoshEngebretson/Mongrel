@@ -97,7 +97,8 @@ void VOpenGLDrawer::WorldDrawing()
 	//	For sky areas we just write to the depth buffer to prevent drawing
 	// polygons behind the sky.
 	if (RendLev->SkyPortalsHead)
-	{
+    {
+        /*
 		glDisable(GL_TEXTURE_2D);
 		glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 		for (surf = RendLev->SkyPortalsHead; surf; surf = surf->DrawNext)
@@ -118,6 +119,7 @@ void VOpenGLDrawer::WorldDrawing()
 		}
 		glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 		glEnable(GL_TEXTURE_2D);
+        */
 	}
 
 	//	Draw surfaces.
@@ -370,10 +372,14 @@ void VOpenGLDrawer::WorldDrawingShaders()
 		}
 	}
 
+    RenderProcSky(NULL, NULL);
+
 	//	For sky areas we just write to the depth buffer to prevent drawing
 	// polygons behind the sky.
+    /*
 	if (RendLev->SkyPortalsHead)
-	{
+    {
+
 		p_glUseProgramObjectARB(SurfZBufProgram);
 		glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 		for (surf = RendLev->SkyPortalsHead; surf; surf = surf->DrawNext)
@@ -392,8 +398,10 @@ void VOpenGLDrawer::WorldDrawingShaders()
 			}
 			glEnd();
 		}
-		glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-	}
+        glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+
+    }
+      */
 
 	//	Draw surfaces.
 	if (RendLev->SimpleSurfsHead)
@@ -951,7 +959,7 @@ void VOpenGLDrawer::DoHorizonPolygon(surface_t* Surf)
 	if (HaveShaders)
 	{
 		p_glUseProgramObjectARB(SurfSimpleProgram);
-		p_glUniform1iARB(SurfSimpleTextureLoc, 0);
+        p_glUniform1iARB(SurfSimpleTextureLoc, 0);
 		p_glUniform1iARB(SurfSimpleFogTypeLoc, r_fog & 3);
 
 		p_glUniform3fvARB(SurfSimpleSAxisLoc, 1, &Tex->saxis.x);
@@ -1049,6 +1057,10 @@ void VOpenGLDrawer::DrawSkyPolygon(surface_t* surf, bool bIsSkyBox,
 	int CMap)
 {
 	guard(VOpenGLDrawer::DrawSkyPolygon);
+
+    // TODO: renable as we may want custom skyboxes
+    return;
+
 	int		i;
 	int		sidx[4];
 
