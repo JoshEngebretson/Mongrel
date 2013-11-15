@@ -350,5 +350,6 @@ defaultproperties
 
 	botskill = 2;
 
-	PlayerClasses.Num = 0;
+	PlayerClasses.Num = 1;
+	PlayerClasses[0] = FighterPlayer;
 }

@@ -291,6 +291,7 @@ line_specials.txt		@CMAKE_CURRENT_SOURCE_DIR@/line_specials.txt
 vavoom_decorate_defs.xml				@CMAKE_CURRENT_SOURCE_DIR@/vavoom_decorate_defs.xml
 
 //	Decorate scripts
+decorate.txt                            @CMAKE_CURRENT_SOURCE_DIR@/decorate.txt
 actors/constants.txt					@CMAKE_CURRENT_SOURCE_DIR@/actors/constants.txt
 actors/nativeclasses.txt				@CMAKE_CURRENT_SOURCE_DIR@/actors/nativeclasses.txt
 actors/shared/blood.txt					@CMAKE_CURRENT_SOURCE_DIR@/actors/shared/blood.txt
@@ -300,6 +301,7 @@ actors/shared/pickups.txt				@CMAKE_CURRENT_SOURCE_DIR@/actors/shared/pickups.tx
 actors/shared/sharedmisc.txt			@CMAKE_CURRENT_SOURCE_DIR@/actors/shared/sharedmisc.txt
 actors/shared/soundsequence.txt			@CMAKE_CURRENT_SOURCE_DIR@/actors/shared/soundsequence.txt
 actors/shared/splashes.txt				@CMAKE_CURRENT_SOURCE_DIR@/actors/shared/splashes.txt
+actors/hexen/fighterplayer.txt          @CMAKE_CURRENT_SOURCE_DIR@/actors/hexen/fighterplayer.txt
 
 //	Effect scripts
 vfxdefs.txt						@CMAKE_CURRENT_SOURCE_DIR@/vfxdefs.txt

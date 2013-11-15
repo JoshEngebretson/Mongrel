@@ -5,6 +5,7 @@ add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/basepak.pk3
 	DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/basepak.ls vlumpy
 		basepak.ls.in
 		confont.pcx
+		decorate.txt
 		default.cfg
 		in_epi1.txt
 		in_epi2.txt
@@ -31,6 +32,7 @@ add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/basepak.pk3
 		actors/shared/sharedmisc.txt
 		actors/shared/soundsequence.txt
 		actors/shared/splashes.txt
+		actors/hexen/fighterplayer.txt
 		graphics/mc_arrow.png
 		sounds/dsempty.lmp
 		sounds/dsquake.flac

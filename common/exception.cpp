@@ -143,5 +143,5 @@ void Sys_Error(const char *error, ...)
 	va_end(argptr);
 
 	GLog.WriteLine("Sys_Error: %s", buf);
-	throw VavoomError(buf);
+    throw VavoomError(buf);
 }

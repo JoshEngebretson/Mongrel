@@ -180,6 +180,8 @@ enum
 
 #include "LineSpecialClientGame.vc"
 
+class FighterPlayer : PlayerPawn decorate;
+
 
 
 

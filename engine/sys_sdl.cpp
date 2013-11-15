@@ -541,7 +541,7 @@ int main(int argc,char** argv)
 		Host_Shutdown();
 		stack_trace();
 
-		printf("\n%s\n", e.message);
+        printf("\n%s\n", e.message);
 		dprintf("\n\nERROR: %s\n", e.message);
 
         SDL_Quit();

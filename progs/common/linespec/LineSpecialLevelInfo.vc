@@ -6686,6 +6686,10 @@ final void SpawnMapThing(mthing_t* mthing)
 		}
 	}
 
+	// an Unknown would be good so it shows up in level
+	if (!moClass)
+		return;
+
 	if (Level.Game.nomonsters && moClass.default.bMonster)
 	{
 		return;
