@@ -158,36 +158,6 @@ void RemoveInventory(Inventory Item)
 
 //==========================================================================
 //
-//  UseInventory
-//
-//==========================================================================
-
-bool UseInventory(Inventory Item)
-{
-	//	Can't use anything while totally frozen
-	if (PlayerEx(Player).bTotallyFrozen ||
-		(Level.bFrozen &&
-		!(PlayerEx(Player).Cheats & PlayerEx::CF_TIMEFREEZE)))
-	{
-		return false;
-	}
-	// Found match - try to use
-	if (!::UseInventory(Item))
-	{
-		if (!PuzzleItem(Item))
-		{
-			// Unable to use artifact, advance pointer
-			PlayerEx(Player).PlayerNextArtifact();
-		}
-		return false;
-	}
-	PlaySound(Item.UseSound, CHAN_BODY);
-	PlayerEx(Player).ArtifactFlash = 4;
-	return true;
-}
-
-//==========================================================================
-//
 //  AdjustSpeed
 //
 //==========================================================================

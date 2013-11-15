@@ -42,11 +42,11 @@ final void A_TossGib()
 
 	if (bNoBlood)
 	{
-		tp = Junk;
+		//tp = Junk;
 	}
 	else
 	{
-		tp = Meat;
+		//tp = Meat;
 	}
 	gib = Spawn(tp, Origin + vector(0.0, 0.0, 24.0));
 	if (!gib)

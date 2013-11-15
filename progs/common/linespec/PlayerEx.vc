@@ -326,7 +326,7 @@ final void MovePlayer(float deltaTime)
 	}
 	else if (fly > 0.0)
 	{
-		UseFlyPower();
+		//UseFlyPower();
 	}
 	if (MO.bFly)
 	{
@@ -2853,71 +2853,6 @@ final void AdjustInvFirst()
 	}
 }
 
-//==========================================================================
-//
-//	InventoryThrow
-//
-//==========================================================================
-
-final EntityEx InventoryThrow()
-{
-	if (!InvPtr)
-	{
-		return none;
-	}
-	return EntityEx(MO).DropInventory(InvPtr);
-}
-
-//==========================================================================
-//
-//  UseFlyPower
-//
-//==========================================================================
-
-final void UseFlyPower()
-{
-	PlayerUseArtifactType(ArtiFly);
-}
-
-//==========================================================================
-//
-//  PlayerUseArtifactType
-//
-//==========================================================================
-
-final void PlayerUseArtifactType(class<Inventory> arti)
-{
-	Inventory Item = EntityEx(MO).FindInventory(arti);
-	if (Item)
-	{
-		EntityEx(MO).UseInventory(Item);
-	}
-}
-
-//==========================================================================
-//
-//  PlayerNextArtifact
-//
-//==========================================================================
-
-final void PlayerNextArtifact()
-{
-	if (!InvPtr)
-	{
-		return;
-	}
-	Inventory NewPtr = InvPtr.PrevInv();
-	if (!NewPtr)
-	{
-		NewPtr = InvPtr;
-		while (NewPtr.NextInv())
-		{
-			NewPtr = NewPtr.NextInv();
-		}
-	}
-	InvPtr = NewPtr;
-	AdjustInvFirst();
-}
 
 //==========================================================================
 //
@@ -3595,28 +3530,7 @@ final void AddVisitedMap(name Map)
 
 int GetMaxHealth()
 {
-	int Max = (PlayerPawn(MO).MaxHealth > 0 ? PlayerPawn(MO).MaxHealth :
-		Level.CompatDehHealth ? MAXHEALTH :
-		HealthBonus.default.MaxAmount / 2) + Stamina;
-	if (MorphTime)
-	{
-		if (MorphStyle & EntityEx::MORPH_FULLHEALTH)
-		{
-			if (!(MorphStyle & EntityEx::MORPH_ADDSTAMINA))
-			{
-				Max -= Stamina;
-			}
-		}
-		else
-		{
-			Max = MAXMORPHHEALTH;
-			if (MorphStyle & EntityEx::MORPH_ADDSTAMINA)
-			{
-				Max += Stamina;
-			}
-		}
-	}
-	return Max;
+	return 1000;
 }
 
 //==========================================================================

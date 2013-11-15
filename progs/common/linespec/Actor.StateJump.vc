@@ -120,7 +120,7 @@ final void A_JumpIfCloser(float Dist, state Label)
 	else
 	{
 		TVec Dir;
-		Targ = Aim(Dir, 16.0 * 64.0);
+		//Targ = Aim(Dir, 16.0 * 64.0);
 	}
 
 	if (Targ && DistTo2(Targ) < Dist && ((Origin.z > Targ.Origin.z &&
@@ -249,7 +249,7 @@ final void A_JumpIfTargetInLOS(state Label, optional float Fov)
 	else
 	{
 		TVec Dir;
-		Targ = Aim(Dir, 16.0 * 64.0);
+		//Targ = Aim(Dir, 16.0 * 64.0);
 	}
 
 	if (Targ)

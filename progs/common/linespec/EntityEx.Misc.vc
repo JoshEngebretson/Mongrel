@@ -596,7 +596,7 @@ final bool HeightClip()
 	{
 		if (bIceCorpse && bSolid)
 		{
-			Actor(self).A_FreezeDeathChunks();
+			//Actor(self).A_FreezeDeathChunks();
 			return true;
 		}
 		else
