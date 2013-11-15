@@ -468,11 +468,6 @@ float GetAngle()
 
 int WeapPieceFromItem(Actor item)
 {
-	if (FourthWeaponPiece(item) &&
-		ClassIsChildOf(botmo.Class, GetClassReplacement(FourthWeaponPiece(item).PieceClass)))
-	{
-		return FourthWeaponPiece(item).PieceValue;
-	}
 	return -1;
 }
 
@@ -694,75 +689,7 @@ void BotAim()
 	*/
 
 	// Fix me: Implement botskill, accuracy, and intelligence
-	if (player.ReadyWeapon.bBotProjectile)
-	{
-		// Projectile weapons
-		switch (info.intelect)
-		{
-		case bsk_verypoor:
-		case bsk_poor:
-		case bsk_low:
-			// Aim right at the enemy
-			SetAngle(an);
-			break;
-		case bsk_medium:
-		case bsk_high:
-		case bsk_excellent:
-		case bsk_supreme:
-			if (right)
-				SetAngle(an + Random() * 20.0);
-			else
-				SetAngle(an - Random() * 20.0);
-			break;
 
-		default:
-			Error("Unknown bot skill level: %d", info.accuracy);
-			return;
-		}
-	}
-	else
-	{
-		// Instant weapons
-		switch (info.accuracy)
-		{
-		case bsk_verypoor:
-			if (right)
-				SetAngle(an + Random() * 60.0);
-			else
-				SetAngle(an - Random() * 60.0);
-			break;
-		case bsk_poor:
-			if (right)
-				SetAngle(an + Random() * 45.0);
-			else
-				SetAngle(an - Random() * 45.0);
-			break;
-		case bsk_low:
-			if (right)
-				SetAngle(an + Random() * 30.0);
-			else
-				SetAngle(an - Random() * 30.0);
-			break;
-		case bsk_medium:
-			if (right)
-				SetAngle(an + Random() * 15.0);
-			else
-				SetAngle(an - Random() * 15.0);
-			break;
-		case bsk_high:
-			SetAngle(an);
-			break;
-		case bsk_excellent:
-			SetAngle(AngleTo(enemy.Origin + enemy.Velocity * 0.1));
-			break;
-		case bsk_supreme://FIXME
-			SetAngle(AngleTo(enemy.Origin + enemy.Velocity * 0.1));
-			break;
-		default:
-			Error("Unknown bot skill level: %d", info.accuracy);
-			return;
-		}
-	}
 }
 
 //==========================================================================
@@ -1093,7 +1020,7 @@ void Move(float deltaTime)
 		if (!CheckPath(an, 48.0)) // We're blocked, so go the other way!
 			sidemove = -sidemove;
 
-		if (CheckTo(enemy.Origin) && dist > player.ReadyWeapon.BotCombatDist)
+		if (CheckTo(enemy.Origin) && dist > 5.0)//player.ReadyWeapon.BotCombatDist)
 			forwardmove = FORWARDRUN;
 		else
 			forwardmove = -FORWARDRUN;

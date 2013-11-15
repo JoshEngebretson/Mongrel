@@ -79,9 +79,6 @@ float			LastHazardTime;
 // See cheat_t, above.
 int				Cheats;
 
-Weapon			ReadyWeapon;
-Weapon			PendingWeapon;	// Is none if not changing.
-
 // Refired shots are less accurate.
 int				Refire;
 
@@ -89,13 +86,9 @@ float			FlyHeight;
 
 array<name>		RevealedMaps;
 
-Inventory		InvFirst;
-Inventory		InvPtr;
 float			InventoryTime;
 int				ArtifactFlash;
 int				InvSize;
-
-Inventory		SavedInventory;
 
 bool			onground;
 //	Revert camera if player moves.
@@ -149,7 +142,7 @@ float			DesiredFOV;		// desired Field Of Vision
 replication
 {
 	reliable if (!bIsClient)
-		Cheats, ReadyWeapon, InvFirst, InvPtr, InventoryTime, ArtifactFlash,
+		Cheats, InventoryTime, ArtifactFlash,
 		Objectives, MorphTime, Accuracy, Stamina, MapsVisited, DamageFlash,
 		BonusFlash, Attacker, bFrozen, bTotallyFrozen, DesiredFOV, FOV;
 
@@ -174,9 +167,8 @@ replication
 //==========================================================================
 
 final void ThrustPlayer(float angle, float move, float deltaTime)
-{
-	if ((!EntityEx(MO).FindInventory(PowerFlight) ||
-		MO.Origin.z <= MO.FloorZ) &&
+{	
+	if (MO.Origin.z <= MO.FloorZ &&
 		((EntityEx(MO).GetFloorType()->Friction &&
 		EntityEx(MO).GetFloorType()->Friction < EntityEx::FRICTION_NORMAL) ||
 		(MO.Sector->special & SECSPEC_BASE_MASK) == SECSPEC_FrictionLow))
@@ -302,7 +294,7 @@ final void MovePlayer(float deltaTime)
 	}
 
 	fly = FlyMove / 16.0;
-	if (fly && (EntityEx(MO).FindInventory(PowerFlight) || bFly))
+	if (fly && bFly)
 	{
 		if (FlyMove != TOCENTRE)
 		{
@@ -488,54 +480,43 @@ final void PlayerInSpecialSector(float deltaTime)
 		MO.PlaySound('misc/secret', CHAN_VOICE);
 	}
 
-	//	Search for iron feet power. Any subclass will do.
-	Inventory IronFeet = EntityEx(MO).Inventory;
-	while (IronFeet)
-	{
-		if (PowerIronFeet(IronFeet))
-		{
-			break;
-		}
-		IronFeet = IronFeet.Inventory;
-	}
-
 	if (MO.Sector->special >= SECSPEC_LightFlicker &&
 		MO.Sector->special <= 255)
 	{
 		switch (MO.Sector->special)
 		{
 		case SECSPEC_DamageHellslime:
-			if (!IronFeet &&
+			if (
 				Level.XLevel.Time - LastSectorDamageTime >= 32.0 / 35.0)
 			{
 				LastSectorDamageTime = Level.XLevel.Time;
-				EntityEx(MO).Damage(none, none, 10, 'Slime');
+				//EntityEx(MO).Damage(none, none, 10, 'Slime');
 			}
 			break;
 		case SECSPEC_DamageSludge:
-			if (!IronFeet &&
+			if (
 				Level.XLevel.Time - LastSectorDamageTime >= 32.0 / 35.0)
 			{
 				LastSectorDamageTime = Level.XLevel.Time;
-				EntityEx(MO).Damage(none, none, 4);
+				//EntityEx(MO).Damage(none, none, 4);
 			}
 			break;
 		case SECSPEC_DamageNukage:
-			if (!IronFeet &&
+			if (
 				Level.XLevel.Time - LastSectorDamageTime >= 32.0 / 35.0)
 			{
 				LastSectorDamageTime = Level.XLevel.Time;
-				EntityEx(MO).Damage(none, none, 5, 'Slime');
+				//EntityEx(MO).Damage(none, none, 5, 'Slime');
 			}
 			break;
 		case SECSPEC_LightStrobeFastDamage:
 		case SECSPEC_DamageSuperHellslime:
-			if (!IronFeet || (P_Random() < 5 && P_Random() < 5))
+			if ((P_Random() < 5 && P_Random() < 5))
 			{
 				if (Level.XLevel.Time - LastSectorDamageTime >= 32.0 / 35.0)
 				{
 					LastSectorDamageTime = Level.XLevel.Time;
-					EntityEx(MO).Damage(none, none, 20, 'Slime');
+					//EntityEx(MO).Damage(none, none, 20, 'Slime');
 				}
 			}
 			break;
@@ -546,7 +527,7 @@ final void PlayerInSpecialSector(float deltaTime)
 			if (Level.XLevel.Time - LastSectorDamageTime >= 32.0 / 35.0)
 			{
 				LastSectorDamageTime = Level.XLevel.Time;
-				EntityEx(MO).Damage(none, none, 20);
+				//EntityEx(MO).Damage(none, none, 20);
 			}
 	
 			if (Health <= 10)
@@ -558,7 +539,7 @@ final void PlayerInSpecialSector(float deltaTime)
 			if (Level.XLevel.Time - LastSectorDamageTime >= 16.0 / 35.0)
 			{
 				LastSectorDamageTime = Level.XLevel.Time;
-				EntityEx(MO).Damage(none, none, 5, 'Fire');
+				//EntityEx(MO).Damage(none, none, 5, 'Fire');
 				EntityEx(MO).HitFloorType();
 			}
 			break;
@@ -566,7 +547,7 @@ final void PlayerInSpecialSector(float deltaTime)
 			if (Level.XLevel.Time - LastSectorDamageTime >= 16.0 / 35.0)
 			{
 				LastSectorDamageTime = Level.XLevel.Time;
-				EntityEx(MO).Damage(none, none, 8, 'Fire');
+				//EntityEx(MO).Damage(none, none, 8, 'Fire');
 				EntityEx(MO).HitFloorType();
 			}
 			break;
@@ -575,19 +556,17 @@ final void PlayerInSpecialSector(float deltaTime)
 			if (Level.XLevel.Time - LastSectorDamageTime >= 16.0 / 35.0)
 			{
 				LastSectorDamageTime = Level.XLevel.Time;
-				EntityEx(MO).Damage(none, none, 5, 'Fire');
+				//EntityEx(MO).Damage(none, none, 5, 'Fire');
 				EntityEx(MO).HitFloorType();
 			}
 			break;
 		case SECSPEC_DamageHazard:
-			if (!IronFeet)
 				HazardTime += 2.0 * deltaTime;
 			break;
 		case SECSPEC_DamageInstantDeath:
-			EntityEx(MO).Damage(none, none, 999, 'InstantDeath');
+			//EntityEx(MO).Damage(none, none, 999, 'InstantDeath');
 			break;
 		case SECSPEC_DamageSuperHazard:
-			if (!IronFeet)
 				HazardTime += 4.0 * deltaTime;
 			break;
 		}
@@ -598,28 +577,28 @@ final void PlayerInSpecialSector(float deltaTime)
 		switch (MO.Sector->special & SECSPEC_DAMAGE_MASK)
 		{
 		case 0x0100:
-			if (!IronFeet &&
+			if (
 				Level.XLevel.Time - LastSectorDamageTime >= 32.0 / 35.0)
 			{
 				LastSectorDamageTime = Level.XLevel.Time;
-				EntityEx(MO).Damage(none, none, 5, 'Fire');
+				//EntityEx(MO).Damage(none, none, 5, 'Fire');
 			}
 			break;
 		case 0x0200:
-			if (!IronFeet &&
+			if (
 				Level.XLevel.Time - LastSectorDamageTime >= 32.0 / 35.0)
 			{
 				LastSectorDamageTime = Level.XLevel.Time;
-				EntityEx(MO).Damage(none, none, 10, 'Slime');
+				//EntityEx(MO).Damage(none, none, 10, 'Slime');
 			}
 			break;
 		case 0x0300:
-			if (!IronFeet ||  (P_Random() < 5 && P_Random() < 5))
+			if (P_Random() < 5 && P_Random() < 5)
 			{
 				if (Level.XLevel.Time - LastSectorDamageTime >= 32.0 / 35.0)
 				{
 					LastSectorDamageTime = Level.XLevel.Time;
-					EntityEx(MO).Damage(none, none, 20, 'Slime');
+					//EntityEx(MO).Damage(none, none, 20, 'Slime');
 				}
 			}
 			break;
@@ -631,28 +610,28 @@ final void PlayerInSpecialSector(float deltaTime)
 	{
 		if (MO.Sector->Damage < 20)
 		{
-			if (!IronFeet &&
+			if (
 				Level.XLevel.Time - LastSectorDamageTime >= 32.0 / 35.0)
 			{
 				LastSectorDamageTime = Level.XLevel.Time;
-				EntityEx(MO).Damage(none, none, MO.Sector->Damage);
+				//EntityEx(MO).Damage(none, none, MO.Sector->Damage);
 			}
 		}
 		else if (MO.Sector->Damage < 50)
 		{
-			if (!IronFeet ||  (P_Random() < 5 && P_Random() < 5))
+			if (P_Random() < 5 && P_Random() < 5)
 			{
 				if (Level.XLevel.Time - LastSectorDamageTime >= 32.0 / 35.0)
 				{
 					LastSectorDamageTime = Level.XLevel.Time;
-					EntityEx(MO).Damage(none, none, MO.Sector->Damage);
+					//EntityEx(MO).Damage(none, none, MO.Sector->Damage);
 				}
 			}
 		}
 		else if (Level.XLevel.Time - LastSectorDamageTime >= 1.0 / 35.0)
 		{
 			LastSectorDamageTime = Level.XLevel.Time;
-			EntityEx(MO).Damage(none, none, MO.Sector->Damage);
+			//EntityEx(MO).Damage(none, none, MO.Sector->Damage);
 		}
 	}
 
@@ -763,23 +742,13 @@ final void PlayerOnSpecialFlat(VTerrainInfo* floorType)
 
 	if (floorType->bAllowProtection)
 	{
-		//	Search for iron feet power. Any subclass will do.
-		Inventory IronFeet = EntityEx(MO).Inventory;
-		while (IronFeet)
-		{
-			if (PowerIronFeet(IronFeet))
-			{
-				return;
-			}
-			IronFeet = IronFeet.Inventory;
-		}
 	}
 
 	if (floorType->DamageAmount && Level.XLevel.Time - LastSectorDamageTime >=
 		itof(floorType->DamageTimeMask + 1) / 35.0)
 	{
 		LastSectorDamageTime = Level.XLevel.Time;
-		EntityEx(MO).Damage(none, none, 10, 'Fire');
+		//EntityEx(MO).Damage(none, none, 10, 'Fire');
 		MO.PlaySound('world/lavasizzle', CHAN_BODY);
 	}
 }
@@ -797,69 +766,56 @@ final void PlayerInContents(float deltaTime)
 		return;
 	}
 
-	//	Search for iron feet power. Any subclass will do.
-	Inventory IronFeet = EntityEx(MO).Inventory;
-	while (IronFeet)
-	{
-		if (PowerIronFeet(IronFeet))
-		{
-			break;
-		}
-		IronFeet = IronFeet.Inventory;
-	}
 
 	switch (MO.WaterType)
 	{
 	case CONTENTS_LAVA:
-		if (!IronFeet &&
+		if (
 			Level.XLevel.Time - LastSectorDamageTime >= 32.0 / 35.0)
 		{
 			LastSectorDamageTime = Level.XLevel.Time;
-			EntityEx(MO).Damage(none, none, 10, 'Fire');
+			//EntityEx(MO).Damage(none, none, 10, 'Fire');
 		}
 		break;
 
 	case CONTENTS_NUKAGE:
-		if (!IronFeet &&
+		if (
 			Level.XLevel.Time - LastSectorDamageTime >= 32.0 / 35.0)
 		{
 			LastSectorDamageTime = Level.XLevel.Time;
-			EntityEx(MO).Damage(none, none, 5);
+			//EntityEx(MO).Damage(none, none, 5);
 		}
 		break;
 
 	case CONTENTS_SLIME:
-		if (!IronFeet &&
+		if (
 			Level.XLevel.Time - LastSectorDamageTime >= 32.0 / 35.0)
 		{
 			LastSectorDamageTime = Level.XLevel.Time;
-			EntityEx(MO).Damage(none, none, 10);
+			//EntityEx(MO).Damage(none, none, 10);
 		}
 		break;
 
 	case CONTENTS_HELLSLIME:
-		if ((!IronFeet || (P_Random() < 5)) &&
+		if ((P_Random() < 5) &&
 			Level.XLevel.Time - LastSectorDamageTime >= 32.0 / 35.0)
 		{
 			LastSectorDamageTime = Level.XLevel.Time;
-			EntityEx(MO).Damage(none, none, 20);
+			//EntityEx(MO).Damage(none, none, 20);
 		}
 		break;
 
 	case CONTENTS_SLUDGE:
-		if (!IronFeet &&
+		if (
 			Level.XLevel.Time - LastSectorDamageTime >= 32.0 / 35.0)
 		{
 			LastSectorDamageTime = Level.XLevel.Time;
-			EntityEx(MO).Damage(none, none, 4);
+			//EntityEx(MO).Damage(none, none, 4);
 		}
 		break;
 
 	case CONTENTS_HAZARD:
-		if (!IronFeet)
-		{
 			HazardTime += 2.0 * deltaTime;
-		}
 		break;
 	}
 }
@@ -878,63 +834,6 @@ final void SetPlayerRunState()
 	}
 }
 
-//***************************************************************************
-//
-//  WEAPON UTILITES
-//
-//***************************************************************************
-
-//==========================================================================
-//
-//	SetWeapon
-//
-//==========================================================================
-
-final void SetWeapon(Weapon NewWeapon)
-{
-	ReadyWeapon = NewWeapon;
-	PendingWeapon = none;
-	PSpriteSY = ReadyWeapon.PSpriteSY;
-	MO.ModelVersion = ReadyWeapon.PlayerModelVersion;
-}
-
-//===========================================================================
-//
-//  BringUpWeapon
-//
-//  Starts bringing the pending weapon up from the bottom of the screen.
-//
-//===========================================================================
-
-final void BringUpWeapon()
-{
-	if (ReadyWeapon.UpSound)
-	{
-		MO.PlaySound(ReadyWeapon.UpSound, CHAN_WEAPON);
-	}
-
-	PendingWeapon = none;
-	ViewStates[ps_weapon].SY = bInstantWeaponSwitch ? Weapon::WEAPONTOP :
-		Weapon::WEAPONBOTTOM;
-	SetViewState(ps_weapon, ReadyWeapon.GetUpState());
-	MO.ModelVersion = ReadyWeapon.PlayerModelVersion;
-}
-
-//===========================================================================
-//
-//  DropWeapon
-//
-//  Player died, so put the weapon away.
-//
-//===========================================================================
-
-final void DropWeapon()
-{
-	if (ReadyWeapon)
-	{
-		SetViewState(ps_weapon, ReadyWeapon.GetDownState());
-	}
-}
 
 //===========================================================================
 //
@@ -954,8 +853,6 @@ final void SetupPsprites()
 		SetViewState(i, none);
 	}
 
-	// spawn the gun
-	BringUpWeapon();
 }
 
 //==========================================================================
@@ -973,388 +870,6 @@ void MovePsprites(float deltaTime)
 	ViewStates[ps_flash].SY = ViewStates[ps_weapon].SY;
 }
 
-//===========================================================================
-//
-//  FireWeapon
-//
-//===========================================================================
-
-void FireWeapon()
-{
-	if (!ReadyWeapon.CheckAmmo(Weapon::FIRE_Primary, true))
-	{
-		return;
-	}
-
-	MO.SetState(EntityEx(MO).MissileState);
-	SetViewState(ps_weapon, ReadyWeapon.GetAttackState(Refire));
-	ReadyWeapon.FireMode = Weapon::FIRE_Primary;
-	if (!ReadyWeapon.bNoAlert)
-	{
-		LineSpecialLevelInfo(Level).NoiseAlert(EntityEx(MO), EntityEx(MO));
-	}
-}
-
-//===========================================================================
-//
-//  AltFireWeapon
-//
-//===========================================================================
-
-void AltFireWeapon()
-{
-	if (!ReadyWeapon.CheckAmmo(Weapon::FIRE_Secondary, true))
-	{
-		return;
-	}
-
-	MO.SetState(EntityEx(MO).MissileState);
-	SetViewState(ps_weapon, ReadyWeapon.GetAltAttackState(Refire));
-	ReadyWeapon.FireMode = Weapon::FIRE_Secondary;
-	if (!ReadyWeapon.bNoAlert)
-	{
-		LineSpecialLevelInfo(Level).NoiseAlert(EntityEx(MO), EntityEx(MO));
-	}
-}
-
-//==========================================================================
-//
-//  ChangeWeapon
-//
-//  The actual changing of the weapon is done when the weapon psprite can
-// do it (read: not in the middle of an attack).
-//
-//==========================================================================
-
-final void ChangeWeapon(int newweapon)
-{
-	if (MorphTime)
-	{
-		return;
-	}
-	Weapon NewWpn = GetSlotChangeWeapon(newweapon);
-	if (NewWpn && NewWpn != ReadyWeapon && (!NewWpn.bGivenAsMorphWeapon &&
-		!ReadyWeapon.bGivenAsMorphWeapon))
-	{
-		PendingWeapon = NewWpn;
-	}
-	else
-	{
-		return;
-	}
-}
-
-//==========================================================================
-//
-//  PrevWeapon
-//
-//==========================================================================
-
-final void PrevWeapon()
-{
-	if (MorphTime)
-	{
-		return;
-	}
-	Weapon Wpn = GetPrevWeapon(PendingWeapon ? PendingWeapon : ReadyWeapon);
-	if (Wpn && Wpn != ReadyWeapon)
-	{
-		PendingWeapon = Wpn;
-	}
-}
-
-//==========================================================================
-//
-//  NextWeapon
-//
-//==========================================================================
-
-final void NextWeapon()
-{
-	if (MorphTime)
-	{
-		return;
-	}
-	Weapon Wpn = GetNextWeapon(PendingWeapon ? PendingWeapon : ReadyWeapon);
-	if (Wpn && Wpn != ReadyWeapon)
-	{
-		PendingWeapon = Wpn;
-	}
-}
-
-//==========================================================================
-//
-//	BestWeapon
-//
-//	Returns best weapon to use
-//
-//==========================================================================
-
-final Weapon BestWeapon(optional class<Ammo> AmmoType)
-{
-	bool Powered = !!EntityEx(MO).FindInventory(PowerWeaponLevel2);
-	Weapon Best = none;
-	Inventory Item;
-	for (Item = EntityEx(MO).Inventory; Item; Item = Item.Inventory)
-	{
-		//	Must be a weapon
-		Weapon Wpn = Weapon(Item);
-		if (!Wpn)
-		{
-			continue;
-		}
-		//	Check if best one is better that this one.
-		if (Best && Wpn.SelectionOrder > Best.SelectionOrder)
-		{
-			continue;
-		}
-		//	Possibly limit to specific ammo type.
-		if (AmmoType && Wpn.AmmoType1 != AmmoType)
-		{
-			continue;
-		}
-		//	Check if it's for the current tome of power state.
-		if (Powered && Wpn.SisterWeapon && Wpn.SisterWeapon.bPoweredUp)
-		{
-			continue;
-		}
-		if (!Powered && Wpn.bPoweredUp)
-		{
-			continue;
-		}
-		//	Make sure it has enough ammo.
-		if (!Wpn.CheckAmmo(Weapon::FIRE_Either, false))
-		{
-			continue;
-		}
-		//	Good one.
-		Best = Wpn;
-	}
-	return Best;
-}
-
-//==========================================================================
-//
-//	ChoosePowered
-//
-//==========================================================================
-
-final Weapon ChoosePowered(Weapon Wpn)
-{
-	bool Powered = !!EntityEx(MO).FindInventory(PowerWeaponLevel2);
-	if (Powered && Wpn.SisterWeapon && Wpn.SisterWeapon.bPoweredUp)
-	{
-		return Wpn.SisterWeapon;
-	}
-	return Wpn;
-}
-
-//==========================================================================
-//
-//	GetSlotChangeWeapon
-//
-//==========================================================================
-
-final Weapon GetSlotChangeWeapon(int Slot)
-{
-	int			i;
-	int			j;
-	LineSpecialGameInfo GI = LineSpecialGameInfo(Level.Game);
-
-	if (ReadyWeapon)
-	{
-		for (i = 0; i < LineSpecialGameInfo::MAX_WEAPONS_PER_SLOT; i++)
-		{
-			if (GI.WeaponSlots[Slot].Weapons[i] == ReadyWeapon.Class ||
-				(ReadyWeapon.bPoweredUp && ReadyWeapon.SisterWeapon &&
-				GI.WeaponSlots[Slot].Weapons[i] == ReadyWeapon.SisterWeapon.Class))
-			{
-				for (j = (i + LineSpecialGameInfo::MAX_WEAPONS_PER_SLOT - 1) %
-					LineSpecialGameInfo::MAX_WEAPONS_PER_SLOT; j != i;
-					j = (j + LineSpecialGameInfo::MAX_WEAPONS_PER_SLOT - 1) %
-					LineSpecialGameInfo::MAX_WEAPONS_PER_SLOT)
-				{
-					Weapon Wpn = Weapon(EntityEx(MO).FindInventory(
-						GI.WeaponSlots[Slot].Weapons[j]));
-					if (Wpn && Wpn.CheckAmmo(Weapon::FIRE_Either, false))
-					{
-						return ChoosePowered(Wpn);
-					}
-				}
-			}
-		}
-	}
-
-	for (i = LineSpecialGameInfo::MAX_WEAPONS_PER_SLOT - 1; i >= 0; i--)
-	{
-		Weapon Wpn = Weapon(EntityEx(MO).FindInventory(
-			GI.WeaponSlots[Slot].Weapons[i]));
-		if (Wpn && Wpn.CheckAmmo(Weapon::FIRE_Either, false))
-		{
-			return ChoosePowered(Wpn);
-		}
-	}
-
-	return ReadyWeapon;
-}
-
-//==========================================================================
-//
-//	GetPrevWeapon
-//
-//==========================================================================
-
-final Weapon GetPrevWeapon(Weapon Current)
-{
-	LineSpecialGameInfo GI = LineSpecialGameInfo(Level.Game);
-	int			Slot;
-	int			Index;
-	int			Start;
-	int			i;
-
-	if (GI.FindWeaponSlot(class<Weapon>(Current.Class), Slot, Index, Current.Position))
-	{
-		Start = Slot * LineSpecialGameInfo::MAX_WEAPONS_PER_SLOT + Index;
-	}
-	else
-	{
-		Start = 0;
-	}
-
-	for (i = LineSpecialGameInfo::MAX_WEAPONS_PER_SLOT *
-		LineSpecialGameInfo::NUM_WEAPON_SLOTS - 1; i >= 0; i--)
-	{
-		Slot = ((Start + i) / LineSpecialGameInfo::MAX_WEAPONS_PER_SLOT) %
-			LineSpecialGameInfo::NUM_WEAPON_SLOTS;
-		Index = (Start + i) % LineSpecialGameInfo::MAX_WEAPONS_PER_SLOT;
-		Weapon Wpn = Weapon(EntityEx(MO).FindInventory(
-			GI.WeaponSlots[Slot].Weapons[Index]));
-		if (Wpn && Wpn.CheckAmmo(Weapon::FIRE_Either, false))
-		{
-			return ChoosePowered(Wpn);
-		}
-	}
-	return Current;
-}
-
-//==========================================================================
-//
-//	GetNextWeapon
-//
-//==========================================================================
-
-final Weapon GetNextWeapon(Weapon Current)
-{
-	LineSpecialGameInfo GI = LineSpecialGameInfo(Level.Game);
-	int			Slot;
-	int			Index;
-	int			Start;
-	int			i;
-
-	if (GI.FindWeaponSlot(class<Weapon>(Current.Class), Slot, Index, Current.Position))
-	{
-		Start = Slot * LineSpecialGameInfo::MAX_WEAPONS_PER_SLOT + Index;
-	}
-	else
-	{
-		Start = -1;
-	}
-
-	for (i = 1; i <= LineSpecialGameInfo::MAX_WEAPONS_PER_SLOT *
-		LineSpecialGameInfo::NUM_WEAPON_SLOTS; i++)
-	{
-		Slot = ((Start + i) / LineSpecialGameInfo::MAX_WEAPONS_PER_SLOT) %
-			LineSpecialGameInfo::NUM_WEAPON_SLOTS;
-		Index = (Start + i) % LineSpecialGameInfo::MAX_WEAPONS_PER_SLOT;
-		Weapon Wpn = Weapon(EntityEx(MO).FindInventory(
-			GI.WeaponSlots[Slot].Weapons[Index]));
-		if (Wpn && Wpn.CheckAmmo(Weapon::FIRE_Either, false))
-		{
-			return ChoosePowered(Wpn);
-		}
-	}
-	return Current;
-}
-
-//==========================================================================
-//
-//  UsePuzzleItem
-//
-//  USING A PUZZLE ITEM
-//
-//  Returns true if the puzzle item was used on a line or a thing.
-//
-//==========================================================================
-
-final bool UsePuzzleItem(int PuzzleItemType)
-{
-	float x1, y1, x2, y2;
-	TVec PuzzleUseDir;
-	intercept_t * in;
-
-	AngleVector(&MO.Angles, &PuzzleUseDir);
-	x1 = MO.Origin.x;
-	y1 = MO.Origin.y;
-	x2 = x1 + USERANGE * PuzzleUseDir.x;
-	y2 = y1 + USERANGE * PuzzleUseDir.y;
-	foreach MO.PathTraverse(in, x1, y1, x2, y2, PT_ADDLINES | PT_ADDTHINGS)
-	{
-		EntityEx mobj;
-		TVec hit_point;
-		opening_t *open;
-
-		if (in->bIsALine)
-		{
-			// Check line
-			hit_point = MO.Origin + (USERANGE * in->frac) * PuzzleUseDir;
-			if (in->line->special != LNSPEC_UsePuzzleItem)
-			{
-				open = LineOpenings(in->line, hit_point);
-				if (!open || open->range <= 0.0)
-				{
-					if (MO.bIsPlayer)
-					{
-						MO.PlaySound('*puzzfail', CHAN_VOICE);
-					}
-					break;	// can't use through a wall
-				}
-				continue;	// Continue searching
-			}
-			if (PointOnPlaneSide(MO.Origin, in->line) == 1)
-			{
-				// Don't use back sides
-				break;
-			}
-			if (PuzzleItemType != in->line->arg1)
-			{
-				// Item type doesn't match
-				break;
-			}
-			MO.XLevel.StartACS(in->line->arg2, 0, in->line->arg3,
-				in->line->arg4, in->line->arg5, MO, in->line, 0, false,
-				false);
-			in->line->special = 0;
-			return true;	// Stop searching
-		}
-		// Check thing
-		mobj = EntityEx(in->Thing);
-		if (mobj.Special != LNSPEC_UsePuzzleItem)
-		{
-			// Wrong special
-			continue;
-		}
-		if (PuzzleItemType != mobj.Args[0])
-		{
-			// Item type doesn't match
-			continue;
-		}
-		MO.XLevel.StartACS(mobj.Args[1], 0, mobj.Args[2], mobj.Args[3],
-			mobj.Args[4], MO, NULL, 0, false, false);
-		mobj.Special = 0;
-		return true;	// Stop searching
-	}
-	return false;
-}
 
 //==========================================================================
 //
@@ -1668,16 +1183,6 @@ void PaletteFlash()
 		}
 	}
 
-	Inventory Item;
-	for (Item = EntityEx(MO).Inventory; Item; Item = Item.Inventory)
-	{
-		int Blend = Item.GetBlend();
-		if (Blend)
-		{
-			AddBlend(r, g, b, a, Blend);
-		}
-	}
-
 	if (BlendA)
 	{
 		AddBlend(r, g, b, a, RGBA(ftoi(BlendR * 255.0), ftoi(BlendG * 255.0),
@@ -1708,30 +1213,8 @@ void PaletteFlash()
 
 void PreTravel()
 {
-	SavedInventory = EntityEx(MO).Inventory;
-	EntityEx(MO).Inventory = none;
 }
 
-//==========================================================================
-//
-//  UseInventory
-//
-//==========================================================================
-
-void UseInventory(string Inv)
-{
-	Inventory item = EntityEx(MO).FindInventory(class<Inventory>(FindClass(StrToName(Inv))));
-
-	if (bTotallyFrozen || (Level.bFrozen && !(Cheats & CF_TIMEFREEZE)))
-	{ // You can't use items if you're totally frozen
-		return;
-	}
-	if (item)
-	{
-		// Use Inventory item
-		EntityEx(MO).UseInventory(item);
-	}
-}
 
 //==========================================================================
 //
@@ -1898,27 +1381,6 @@ void DisplayObituary(EntityEx inflictor, EntityEx source, name DmgType)
 		}
 		else
 		{
-			Weapon Wpn = PlayerEx(inflictor.Player).ReadyWeapon;
-			if (Wpn && Wpn.Obituary)
-			{
-				//	Weapon obituary message.
-				Msg = Wpn.Obituary;
-			}
-			else if (DmgType == 'BFGSplash')
-			{
-				//	BFG splash damage
-				Msg = "$ob_mpbfg_splash";
-			}
-			else if (DmgType == 'Railgun')
-			{
-				//	Railgun
-				Msg = "$ob_railgun";
-			}
-			else
-			{
-				//	Default multiplayer kill message.
-				Msg = "$ob_mpdefault";
-			}
 		}
 	}
 	else
@@ -2063,55 +1525,7 @@ void ClientVoice(int VoiceNum)
 	LocalSound(StrToName(va("svox/voc%d", VoiceNum)));
 }
 
-//==========================================================================
-//
-//	GiveAmmo
-//
-//	Returns false if the ammo can't be picked up at all
-//
-//==========================================================================
 
-final bool GiveAmmo(class<Ammo> ammo, int count)
-{
-	int oldammo;
-
-	if (!ammo)
-	{
-		return false;
-	}
-
-	Ammo AmmoItem = Ammo(EntityEx(MO).FindInventory(ammo));
-	if (!AmmoItem)
-	{
-		AmmoItem = Level.Spawn(ammo,,,, false);
-		AmmoItem.AttachToOwner(EntityEx(MO));
-		AmmoItem.Amount = 0;
-	}
-	if (!count)
-	{
-		return false;
-	}
-	if (AmmoItem.Amount == AmmoItem.MaxAmount)
-	{
-		return false;
-	}
-
-	//	Extra ammo in baby mode and nightmare mode
-	count = ftoi(itof(count) * Level.World.SkillAmmoFactor);
-
-	oldammo = AmmoItem.Amount;
-	AmmoItem.Amount += count;
-	if (AmmoItem.Amount > AmmoItem.MaxAmount)
-	{
-		AmmoItem.Amount = AmmoItem.MaxAmount;
-	}
-
-	if (oldammo <= 0)
-	{
-		GotAmmo(AmmoItem);
-	}
-	return true;
-}
 
 //==========================================================================
 //
@@ -2227,7 +1641,6 @@ void NetGameReborn()
 	// spawn at random spot if in death match
 	if (Level.Game.deathmatch)
 	{
-		OldMO.DestroyAllInventory();
 		DeathMatchSpawnPlayer();
 		return;
 	}
@@ -2280,7 +1693,6 @@ void DisconnectClient()
 	{
 		MO.Player = none;
 		MO.bIsPlayer = false;
-		Actor(MO).Damage(none, none, 10000);
 	}
 	Level.bprint("%s left the game\n", PlayerName);
 	MO.PlaySound('misc/chat', CHAN_AUTO, 1.0, ATTN_NONE);
@@ -2425,27 +1837,6 @@ void ResetPlayerOnSpawn()
 //
 //==========================================================================
 
-void GiveDefaultDeathMatchInventory()
-{
-	class<Inventory>	Cls;
-
-	//	Give all keys in death match mode.
-	foreach AllClasses(Key, Cls)
-	{
-		if (!FindClassState(Cls, 'Spawn'))
-		{
-			//	Abstract class
-			continue;
-		}
-		if (!AreStateSpritesPresent(FindClassState(Cls, 'Spawn')))
-		{
-			//	From a different game
-			continue;
-		}
-		EntityEx(MO).GiveInventoryType(Cls);
-	}
-}
-
 //==========================================================================
 //
 //  SpawnPlayer
@@ -2461,8 +1852,7 @@ void SpawnPlayer(mthing_t * mthing, bool Voodoo)
 	float				y;
 	float				z;
 	PlayerPawn			PP;
-	bool				ResetInventory = false;
-	Inventory			Item;
+	bool				ResetInventory = false;	
 
 	if (PlayerState == PST_REBORN)
 	{
@@ -2491,12 +1881,6 @@ void SpawnPlayer(mthing_t * mthing, bool Voodoo)
 	PP.Translation = (Entity::TRANSL_Player << Entity::TRANSL_TYPE_SHIFT) +
 		GetPlayerNum();
 
-	//	If a voodoo doll has been spawned, take it's inventory.
-	if (Voodoo)
-	{
-		PP.ObtainInventory(EntityEx(MO));
-	}
-
 	DesiredFOV = 90.0; //itof(GetCvar('FOV'));
 	FOV = DesiredFOV;
 	PP.Angles.yaw = itof(45 * (mthing->angle / 45));
@@ -2513,31 +1897,9 @@ void SpawnPlayer(mthing_t * mthing, bool Voodoo)
 
 	ResetPlayerOnSpawn();
 
-	if (!Voodoo)
-	{
-		PP.Inventory = SavedInventory;
-		for (Item = PP.Inventory; Item; Item = Item.Inventory)
-		{
-			Item.Owner = MO;
-		}
-
-		if (ResetInventory)
-		{
-			while (PP.Inventory)
-			{
-				PP.Inventory.Destroy();
-			}
-			AddDefaultInventory();
-		}
-	}
-
 	//	Set up gun psprite.
 	SetupPsprites();
 
-	if (Level.Game.deathmatch)
-	{
-		GiveDefaultDeathMatchInventory();
-	}
 
 	// wake up the status bar
 	SB_Start();
@@ -2555,52 +1917,6 @@ void SpawnPlayer(mthing_t * mthing, bool Voodoo)
 	{
 		Level.XLevel.StartTypedACScripts(Level::SCRIPT_Respawn, 0, 0, 0, MO,
 			true, false);
-	}
-}
-
-//===========================================================================
-//
-//	AddDefaultInventory
-//
-//===========================================================================
-
-void AddDefaultInventory()
-{
-	HexenArmor HArmor = Level.Spawn(HexenArmor,,,, false);
-	HArmor.AttachToOwner(EntityEx(MO));
-	HArmor.Slots[4] = PlayerPawn(MO).HexenArmor[0];
-	HArmor.SlotsIncrement[0] = PlayerPawn(MO).HexenArmor[1];
-	HArmor.SlotsIncrement[1] = PlayerPawn(MO).HexenArmor[2];
-	HArmor.SlotsIncrement[2] = PlayerPawn(MO).HexenArmor[3];
-	HArmor.SlotsIncrement[3] = PlayerPawn(MO).HexenArmor[4];
-
-	BasicArmor BArmor = Level.Spawn(BasicArmor,,,, false);
-	BArmor.Amount = 0;
-	BArmor.AttachToOwner(EntityEx(MO));
-
-	int i;
-	for (i = 0; i < EntityEx(MO).DropItemList.Num; i++)
-	{
-		Inventory Item = Inventory(Level.Spawn(EntityEx(MO).DropItemList[i].Type,,,, false));
-		Item.bIgnoreSkill = true;
-		if (EntityEx(MO).DropItemList[i].Amount > 0)
-		{
-			Item.Amount = EntityEx(MO).DropItemList[i].Amount;
-		}
-		if (Weapon(Item))
-		{
-			//	For better control empty weapon's ammo.
-			Weapon(Item).AmmoGive1 = 0;
-			Weapon(Item).AmmoGive2 = 0;
-		}
-		if (!Item.TryPickup(EntityEx(MO)))
-		{
-			Item.Destroy();
-		}
-		else if (Weapon(Item) && Weapon(Item).CheckAmmo(Weapon::FIRE_Either, false))
-		{
-			SetWeapon(Weapon(Item));
-		}
 	}
 }
 
@@ -2648,49 +1964,14 @@ void DoClearPlayer()
 
 void PlayerExitMap(bool clusterChange)
 {
-	Inventory	Item;
-
-	if (clusterChange && !Level.bClusterHub && !Level.bKeepFullInventory)
-	{
-		for (Item = EntityEx(MO).Inventory; Item; Item = Item.Inventory)
-		{
-			if (Item.bInvBar && Item.Amount > Item.InterHubAmount)
-			{
-				Item.Amount = Item.InterHubAmount;
-			}
-		}
-	}
-
-	// Strip all current powers
-	for (Item = EntityEx(MO).Inventory; Item;)
-	{
-		Inventory Next = Item.Inventory;
-		if (Powerup(Item) && (Level.Game.deathmatch || clusterChange ||
-			!Item.bHubPower))
-		{
-			Item.Destroy();
-		}
-		Item = Next;
-	}
 
 	if (clusterChange)
 	{
 		// Entering new cluster
-		// Some items are stripped.
-		for (Item = EntityEx(MO).Inventory; Item;)
-		{
-			Inventory Next = Item.Inventory;
-			if (Item.bInterHubStrip /*&& Item.InterHubAmount < 1*/)
-			{
-				Item.Destroy();
-			}
-			Item = Next;
-		}
 	}
 
 	if (MorphTime)
 	{
-		SetWeapon(Weapon(Actor(MO).Tracer));	// Restore weapon
 		MorphTime = 0.0;
 	}
 
@@ -2709,148 +1990,6 @@ void PlayerExitMap(bool clusterChange)
 	BlendA = 0.0;
 	Rain1 = none;
 	Rain2 = none;
-}
-
-//==========================================================================
-//
-//  InventoryLeft
-//
-//==========================================================================
-
-final void InventoryLeft()
-{
-	if (!bInventoryAlwaysOpen)
-	{
-		if (!InventoryTime)
-		{
-			InventoryTime = 5.0;
-			return;
-		}
-		InventoryTime = 5.0;
-	}
-	if (InvPtr)
-	{
-		Inventory Prev = InvPtr.PrevInv();
-		if (Prev)
-		{
-			InvPtr = Prev;
-			AdjustInvFirst();
-		}
-	}
-}
-
-//==========================================================================
-//
-//  InventoryRight
-//
-//==========================================================================
-
-final void InventoryRight()
-{
-	if (!bInventoryAlwaysOpen)
-	{
-		if (!InventoryTime)
-		{
-			InventoryTime = 5.0;
-			return;
-		}
-		InventoryTime = 5.0;
-	}
-	if (InvPtr)
-	{
-		Inventory Next = InvPtr.NextInv();
-		if (Next)
-		{
-			InvPtr = Next;
-			AdjustInvFirst();
-		}
-	}
-}
-
-//==========================================================================
-//
-//  InventoryUse
-//
-//==========================================================================
-
-final void InventoryUse()
-{
-	// flag to denote that it's okay to use an artifact
-	if (InventoryTime)
-	{
-		InventoryTime = 0.0;
-	}
-	else if (InvPtr)
-	{
-		EntityEx(MO).UseInventory(InvPtr);
-	}
-}
-
-//==========================================================================
-//
-//  InventoryTick
-//
-//==========================================================================
-
-final void InventoryTick(float deltaTime)
-{
-	// turn inventory off after a certain amount of time
-	if (InventoryTime)
-	{
-		InventoryTime -= deltaTime;
-		if (InventoryTime <= 0.0)
-		{
-			InventoryTime = 0.0;
-		}
-	}
-	if (ArtifactFlash)
-	{
-		ArtifactFlash--;
-	}
-}
-
-//==========================================================================
-//
-//	AdjustInvFirst
-//
-//==========================================================================
-
-final void AdjustInvFirst()
-{
-	Inventory Item;
-
-	if (!InvPtr)
-	{
-		InvFirst = none;
-		return;
-	}
-
-	//	Count how many items are following the current one, also make sure
-	// that first is not after this one.
-	int NumFollowing = 0;
-	for (Item = InvPtr.NextInv(); Item; Item = Item.NextInv())
-	{
-		NumFollowing++;
-		if (InvFirst == Item)
-		{
-			InvFirst = InvPtr;
-		}
-	}
-	int FirstOffs = 0;
-	for (Item = InvPtr; Item && Item != InvFirst; Item = Item.PrevInv())
-	{
-		FirstOffs++;
-	}
-	while (FirstOffs > InvSize)
-	{
-		InvFirst = InvFirst.NextInv();
-		FirstOffs--;
-	}
-	while (NumFollowing + FirstOffs < InvSize && InvFirst.PrevInv())
-	{
-		InvFirst = InvFirst.PrevInv();
-		FirstOffs++;
-	}
 }
 
 
@@ -2977,8 +2116,6 @@ final void DeathPlayerTick(float deltaTime)
 
 	if (CheckForRespawn(deltaTime))
 	{
-		InvPtr = none;
-		InvFirst = none;
 		PlayerState = PST_REBORN;
 	}
 }
@@ -3043,8 +2180,7 @@ void PlayerTick(float deltaTime)
 		FlyMove = 0.0;
 	}
 
-	WorldTimer += deltaTime;
-	InventoryTick(deltaTime);
+	WorldTimer += deltaTime;	
 
 	if (PlayerState == PST_DEAD)
 	{
@@ -3066,10 +2202,6 @@ void PlayerTick(float deltaTime)
 			JumpTime = 0.0;
 		}
 	}
-	if (MorphTime)
-	{
-		PlayerPawn(MO).MorphPlayerThink();
-	}
 
 	//	Move around.
 	//	ReactionTime is used to prevent movement for a bit after a teleport.
@@ -3087,11 +2219,6 @@ void PlayerTick(float deltaTime)
 			WaterMove(deltaTime);
 		else
 			MovePlayer(deltaTime);
-		if (EntityEx(MO).FindInventory(PowerSpeed) &&
-			!(Level.XLevel.TicTime & 1) && Length(MO.Velocity) > 12.0 * 35.0)
-		{
-			SpawnSpeedEffect();
-		}
 	}
 
 	CalcHeight(deltaTime);
@@ -3130,43 +2257,8 @@ void PlayerTick(float deltaTime)
 		bUseDown = false;
 	}
 
-	if (!ReadyWeapon && PendingWeapon)
-	{
-		SetWeapon(PendingWeapon);
-		BringUpWeapon();
-	}
-
-	// Morph counter
-	if (MorphTime)
-	{
-		if (ChickenPeck)
-		{
-			// Chicken attack counter
-			ChickenPeck -= 3;
-		}
-		MorphTime -= deltaTime;
-		if (MorphTime <= 0.0)
-		{
-			// Attempt to undo the chicken/pig
-			MorphTime = 0.0;
-			UndoPlayerMorph(false, self);
-		}
-	}
-
 	//	Cycle psprites
 	MovePsprites(deltaTime);
-
-	//	Counters.
-	if (PoisonCount && Level.XLevel.Time - LastPoisonTime >= 0.5)
-	{
-		PoisonCount -= 5;
-		if (PoisonCount < 0)
-		{
-			PoisonCount = 0;
-		}
-		LastPoisonTime = Level.XLevel.Time;
-		Actor(MO).PoisonDamage(Poisoner, Poisoner, 1, true);
-	}
 
 	if (DamageFlash)
 	{
@@ -3191,21 +2283,12 @@ void PlayerTick(float deltaTime)
 			HazardTime > 16.0)
 		{
 			LastHazardTime = Level.XLevel.Time;
-			Actor(MO).Damage(none, none, 5);
+			//Actor(MO).Damage(none, none, 5);
 		}
 	}
 	
 	// [RH] Zoom the player's FOV
 	float desired = DesiredFOV; // Default player FOV.
-	// Adjust FOV using on the currently held weapon.
-	if (PlayerState != PST_DEAD &&		// No adjustment while dead.
-		ReadyWeapon &&					// No adjustment if no weapon.
-		ReadyWeapon.FOVScale != 0.0)	// No adjustment if the adjustment is zero.
-	{
-		// A negative scale is used top prevent G_AddViewAngle/G_AddViewPitch
-		// from scaling with the FOV scale.
-		desired *= fabs(ReadyWeapon.FOVScale);
-	}
 	
 	if (FOV != desired)
 	{
@@ -3340,167 +2423,6 @@ final void AdjustPlayerAngle(EntityEx AimTarget)
 
 //==========================================================================
 //
-//  UndoPlayerMorph
-//
-//==========================================================================
-
-final bool UndoPlayerMorph(bool Force, PlayerEx Activator)
-{
-	Actor A;
-
-	if (EntityEx(MO).bInvulnerable && (self != Activator ||
-		!(MorphStyle & EntityEx::MORPH_WHENINVULNERABLE)))
-	{
-		// Immune when invulnerable unless this is something we initiated.
-		// If the WORLD is the initiator, the same player should be given
-		// as the activator; WORLD initiated actions should always succeed.
-		return false;
-	}
-
-	int CorrectWeapon = MorphStyle & EntityEx::MORPH_LOSEACTUALWEAPON;
-
-	MO.UnlinkFromWorld();
-	if (BaseClass >= Level.Game.PlayerClasses.Num)
-	{
-		Error("UndoPlayerMorph: Unknown class type");
-	}
-	A = Level.Spawn(class<PlayerPawn>(Level.Game.PlayerClasses[BaseClass]),
-		MO.Origin,,, false);
-	if (!Force && !A.TestLocation())
-	{
-		// Didn't fit
-		A.Destroy();
-		MO.LinkToWorld();
-		MorphTime = 2.0;
-		return false;
-	}
-	MO.LinkToWorld();
-	// Set colour translation
-	A.Translation = (Entity::TRANSL_Player << Entity::TRANSL_TYPE_SHIFT) +
-		GetPlayerNum();
-	A.Angles = MO.Angles;
-	ViewHeight = PlayerPawn(A).ViewHeight;
-	DeltaViewHeight = 0.0;
-	A.Player = self;
-	A.bIsPlayer = true;
-	A.ReactionTime = 0.5;
-	if (MO.bFly)
-	{
-		A.bFly = true;
-		A.bNoGravity = true;
-	}
-	A.bShadow = EntityEx(MO).bShadow;
-	A.bGhost = EntityEx(MO).bGhost;
-	A.ObtainInventory(EntityEx(MO));
-	if (MO.TID && (MorphStyle & EntityEx::MORPH_NEWTIDBEHAVIOUR))
-	{
-		A.SetTID(MO.TID);
-	}
-	MorphTime = 0.0;
-	MorphStyle = 0;
-	Inventory Pw = EntityEx(MO).FindInventory(PowerWeaponLevel2);
-	if (Pw)
-	{
-		Pw.Destroy();
-	}
-	A.Health = GetRebornHealth();
-	Health = A.Health;
-	PClass = BaseClass;
-	Weapon OldWeapon = ReadyWeapon;
-	PostMorphWeapon(Weapon(Actor(MO).Tracer));
-	if (CorrectWeapon)
-	{
-		// Better "lose morphed weapon" semantics
-		class<Weapon> MorphWeapon = PlayerPawn(MO).MorphWeapon;
-		if (MorphWeapon)
-		{
-			Weapon OrigWpn = Weapon(EntityEx(MO).FindInventory(MorphWeapon));
-			if (OrigWpn && OrigWpn.bGivenAsMorphWeapon)
-			{
-				// You don't get to keep your morphed weapon.
-				OrigWpn.Destroy();
-			}
-		}
-	}
-	else
-	{
-		if (OldWeapon)
-		{
-			OldWeapon.Destroy();
-		}
-	}
-
-	Level.Spawn(UnmorphFlash ? UnmorphFlash : class<Actor>(TeleportFog),
-		MO.Origin + vector(20.0 * cos(MO.Angles.yaw),
-		20.0 * sin(MO.Angles.yaw),
-		LineSpecialGameInfo(Level.Game).TeleFogHeight));
-
-	MO.SetState(MO.FindState('FreeTargMobj'));
-	MO = A;
-	Camera = A;
-	PlayerUnmorphed();
-	return true;
-}
-
-//===========================================================================
-//
-//  ActivateMorphWeapon
-//
-//===========================================================================
-
-final void ActivateMorphWeapon()
-{
-	class<Weapon> WpnClass = PlayerPawn(MO).MorphWeapon;
-	Weapon Wpn;
-	if (WpnClass)
-	{
-		Wpn = Level.Spawn(WpnClass);
-		Wpn.bGivenAsMorphWeapon = true;
-	}
-	else
-	{
-		// Couldn't find any weapons, use the default weapon for this player
-		// (from initial inventory)
-		int i;
-		for (i = 0; i < EntityEx(MO).DropItemList.Num; i++)
-		{
-			Inventory Item = Inventory(Level.Spawn(EntityEx(MO).DropItemList[i].Type,,,, false));
-			if (EntityEx(MO).DropItemList[i].Amount > 0)
-			{
-				Item.Amount = EntityEx(MO).DropItemList[i].Amount;
-			}
-			if (Weapon(Item))
-			{
-				Wpn = Weapon(Item);
-				WpnClass = class<Weapon>(Weapon(Item).Class);
-			}
-		}		
-	}
-	if (!Wpn.TryPickup(EntityEx(MO)))
-	{
-		Wpn.Destroy();
-	}
-
-	SetWeapon(Weapon(EntityEx(MO).FindInventory(WpnClass)));
-	SetViewState(ps_weapon, ReadyWeapon.GetReadyState());
-	ViewStates[ps_weapon].SY = Weapon::WEAPONTOP;
-}
-
-//===========================================================================
-//
-//  PostMorphWeapon
-//
-//===========================================================================
-
-final void PostMorphWeapon(Weapon weapon)
-{
-	SetWeapon(weapon);
-	ViewStates[ps_weapon].SY = Weapon::WEAPONBOTTOM;
-	SetViewState(ps_weapon, ReadyWeapon.GetUpState());
-}
-
-//==========================================================================
-//
 //	AddVisitedMap
 //
 //==========================================================================
@@ -3605,43 +2527,6 @@ final void Cheat_KillAll()
 	cprint("%d MONSTERS KILLED", LineSpecialLevelInfo(Level).P_Massacre());
 }
 
-//==========================================================================
-//
-//  Cheat_NoWeapons
-//
-//==========================================================================
-
-final void Cheat_NoWeapons()
-{
-	if (MorphTime)
-	{
-		return;
-	}
-	//	Find weakest weapon.
-	Inventory Item;
-	Weapon Weakest = none;
-	for (Item = EntityEx(MO).Inventory; Item; Item = Item.Inventory)
-	{
-		if (Weapon(Item) && (!Weakest ||
-			Weakest.SelectionOrder < Weapon(Item).SelectionOrder))
-		{
-			Weakest = Weapon(Item);
-		}
-	}
-	//	Removed all others.
-	for (Item = EntityEx(MO).Inventory; Item; )
-	{
-		Inventory Next = Item.Inventory;
-		if ((Weapon(Item) && Item != Weakest) || FourthWeaponHolder(Item))
-		{
-			Item.Destroy();
-		}
-		Item = Next;
-	}
-	SetWeapon(Weakest);
-	PendingWeapon = Weakest;
-	cprint("CHEATER - YOU DON'T DESERVE WEAPONS");
-}
 
 //==========================================================================
 //
@@ -3767,9 +2652,6 @@ void StartDeathSlideShow()
 {
 }
 
-void GotAmmo(Ammo NewAmmo)
-{
-}
 
 void Damaged(EntityEx inflictor)
 {

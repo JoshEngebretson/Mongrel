@@ -32,21 +32,8 @@ import 'linespec';
 #include "BotPlayer.vc"
 #include "PlayerSpeed.vc"
 
-class Mana2 : Ammo decorate;
-class ArtiInvulnerability : PowerupGiver decorate;
 class FighterPlayer : PlayerPawn decorate;
 class ClericPlayer : PlayerPawn decorate;
 class MagePlayer : PlayerPawn decorate;
-class ArtiPork : CustomInventory decorate;
-class PorkFX : MorphProjectile decorate;
 class PunchPuff : Actor decorate;
 class HolyMissile : Actor decorate;
-class FWeapFist : Weapon decorate;
-class FWeapHammer : Weapon decorate;
-class FWeapQuietus : Weapon decorate;
-class CWeapMace : Weapon decorate;
-class CWeapStaff : Weapon decorate;
-class CWeapFlame : Weapon decorate;
-class MWeapWand : Weapon decorate;
-class MWeapFrost : Weapon decorate;
-class MWeapLightning : Weapon decorate;

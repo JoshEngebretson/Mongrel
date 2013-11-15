@@ -189,144 +189,7 @@ void SpawnSpeedEffect()
 
 void Cheat_Gimme()
 {
-	class<Inventory>			Cls;
-	class<Weapon>				WpnCls;
-	class<FourthWeaponPiece>	PieceCls;
-	Inventory					Inv;
 
-	if (Cmd_CheckParm("weapons"))
-	{
-		int i;
-
-		HexenArmor HArmor = HexenArmor(EntityEx(MO).FindInventory(
-			HexenArmor));
-		for (i = 0; i < 4; i++)
-		{
-			HArmor.Slots[i] = HArmor.SlotsIncrement[i];
-		}
-		foreach AllClasses(Weapon, WpnCls)
-		{
-			if (!FindClassState(WpnCls, 'Ready'))
-			{
-				//	Abstract class.
-				continue;
-			}
-			Weapon Wpn = Level.Spawn(WpnCls,,,, false);
-			Wpn.AmmoGive1 = 0;
-			Wpn.AmmoGive2 = 0;
-			if (!Wpn.TryPickup(EntityEx(MO)))
-			{
-				Wpn.Destroy();
-			}
-		}
-		foreach AllClasses(Ammo, Cls)
-		{
-			//	Only direct descendants.
-			if (GetClassParent(Cls) != Ammo)
-			{
-				continue;
-			}
-			Inventory AmmoItem = EntityEx(MO).FindInventory(Cls);
-			if (!AmmoItem)
-			{
-				AmmoItem = Level.Spawn(Cls,,,, false);
-				if (!AmmoItem.TryPickup(EntityEx(MO)))
-				{
-					AmmoItem.Destroy();
-					AmmoItem = none;
-				}
-			}
-			if (AmmoItem)
-			{
-				AmmoItem.Amount = AmmoItem.MaxAmount;
-			}
-		}
-
-		FourthWeaponHolder Hold = FourthWeaponHolder(
-			EntityEx(MO).FindInventory(FourthWeaponHolder));
-		if (!Hold)
-		{
-			Hold = Level.Spawn(FourthWeaponHolder,,,, false);
-			Hold.AttachToOwner(EntityEx(MO));
-		}
-		Hold.PieceMask = 7;
-
-		cprint("ALL WEAPONS");
-	}
-	if (Cmd_CheckParm("health"))
-	{
-		if (MorphTime)
-		{
-			MO.Health = MAXMORPHHEALTH;
-			Health = MO.Health;
-		}
-		else
-		{
-			MO.Health = MAXHEALTH;
-			Health = MO.Health;
-		}
-		cprint("FULL HEALTH");
-	}
-	if (Cmd_CheckParm("keys"))
-	{
-		foreach AllClasses(Key, Cls)
-		{
-			if (!FindClassState(Cls, 'Spawn'))
-			{
-				//	Abstract class
-				continue;
-			}
-			EntityEx(MO).GiveInventoryType(Cls);
-		}
-		cprint("ALL KEYS");
-	}
-	if (Cmd_CheckParm("artifacts"))
-	{
-		// All artifacts
-		foreach AllClasses(Inventory, Cls)
-		{
-			if (!Cls.default.bInvBar || !Cls.default.MaxAmount)
-			{
-				//	Not an artifact
-				continue;
-			}
-			if (!FindClassState(Cls, 'Spawn'))
-			{
-				//	Abstract class
-				continue;
-			}
-			if (ClassIsChildOf(Cls, PuzzleItem))
-			{
-				//	Not puzzle items.
-				continue;
-			}
-			if (!AreStateSpritesPresent(FindClassState(Cls, 'Spawn')))
-			{
-				//	From other game or not available in shareware.
-				continue;
-			}
-			Inv = Level.Spawn(Cls,,,, false);
-			Inv.Amount = Inv.MaxAmount;
-			if (!Inv.TryPickup(EntityEx(MO)))
-			{
-				Inv.Destroy();
-			}
-		}
-		cprint("ALL ARTIFACTS");
-	}
-	if (Cmd_CheckParm("puzzles"))
-	{
-		foreach AllClasses(PuzzleItem, Cls)
-		{
-			if (!FindClassState(Cls, 'Spawn'))
-			{
-				//	Abstract class
-				continue;
-			}
-			EntityEx(MO).GiveInventoryType(Cls);
-		}
-		cprint("ALL ARTIFACTS");
-	}
 }
 
 //==========================================================================
@@ -337,16 +200,6 @@ void Cheat_Gimme()
 
 void Cheat_Morph()
 {
-	if (MorphTime)
-	{
-		UndoPlayerMorph(false, self);
-	}
-	else
-	{
-		Actor(MO).MorphPlayer(PorkFX.default.PlayerClass, 40.0,
-			PorkFX.default.MorphStyle, none, none, Actor(MO));
-	}
-	cprint("SQUEAL!!");
 }
 
 //==========================================================================
@@ -358,8 +211,7 @@ void Cheat_Morph()
 void Cheat_Class()
 {
 	int i;
-	int pclass;
-	Inventory Item;
+	int pclass;	
 
 	if (MorphTime)
 	{
@@ -384,26 +236,10 @@ void Cheat_Class()
 		cprint("INVALID PLAYER CLASS");
 		return;
 	}
-	//FIXME it doesn't work like this.
-	PClass = pclass;
-	HexenArmor HArmor = HexenArmor(EntityEx(MO).FindInventory(HexenArmor));
-	for (i = 0; i < 4; i++)
-	{
-		HArmor.Slots[i] = 0.0;
-	}
-
-	// Remove all weapons
-	for (Item = EntityEx(MO).Inventory; Item; Item = Item.Inventory)
-	{
-		if (Weapon(Item) || FourthWeaponHolder(Item))
-		{
-			Item.Destroy();
-		}
-	}
+	
+	
 	BaseClass = pclass;
 //	PostMorphWeapon(HexenDefs::WP_FIRST);
-	Actor(MO).MorphPlayer(class<PlayerPawn>(Level.Game.PlayerClasses[PClass]), 0.0,
-		PorkFX.default.MorphStyle, none, none, Actor(MO));
 	SetCvar('class', pclass);
 	SB_Start();
 }
@@ -417,7 +253,7 @@ void Cheat_Class()
 bool IsWeaponAlwaysExtremeDeath()
 {
 	// Always extreme death from fourth weapon
-	return ReadyWeapon.bExtremeDeath;
+	return false;
 }
 
 //==========================================================================

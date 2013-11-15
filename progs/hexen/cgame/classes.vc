@@ -38,5 +38,3 @@ import 'uibase';
 #include "StatusBarScreen.vc"
 #include "IntermissionScreen.vc"
 #include "ClientGame.vc"
-
-class Mana2 : Ammo decorate;

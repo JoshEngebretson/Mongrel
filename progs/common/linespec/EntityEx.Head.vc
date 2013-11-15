@@ -429,9 +429,6 @@ string			StrifeName;
 int				ConversationID;
 int				CurrentSpeech;	// Current speech index.
 
-//	Actor's inventory
-Inventory		Inventory;
-
 float			FloatBobPhase;
 
 //	For A_ExplodeParms
@@ -470,5 +467,5 @@ float			JumpTime;
 replication
 {
 	reliable if (Role == ROLE_Authority && bNetOwner)
-		Inventory, bInvulnerable;
+		bInvulnerable;
 }

@@ -227,45 +227,6 @@ final void A_NoBlocking()
 	// actor is on ground, it can be walked over
 	bSolid = false;
 
-	SpeechNum = GetSpeech();
-	if (SpeechNum)
-	{
-		//	Drop stuff as determined by conversation.
-		if (SpeechNum < 0)
-		{
-			Speech = &XLevel.GenericSpeeches[-SpeechNum - 1];
-		}
-		else
-		{
-			Speech = &XLevel.LevelSpeeches[SpeechNum - 1];
-		}
-		DropItemType = LineSpecialLevelInfo(Level).GetClassFromID(Speech->DropItem);
-		if (DropItemType)
-		{
-			DropItem(DropItemType, 0, 1.0);
-			return;
-		}
-	}
-
-	// Check for monsters dropping things
-	if (ShouldDropItems())
-	{
-		if (DropItemList.Num)
-		{
-			for (i = 0; i < DropItemList.Num; i++)
-			{
-				if (DropItemList[i].Type)
-				{
-					DropItem(class<EntityEx>(DropItemList[i].Type),
-						DropItemList[i].Amount, DropItemList[i].Chance);
-				}
-			}
-		}
-		else
-		{
-			NoBlockingSet();
-		}
-	}
 }
 
 //==========================================================================

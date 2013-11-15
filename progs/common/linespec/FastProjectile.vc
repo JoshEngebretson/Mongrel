@@ -75,7 +75,7 @@ void Tick(float DeltaTime)
 					}
 					else
 					{
-						ExplodeMissile(none);
+						//ExplodeMissile(none);
 					}
 					return;
 				}
@@ -86,14 +86,14 @@ void Tick(float DeltaTime)
 				// Hit the floor
 				Origin.z = FloorZ;
 				HitFloorType();
-				ExplodeMissile(none);
+				//ExplodeMissile(none);
 				return;
 			}
 			if (Origin.z + Height > CeilingZ)
 			{
 				// Hit the ceiling
 				Origin.z = CeilingZ - Height;
-				ExplodeMissile(none);
+				//ExplodeMissile(none);
 				return;
 			}
 			if (changexy)
@@ -115,7 +115,7 @@ void Tick(float DeltaTime)
 
 bool BlasterHitMobj(Entity Other)
 {
-	return ExplodeMissile(EntityEx(Other));
+	return false;//ExplodeMissile(EntityEx(Other));
 }
 
 //==========================================================================

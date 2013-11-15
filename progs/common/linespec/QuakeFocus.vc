@@ -71,7 +71,7 @@ final void A_Quake()
 			{
 				if (Random() < 0.1953125)
 				{
-					victim.Damage(none, none, 1 + (P_Random() & 7));
+					//victim.Damage(none, none, 1 + (P_Random() & 7));
 				}
 				// Thrust player around
 				an = victim.Angles.yaw + Random() * 256.0;
