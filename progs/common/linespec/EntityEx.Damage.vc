@@ -269,13 +269,13 @@ final void Damage(EntityEx inflictor, EntityEx source, int damage,
 			Level.Game.deathmatch) && !PlayerEx(Player).MorphTime)
 		{
 			// Try to use some inventory health
-			AutoUseHealth(damage - Health + 1);
+			// AutoUseHealth(damage - Health + 1);
 		}
 
 		if (Player.Health - damage < 50 && !Level.Game.deathmatch)
 		{
 			// Try to use some inventory health
-			AutoUseStrifeHealth(damage - Health + 1);
+			//AutoUseStrifeHealth(damage - Health + 1);
 		}
 		Player.Health -= damage;	// mirror mobj health here for Dave
 		if (Player.Health < 0)
@@ -870,7 +870,7 @@ final void PoisonDamage(EntityEx inflictor, EntityEx source, int damage,
 		Level.Game.deathmatch) && !PlayerEx(Player).MorphTime)
 	{
 		// Try to use some inventory health
-		AutoUseHealth(damage - Player.Health + 1);
+		//AutoUseHealth(damage - Player.Health + 1);
 	}
 	Player.Health -= damage;	// mirror mobj health here for Dave
 	if (Player.Health < 0)

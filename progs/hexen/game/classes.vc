@@ -32,8 +32,6 @@ import 'linespec';
 #include "BotPlayer.vc"
 #include "PlayerSpeed.vc"
 
-class ArtiHealth : HealthPickup decorate;
-class Mana1 : Ammo decorate;
 class Mana2 : Ammo decorate;
 class ArtiInvulnerability : PowerupGiver decorate;
 class FighterPlayer : PlayerPawn decorate;

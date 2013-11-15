@@ -5,7 +5,6 @@ add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/basepak.pk3
 	DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/basepak.ls vlumpy
 		basepak.ls.in
 		confont.pcx
-		decorate.txt
 		default.cfg
 		in_epi1.txt
 		in_epi2.txt
@@ -25,102 +24,6 @@ add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/basepak.pk3
 		x11r6rgb.txt
 		actors/constants.txt
 		actors/nativeclasses.txt
-		actors/doom/arachnotron.txt
-		actors/doom/archvile.txt
-		actors/doom/bossbrain.txt
-		actors/doom/bruiser.txt
-		actors/doom/cacodemon.txt
-		actors/doom/cyberdemon.txt
-		actors/doom/deadthings.txt
-		actors/doom/demon.txt
-		actors/doom/doomammo.txt
-		actors/doom/doomarmor.txt
-		actors/doom/doomartifacts.txt
-		actors/doom/doomdecorations.txt
-		actors/doom/doomhealth.txt
-		actors/doom/doomimp.txt
-		actors/doom/doomkeys.txt
-		actors/doom/doommisc.txt
-		actors/doom/doomplayer.txt
-		actors/doom/doomweapons.txt
-		actors/doom/fatso.txt
-		actors/doom/keen.txt
-		actors/doom/lostsoul.txt
-		actors/doom/painelemental.txt
-		actors/doom/possessed.txt
-		actors/doom/revenant.txt
-		actors/doom/scriptedmarine.txt
-		actors/doom/spidermaster.txt
-		actors/doom/stealthmonsters.txt
-		actors/heretic/beast.txt
-		actors/heretic/chicken.txt
-		actors/heretic/clink.txt
-		actors/heretic/dsparil.txt
-		actors/heretic/hereticammo.txt
-		actors/heretic/hereticarmor.txt
-		actors/heretic/hereticartifacts.txt
-		actors/heretic/hereticdecorations.txt
-		actors/heretic/hereticimp.txt
-		actors/heretic/heretickeys.txt
-		actors/heretic/hereticmisc.txt
-		actors/heretic/hereticplayer.txt
-		actors/heretic/hereticweaps.txt
-		actors/heretic/ironlich.txt
-		actors/heretic/knight.txt
-		actors/heretic/mummy.txt
-		actors/heretic/snake.txt
-		actors/heretic/wizard.txt
-		actors/hexen/bats.txt
-		actors/hexen/bishop.txt
-		actors/hexen/blastradius.txt
-		actors/hexen/centaur.txt
-		actors/hexen/clericboss.txt
-		actors/hexen/clericflame.txt
-		actors/hexen/clericholy.txt
-		actors/hexen/clericmace.txt
-		actors/hexen/clericstaff.txt
-		actors/hexen/clericplayer.txt
-		actors/hexen/demons.txt
-		actors/hexen/dragon.txt
-		actors/hexen/ettin.txt
-		actors/hexen/fighteraxe.txt
-		actors/hexen/fighterboss.txt
-		actors/hexen/fighterfist.txt
-		actors/hexen/fighterhammer.txt
-		actors/hexen/fighterplayer.txt
-		actors/hexen/fighterquietus.txt
-		actors/hexen/firedemon.txt
-		actors/hexen/flame.txt
-		actors/hexen/flechette.txt
-		actors/hexen/fog.txt
-		actors/hexen/heresiarch.txt
-		actors/hexen/hexenarmor.txt
-		actors/hexen/hexendecorations.txt
-		actors/hexen/hexenkeys.txt
-		actors/hexen/hexenspecialdecs.txt
-		actors/hexen/iceguy.txt
-		actors/hexen/korax.txt
-		actors/hexen/mageboss.txt
-		actors/hexen/magecone.txt
-		actors/hexen/magelightning.txt
-		actors/hexen/mageplayer.txt
-		actors/hexen/magestaff.txt
-		actors/hexen/magewand.txt
-		actors/hexen/mana.txt
-		actors/hexen/pig.txt
-		actors/hexen/puzzleitems.txt
-		actors/hexen/scriptprojectiles.txt
-		actors/hexen/serpent.txt
-		actors/hexen/speedboots.txt
-		actors/hexen/spike.txt
-		actors/hexen/summon.txt
-		actors/hexen/teleportother.txt
-		actors/hexen/wraith.txt
-		actors/raven/artiegg.txt
-		actors/raven/minotaur.txt
-		actors/raven/ravenambient.txt
-		actors/raven/ravenartifacts.txt
-		actors/raven/ravenhealth.txt
 		actors/shared/blood.txt
 		actors/shared/debris.txt
 		actors/shared/fountain.txt
@@ -128,59 +31,6 @@ add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/basepak.pk3
 		actors/shared/sharedmisc.txt
 		actors/shared/soundsequence.txt
 		actors/shared/splashes.txt
-		actors/strife/acolyte.txt
-		actors/strife/alienspectres.txt
-		actors/strife/beggars.txt
-		actors/strife/coin.txt
-		actors/strife/crusader.txt
-		actors/strife/entityboss.txt
-		actors/strife/inquisitor.txt
-		actors/strife/loremaster.txt
-		actors/strife/macil.txt
-		actors/strife/merchants.txt
-		actors/strife/peasants.txt
-		actors/strife/programmer.txt
-		actors/strife/questitems.txt
-		actors/strife/ratbuddy.txt
-		actors/strife/reaver.txt
-		actors/strife/rebels.txt
-		actors/strife/sentinel.txt
-		actors/strife/sigil.txt
-		actors/strife/spectral.txt
-		actors/strife/stalker.txt
-		actors/strife/strifeammo.txt
-		actors/strife/strifearmor.txt
-		actors/strife/strifebishop.txt
-		actors/strife/strifehumanoid.txt
-		actors/strife/strifeitems.txt
-		actors/strife/strifekeys.txt
-		actors/strife/strifeplayer.txt
-		actors/strife/strifestuff.txt
-		actors/strife/strifeweapons.txt
-		actors/strife/templar.txt
-		actors/strife/thingstoblowup.txt
-		actors/strife/zombie.txt
-		fxdefs/common/effects.txt
-		fxdefs/doom/decorations.txt
-		fxdefs/doom/monsters.txt
-		fxdefs/doom/pickups.txt
-		fxdefs/doom/weapons.txt
-		fxdefs/heretic/decorations.txt
-		fxdefs/heretic/effects.txt
-		fxdefs/heretic/monsters.txt
-		fxdefs/heretic/pickups.txt
-		fxdefs/heretic/weapons.txt
-		fxdefs/hexen/decorations.txt
-		fxdefs/hexen/effects.txt
-		fxdefs/hexen/monsters.txt
-		fxdefs/hexen/pickups.txt
-		fxdefs/hexen/projectiles.txt
-		fxdefs/hexen/weapons.txt
-		fxdefs/raven/minotaur.txt
-		fxdefs/raven/pickups.txt
-		fxdefs/strife/decorations.txt
-		fxdefs/strife/monsters.txt
-		fxdefs/strife/weapons.txt
 		graphics/mc_arrow.png
 		sounds/dsempty.lmp
 		sounds/dsquake.flac

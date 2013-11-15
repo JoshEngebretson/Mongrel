@@ -45,7 +45,7 @@ defaultproperties
 	MissileHeight = 32.0;
 	WoundHealth = 6;
 	JumpVelZ = 9.5;
-	BloodType = Blood;
-	BloodSplatterType = BloodSplatter;
-	AxeBloodType = AxeBlood;
+	// BloodType = Blood;
+	//BloodSplatterType = BloodSplatter;
+	//AxeBloodType = AxeBlood;
 }

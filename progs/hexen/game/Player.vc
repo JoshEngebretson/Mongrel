@@ -49,42 +49,6 @@ void CreateBot()
 
 void OnNetReborn(EntityEx OldMO)
 {
-	Weapon bestWeapon;
-	Inventory Item;
-
-	// Restore keys and weapons when reborn in co-op
-	bestWeapon = none;
-	if (OldMO)
-	{
-		for (Item = OldMO.Inventory; Item; )
-		{
-			Inventory Next = Item.Inventory;
-			if (Weapon(Item))
-			{
-				if (!bestWeapon || bestWeapon.SelectionOrder >
-					Weapon(Item).SelectionOrder)
-				{
-					bestWeapon = Weapon(Item);
-				}
-				Item.AttachToOwner(EntityEx(MO));
-			}
-			else if (FourthWeaponHolder(Item) || Key(Item))
-			{
-				Item.AttachToOwner(EntityEx(MO));
-			}
-			Item = Next;
-		}
-		OldMO.DestroyAllInventory();
-	}
-	GiveAmmo(Mana1, 0);
-	GiveAmmo(Mana2, 0);
-	EntityEx(MO).FindInventory(Mana1).Amount = 25;
-	EntityEx(MO).FindInventory(Mana2).Amount = 25;
-	if (bestWeapon)
-	{
-		// Bring up the best weapon
-		PendingWeapon = bestWeapon;
-	}
 }
 
 //==========================================================================
@@ -158,84 +122,6 @@ int GetRebornHealth()
 
 void PlayerImpulse()
 {
-	int impulse;
-	int i;
-
-	impulse = Impulse;
-	Impulse = 0;
-	Inventory Arti = none;
-
-	if (impulse <= LineSpecialGameInfo::NUM_WEAPON_SLOTS)
-	{
-		ChangeWeapon(impulse);
-	}
-	else if (impulse == 13)
-	{
-		InventoryLeft();
-	}
-	else if (impulse == 14)
-	{
-		InventoryRight();
-	}
-	else if (impulse == 15)
-	{
-		InventoryUse();
-	}
-	else if (impulse == 16)
-	{
-		Actor(MO).Damage(none, none, 10000);
-	}
-	else if (impulse == 17)
-	{
-		PrevWeapon();
-	}
-	else if (impulse == 18)
-	{
-		NextWeapon();
-	}
-	else if (impulse >= 200 && impulse <= 205)
-	{
-		LineSpecialLevelInfo(Level).ConChoiceImpulse(impulse - 200);
-	}
-	// Hexen artifact hot keys
-	if (!Arti)
-	{
-		if (impulse == 12 && (Health < MAXHEALTH))
-		{
-			Arti = EntityEx(MO).FindInventory(ArtiHealth);
-		}
-		else if (impulse == 10)
-		{
-			Arti = EntityEx(MO).FindInventory(ArtiPoisonBag);
-		}
-		else if (impulse == 9)
-		{
-			Arti = EntityEx(MO).FindInventory(ArtiBlastRadius);
-		}
-		else if (impulse == 8)
-		{
-			Arti = EntityEx(MO).FindInventory(ArtiTeleport);
-		}
-		else if (impulse == 7)
-		{
-			Arti = EntityEx(MO).FindInventory(ArtiTeleportOther);
-		}
-		else if (impulse == 6)
-		{
-			Arti = EntityEx(MO).FindInventory(ArtiPork);
-		}
-		else if (impulse == 5 &&
-			!EntityEx(MO).FindInventory(PowerInvulnerable))
-		{
-			Arti = EntityEx(MO).FindInventory(ArtiInvulnerability);
-		}
-	}
-
-	if (Arti)
-	{
-		// Use an artifact
-		EntityEx(MO).UseInventory(Arti);
-	}
 }
 
 //==========================================================================

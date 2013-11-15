@@ -531,7 +531,7 @@ final void ZMovement(float DeltaTime, float OldFloorZ)
 
 final void HitLine(tmtrace_t* tmtrace, float StepVelScale)
 {
-	if (bMissile)
+	if (false)
 	{
 		if (bBounceWalls || BounceType == BOUNCE_Doom ||
 			BounceType == BOUNCE_Hexen)
@@ -539,7 +539,7 @@ final void HitLine(tmtrace_t* tmtrace, float StepVelScale)
 			//	If number of bounces is limited.
 			if (BounceCount > 0 && --BounceCount <= 0)
 			{
-				ExplodeMissile(none);
+				//ExplodeMissile(none);
 				return;
 			}
 
@@ -555,7 +555,7 @@ final void HitLine(tmtrace_t* tmtrace, float StepVelScale)
 				}
 				else if (bExplodeOnSky)
 				{
-					ExplodeMissile(none);
+					//ExplodeMissile(none);
 				}
 				else
 				{
@@ -597,7 +597,7 @@ final void HitLine(tmtrace_t* tmtrace, float StepVelScale)
 			}
 			else if (bExplodeOnSky)
 			{
-				ExplodeMissile(none);
+				//ExplodeMissile(none);
 			}
 			else
 			{
@@ -618,7 +618,7 @@ final void HitLine(tmtrace_t* tmtrace, float StepVelScale)
 			}
 			return;
 		}
-		ExplodeMissile(none);
+		//ExplodeMissile(none);
 	}
 	else if (bSlide)
 	{
@@ -651,7 +651,7 @@ final void HitMobj(Entity Other, float ptryx, float ptryy)
 			//	If number of bounces is limited.
 			if (BounceCount > 0 && --BounceCount <= 0)
 			{
-				ExplodeMissile(none);
+				//ExplodeMissile(none);
 				return;
 			}
 
@@ -674,7 +674,7 @@ final void HitMobj(Entity Other, float ptryx, float ptryy)
 			else
 			{
 				// Struck a player/creature
-				ExplodeMissile(EntityEx(Other));
+				//ExplodeMissile(EntityEx(Other));
 			}
 			return;
 		}
@@ -697,7 +697,7 @@ final void HitMobj(Entity Other, float ptryx, float ptryy)
 			}
 		}
 		// Explode a missile
-		ExplodeMissile(EntityEx(Other));
+		//ExplodeMissile(EntityEx(Other));
 	}
 	else if (bSlide)
 	{
@@ -772,7 +772,7 @@ final bool HitFloor()
 			return false;
 		}
 		HitFloorType();
-		ExplodeMissile(none);
+		//ExplodeMissile(none);
 		return false;
 	}
 
@@ -865,7 +865,7 @@ final bool HitCeiling()
 			}
 			else if (bExplodeOnSky)
 			{
-				ExplodeMissile(none);
+				//ExplodeMissile(none);
 			}
 			else
 			{
@@ -873,7 +873,7 @@ final bool HitCeiling()
 			}
 			return false;
 		}
-		ExplodeMissile(none);
+		//ExplodeMissile(none);
 		return false;
 	}
 	vdot = DotProduct(Velocity, Ceiling->normal);
@@ -908,7 +908,7 @@ void FloorBounceMissile()
 		//	Landed on some kind of liquid.
 		if (bExplodeOnWater)
 		{
-			ExplodeMissile(none);
+			//ExplodeMissile(none);
 			return;
 		}
 		if (!bCanBounceWater)
@@ -921,7 +921,7 @@ void FloorBounceMissile()
 	//	If number of bounces is limited.
 	if (BounceCount > 0 && --BounceCount <= 0)
 	{
-		ExplodeMissile(none);
+		//ExplodeMissile(none);
 		return;
 	}
 
@@ -984,7 +984,7 @@ final void CeilingBounceMissile()
 	//	If number of bounces is limited.
 	if (BounceCount > 0 && --BounceCount <= 0)
 	{
-		ExplodeMissile(none);
+		//ExplodeMissile(none);
 		return;
 	}
 
