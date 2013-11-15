@@ -31,9 +31,3 @@ import 'linespec';
 #include "Player.vc"
 #include "BotPlayer.vc"
 #include "PlayerSpeed.vc"
-
-class FighterPlayer : PlayerPawn decorate;
-class ClericPlayer : PlayerPawn decorate;
-class MagePlayer : PlayerPawn decorate;
-class PunchPuff : Actor decorate;
-class HolyMissile : Actor decorate;

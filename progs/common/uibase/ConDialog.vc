@@ -186,11 +186,6 @@ void OnDraw()
 	}
 	if (bNeedGold)
 	{
-		Inventory Item;
-		Item = EntityEx(StatusBarShared(ClGame.GSBar).ClGame.cl.MO).FindInventory(Coin);
-
-		DrawPic(480, 510 - NumChoices * 22,  R_RegisterPic('i_coin'));
-		DrawText(510, 510 - NumChoices * 22, va("%d", Item ? Item.Amount : 0), CR_WHITE);
 	}
 
 	ShadeRect(60, 438 - NumChoices * 22, 501, NumChoices * 22, 0.3);
