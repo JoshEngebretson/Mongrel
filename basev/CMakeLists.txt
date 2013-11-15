@@ -5,7 +5,6 @@ add_subdirectory(common)
 add_subdirectory(doom)
 add_subdirectory(doom1)
 add_subdirectory(doom2)
-add_subdirectory(heretic)
 add_subdirectory(hexen)
 
 install(FILES games.txt DESTINATION ${DATADIR}/basev)
