@@ -83,8 +83,6 @@ enum
 
 #include "SoundEnvironment.vc"
 
-#include "SecurityCamera.vc"
-#include "AimingCamera.vc"
 #include "InterpolationPoint.vc"
 #include "InterpolationSpecial.vc"
 #include "PathFollower.vc"
@@ -143,7 +141,6 @@ enum
 #include "SpecialSpot.vc"
 
 #include "ParticleFountain.vc"
-#include "Spark.vc"
 
 #include "StaticLightSource.vc"
 #include "StaticRGBLightSource.vc"
@@ -154,11 +151,8 @@ enum
 #include "PointLightFlickerRandom.vc"
 #include "SectorPointLight.vc"
 
-#include "GlassShard.vc"
 #include "FastProjectile.vc"
 
-#include "BridgeBall.vc"
-#include "Bridge.vc"
 #include "ZBridge.vc"
 #include "InvisibleBridge.vc"
 #include "InvisibleBridge32.vc"
@@ -173,10 +167,6 @@ enum
 #include "SectorSilencer.vc"
 
 #include "SecretTrigger.vc"
-#include "HateTarget.vc"
-
-#include "IceChunk.vc"
-#include "IceChunkHead.vc"
 
 #include "LineSpecialClientGame.vc"
 
