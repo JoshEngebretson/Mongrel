@@ -1502,68 +1502,9 @@ void PutClientIntoServer()
 
 void SpawnClient()
 {
-	bool playerWasReborn;
-	EntityEx OldMO = EntityEx(MO);
-
-	AddVisitedMap(Level.XLevel.MapName);
-
-	if (Level.Game.netgame && !Level.Game.deathmatch)
-	{
-		// Cooperative net-play, retain keys and weapons
-		playerWasReborn = (PlayerState == PST_REBORN);
-	}
-
-	//  Spawn player
-	if (Level.Game.deathmatch)
-	{
-		DeathMatchSpawnPlayer();
-	}
-	else if (Level.Game.netgame || Level.bClusterHub)
-	{
-		SpawnPlayer(Level.GetPlayerStart(GetPlayerNum(),
-			Level.Game.RebornPosition), false);
-	}
-	else
-	{
-		mthing_t* Best = NULL;
-		bool Spawned = false;
-		int i;
-		for (i = 0; i < Level.PlayerStarts.Num; i++)
-		{
-			if (Level.PlayerStarts[i].type != GetPlayerNum() + 1)
-			{
-				continue;
-			}
-			if (Level.PlayerStarts[i].arg1 == Level.Game.RebornPosition)
-			{
-				SpawnPlayer(&Level.PlayerStarts[i], Spawned);
-				Spawned = true;
-				continue;
-			}
-			if (!Best)
-			{
-				Best = &Level.PlayerStarts[i];
-			}
-		}
-		if (!Spawned)
-		{
-			if (!Best)
-			{
-				Error("Player %d has no start spots", GetPlayerNum() + 1);
-			}
-			print("Player %d has no start spot for position %d",
-				GetPlayerNum() + 1, Level.Game.RebornPosition);
-			SpawnPlayer(Best, false);
-		}
-	}
-
-	if (Level.Game.netgame && !Level.Game.deathmatch && playerWasReborn)
-	{
-		OnNetReborn(OldMO);
-	}
-
-	// Destroy all things touching players
-	Actor(MO).TeleportMove(MO.Origin);
+	// spawn player 1 at spawnpoint 1, note that hexen red level change doors
+	// are currently breaking on Level spawnpoints being invalid here
+	SpawnPlayer(Level.GetPlayerStart(0, 0), false);
 }
 
 //==========================================================================
