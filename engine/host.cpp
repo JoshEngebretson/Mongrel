@@ -195,17 +195,7 @@ void Host_Init()
 
 	R_ParseEffectDefs();
 
-	InitMapInfo();
-
-	GCmdBuf.Exec();
-
-#ifndef CLIENT
-	if (GGameInfo->NetMode == NM_None)
-	{
-		GCmdBuf << "MaxPlayers 4\n";
-		GCmdBuf << "Map " << *P_TranslateMap(1) << "\n";
-	}
-#endif
+	InitMapInfo();	
 
 	host_initialised = true;
 	unguard;
@@ -381,8 +371,6 @@ void Host_Frame()
 		//	Check for commands typed to the host
 		Host_GetConsoleCommands();
 
-		//	Process console commands
-		GCmdBuf.Exec();
 		if (host_request_exit)
 		{
 			Host_Quit();

@@ -534,6 +534,17 @@ int main(int argc,char** argv)
 		while (1)
 		{
 			Host_Frame();
+
+            //	Cmd processing was moved here (and removed from Host_Init/Host_Frame
+            //  a side effect of removing it from Host_Init is that it becomes impossible
+            //  to set some variables before refresh inits, etc
+            //  Though, for instance the +map command tries to load a level before the
+            //  refresh/graphics driver is initialized, which causes texture generation for example
+            //  to fail (refresh is initialized in first Host_Frame screen update
+
+            //Process console commands
+            GCmdBuf.Exec();
+
 		}
 	}
 	catch (VavoomError &e)
