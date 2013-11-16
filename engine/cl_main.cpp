@@ -26,7 +26,6 @@
 // HEADER FILES ------------------------------------------------------------
 
 #include "gamedefs.h"
-#include "network.h"
 #include "cl_local.h"
 #include "sv_local.h"
 
@@ -35,8 +34,6 @@
 // TYPES -------------------------------------------------------------------
 
 // EXTERNAL FUNCTION PROTOTYPES --------------------------------------------
-
-void CL_SetUpNetClient(VSocketPublic*);
 void SV_ConnectClient(VBasePlayer*);
 void CL_Clear();
 void CL_ReadFromServerInfo();
@@ -51,7 +48,6 @@ void CL_ReadFromServerInfo();
 
 client_static_t		cls;
 VBasePlayer*		cl;
-VClientNetContext*	ClientNetContext;
 
 VClientGameBase*	GClGame;
 
@@ -82,8 +78,6 @@ void CL_Init()
 	guard(CL_Init);
 	VMemberBase::StaticLoadPackage(NAME_cgame, TLocation());
 	TLocation::ClearSourceFiles();
-
-	ClientNetContext = new VClientNetContext();
 	GClGame = (VClientGameBase*)VObject::StaticSpawnObject(
 		VClass::FindClass("ClientGame"));
 	GClGame->Game = GGameInfo;
@@ -130,8 +124,6 @@ void CL_Shutdown()
 	if (GClGame)
 		GClGame->ConditionalDestroy();
 	cls.userinfo.Clean();
-	delete ClientNetContext;
-	ClientNetContext = NULL;
 	unguard;
 }
 
@@ -183,15 +175,6 @@ void CL_ReadFromServer()
 		return;
 	}
 
-	if (cl->Net)
-	{
-		cl->Net->GetMessages();
-		if (cl->Net->State == NETCON_Closed)
-		{
-			Host_EndGame("Server disconnected");
-		}
-	}
-
 	if (cls.signon)
 	{
 		if (GGameInfo->NetMode == NM_Client)
@@ -234,8 +217,6 @@ void CL_KeepaliveMessage()
 		return;		// no need if server is local
 	if (cls.demoplayback)
 		return;
-	// write out a nop
-	cl->Net->Flush();
 	unguard;
 }
 
@@ -257,14 +238,6 @@ void CL_EstablishConnection(const char* host)
 
 	SV_ShutdownGame();
 
-	VSocketPublic* Sock = GNet->Connect(host);
-	if (!Sock)
-	{
-		GCon->Log("Failed to connect to the server");
-		return;
-	}
-
-	CL_SetUpNetClient(Sock);
 	GCon->Logf(NAME_Dev, "CL_EstablishConnection: connected to %s", host);
 	GGameInfo->NetMode = NM_Client;
 
@@ -380,16 +353,8 @@ void CL_SendMove()
 		{
 			cl->HandleInput();
 		}
-		if (cl->Net)
-		{
-			((VPlayerChannel*)cl->Net->Channels[CHANIDX_Player])->Update();
-		}
 	}
 
-	if (cl->Net)
-	{
-		cl->Net->Tick();
-	}
 	unguard;
 }
 
@@ -465,6 +430,7 @@ void CL_ParseServerInfo(VMessageIn& msg)
 	guard(CL_ParseServerInfo);
 	CL_Clear();
 
+    /*
 	msg << GClGame->serverinfo;
 	CL_ReadFromServerInfo();
 
@@ -489,48 +455,9 @@ void CL_ParseServerInfo(VMessageIn& msg)
 	GAudio->Start();
 
 	SB_Start();
+    */
 
 	GCon->Log(NAME_Dev, "Client level loaded");
-	unguard;
-}
-
-//==========================================================================
-//
-//	VClientNetContext::GetLevel
-//
-//==========================================================================
-
-VLevel* VClientNetContext::GetLevel()
-{
-	return GClLevel;
-}
-
-//==========================================================================
-//
-//	CL_SetUpNetClient
-//
-//==========================================================================
-
-void CL_SetUpNetClient(VSocketPublic* Sock)
-{
-	guard(CL_SetUpNetClient);
-	//	Create player structure.
-	cl = (VBasePlayer*)VObject::StaticSpawnObject(
-		VClass::FindClass("Player"));
-	cl->PlayerFlags |= VBasePlayer::PF_IsClient;
-	cl->ClGame = GClGame;
-	GClGame->cl = cl;
-
-	if (cls.demorecording)
-	{
-		cl->Net = new VDemoRecordingNetConnection(Sock, ClientNetContext, cl);
-	}
-	else
-	{
-		cl->Net = new VNetConnection(Sock, ClientNetContext, cl);
-	}
-	ClientNetContext->ServerConnection = cl->Net;
-	((VPlayerChannel*)cl->Net->Channels[CHANIDX_Player])->SetPlayer(cl);
 	unguard;
 }
 
@@ -582,11 +509,6 @@ void CL_PlayDemo(const VStr& DemoName, bool IsTimeDemo)
 	cl->ClGame = GClGame;
 	GClGame->cl = cl;
 
-	cl->Net = new VDemoPlaybackNetConnection(ClientNetContext, cl,
-		Strm, IsTimeDemo);
-	ClientNetContext->ServerConnection = cl->Net;
-	((VPlayerChannel*)cl->Net->Channels[CHANIDX_Player])->SetPlayer(cl);
-
 	GGameInfo->NetMode = NM_Client;
 	GClGame->eventDemoPlaybackStarted();
 	unguard;
@@ -605,11 +527,6 @@ void CL_StopRecording()
 	delete cls.demofile;
 	cls.demofile = NULL;
 	cls.demorecording = false;
-	if (GDemoRecordingContext)
-	{
-		delete GDemoRecordingContext;
-		GDemoRecordingContext = NULL;
-	}
 	GCon->Log("Completed demo");
 	unguard;
 }
@@ -732,21 +649,6 @@ COMMAND(Record)
 	if (GGameInfo->NetMode == NM_Standalone ||
 		GGameInfo->NetMode == NM_ListenServer)
 	{
-		GDemoRecordingContext = new VServerNetContext();
-		VSocketPublic* Sock = new VDemoRecordingSocket();
-		VNetConnection* Conn = new VNetConnection(Sock,
-			GDemoRecordingContext, cl);
-		Conn->AutoAck = true;
-		GDemoRecordingContext->ClientConnections.Append(Conn);
-		Conn->ObjMap->SetUpClassLookup();
-		VObjectMapChannel* Chan = (VObjectMapChannel*)Conn->CreateChannel(
-			CHANNEL_ObjectMap, -1);
-		while (!Conn->ObjMapSent)
-		{
-			Conn->Tick();
-		}
-		Conn->SendServerInfo();
-		((VPlayerChannel*)Conn->Channels[CHANIDX_Player])->SetPlayer(cl);
 	}
 	unguard;
 }

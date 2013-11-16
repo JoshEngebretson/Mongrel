@@ -30,7 +30,6 @@
 // HEADER FILES ------------------------------------------------------------
 
 #include "gamedefs.h"
-#include "network.h"
 #include "sv_local.h"
 #include "zipstream.h"
 

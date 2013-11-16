@@ -568,32 +568,5 @@ bool VStruct::IdenticalObject(const vuint8* Val1, const vuint8* Val2)
 	unguardf(("(%s)", *Name));
 }
 
-//==========================================================================
-//
-//	VStruct::NetSerialiseObject
-//
-//==========================================================================
-
-bool VStruct::NetSerialiseObject(VStream& Strm, VNetObjectsMap* Map,
-	vuint8* Data)
-{
-	guard(VStruct::NetSerialiseObject);
-	bool Ret = true;
-	//	Serialise parent struct's fields.
-	if (ParentStruct)
-	{
-		Ret = ParentStruct->NetSerialiseObject(Strm, Map, Data);
-	}
-	//	Serialise fields.
-	for (VField* F = Fields; F; F = F->Next)
-	{
-		if (!VField::NetSerialiseValue(Strm, Map, Data + F->Ofs, F->Type))
-		{
-			Ret = false;
-		}
-	}
-	return Ret;
-	unguardf(("(%s)", *Name));
-}
 
 #endif

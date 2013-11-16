@@ -29,7 +29,6 @@
 
 // TYPES -------------------------------------------------------------------
 
-class VNetConnection;
 class VClientGameBase;
 
 //
@@ -113,9 +112,8 @@ class VBasePlayer : public VGameObject
 		PF_AutomapRevealed		= 0x0200,
 		PF_AutomapShowThings	= 0x0400,
 	};
-	vuint32			PlayerFlags;
 
-	VNetConnection*	Net;
+	vuint32			PlayerFlags;
 
 	VStr			UserInfo;
 

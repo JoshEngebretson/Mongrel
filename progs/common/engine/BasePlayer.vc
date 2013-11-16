@@ -67,8 +67,6 @@ readonly bool			bIsClient;				// Player on client side
 bool					bAutomapRevealed;
 bool					bAutomapShowThings;
 
-native readonly private void* Net;
-
 string					UserInfo;
 
 string					PlayerName;

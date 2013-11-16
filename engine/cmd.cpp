@@ -26,7 +26,6 @@
 // HEADER FILES ------------------------------------------------------------
 
 #include "gamedefs.h"
-#include "network.h"
 
 // MACROS ------------------------------------------------------------------
 
@@ -465,9 +464,9 @@ void VCommand::ForwardToServer()
 		GCon->Log("You must be in a game to execute this command");
 		return;
 	}
-	if (cl->Net)
+    if (false) //cl->Net)
 	{
-		cl->Net->SendCommand(Original);
+        //cl->Net->SendCommand(Original);
 	}
 	else
 	{

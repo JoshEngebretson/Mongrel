@@ -26,7 +26,6 @@
 // HEADER FILES ------------------------------------------------------------
 
 #include "gamedefs.h"
-#include "network.h"
 #include "sv_local.h"
 
 // MACROS ------------------------------------------------------------------
@@ -225,10 +224,10 @@ void VCvar::DoSet(const VStr& AValue)
 				VCommand::ExecuteString(VStr("setinfo \"") + Name + "\" \"" +
 					StringValue + "\"\n", VCommand::SRC_Client, cl);
 			}
-			else if (cl->Net)
+            else if (false)//cl->Net)
 			{
-				cl->Net->SendCommand(VStr("setinfo \"") + Name + "\" \"" +
-					StringValue + "\"\n");
+                //cl->Net->SendCommand(VStr("setinfo \"") + Name + "\" \"" +
+                //	StringValue + "\"\n");
 			}
 		}
 	}

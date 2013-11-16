@@ -26,7 +26,6 @@
 // HEADER FILES ------------------------------------------------------------
 
 #include "gamedefs.h"
-#include "network.h"
 #include "cl_local.h"
 //#include "svnrev.h"
 #include <time.h>
@@ -160,9 +159,6 @@ void Host_Init()
 	GSoundManager->Init();
 	R_InitData();
 	R_InitTexture();
-
-	GNet = VNetworkPublic::Create();
-	GNet->Init();
 
 	ReadLineSpecialInfos();
 
@@ -374,8 +370,6 @@ void Host_Frame()
 		{
 			Host_Quit();
 		}
-
-		GNet->Poll();
 
 #ifdef CLIENT
 		//	Make intentions
@@ -678,11 +672,6 @@ void Host_Shutdown()
 #ifdef SERVER
 	SAFE_SHUTDOWN(SV_Shutdown, ())
 #endif
-	if (GNet)
-	{
-		SAFE_SHUTDOWN(delete GNet,)
-		GNet = NULL;
-	}
 #ifdef CLIENT
 	if (GInput)
 	{

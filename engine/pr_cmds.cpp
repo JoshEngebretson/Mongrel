@@ -30,7 +30,6 @@
 // HEADER FILES ------------------------------------------------------------
 
 #include "gamedefs.h"
-#include "network.h"
 #include "sv_local.h"
 #include "cl_local.h"
 #include "snd_local.h"
@@ -691,21 +690,10 @@ IMPLEMENT_FUNCTION(VObject, SV_GetSaveString)
 #endif
 }
 
-IMPLEMENT_FUNCTION(VObject, GetSlist)
-{
-	RET_PTR(GNet->GetSlist());
-}
-
 IMPLEMENT_FUNCTION(VObject, LoadTextLump)
 {
 	P_GET_NAME(name);
 	RET_STR(W_LoadTextLump(name));
-}
-
-IMPLEMENT_FUNCTION(VObject, StartSearch)
-{
-	P_GET_BOOL(Master);
-	GNet->StartSearch(Master);
 }
 
 #endif

@@ -31,7 +31,6 @@
 class VRenderLevelPublic;
 class VTextureTranslation;
 class VAcsLevel;
-class VNetContext;
 
 struct sector_t;
 struct mapInfo_t;

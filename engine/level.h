@@ -231,7 +231,6 @@ class VLevel : public VGameObject
 	VAcsLevel*			Acs;
 
 	VRenderLevelPublic*	RenderData;
-	VNetContext*		NetContext;
 
 	rep_line_t*			BaseLines;
 	rep_side_t*			BaseSides;

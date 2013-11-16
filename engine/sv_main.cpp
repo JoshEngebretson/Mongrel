@@ -26,7 +26,6 @@
 // HEADER FILES ------------------------------------------------------------
 
 #include "gamedefs.h"
-#include "network.h"
 #include "sv_local.h"
 #include "cl_local.h"
 
@@ -72,8 +71,6 @@ int 			LeavePosition;
 
 bool			completed;
 
-VNetContext*	GDemoRecordingContext;
-
 // PRIVATE DATA DEFINITIONS ------------------------------------------------
 
 static int		RebornPosition;	// Position indicator for cooperative net-play reborn
@@ -88,8 +85,6 @@ static VCvarI	sv_cheats("sv_cheats", "0", CVAR_ServerInfo | CVAR_Latch);
 static VCvarI	split_frame("split_frame", "1", CVAR_Archive);
 static VCvarI	sv_maxmove("sv_maxmove", "400", CVAR_Archive);
 static VCvarF	master_heartbeat_time("master_heartbeat_time", "300", CVAR_Archive);
-
-static VServerNetContext*	ServerNetContext;
 
 static double	LastMasterUpdate;
 
@@ -122,8 +117,6 @@ void SV_Init()
 	{
 		R_InstallSprite(*VClass::GSpriteNames[i], i);
 	}
-
-	ServerNetContext = new VServerNetContext();
 
 	VClass* PlayerClass = VClass::FindClass("Player");
 	for (i = 0; i < MAXPLAYERS; i++)
@@ -171,8 +164,6 @@ void SV_Shutdown()
 	{
 		if (GPlayersBase[i])
 		{
-			delete GPlayersBase[i]->Net;
-			GPlayersBase[i]->Net = NULL;
 			GPlayersBase[i]->ConditionalDestroy();
 		}
 	}
@@ -180,9 +171,6 @@ void SV_Shutdown()
 	P_FreeTerrainTypes();
 	ShutdownLockDefs();
 	svs.serverinfo.Clean();
-
-	delete ServerNetContext;
-	ServerNetContext = NULL;
 	unguard;
 }
 
@@ -247,17 +235,7 @@ void SV_SendClientMessages()
 		}
 	}
 
-	ServerNetContext->Tick();
-
-	if (GDemoRecordingContext)
-	{
-		for (int i = 0; i < GDemoRecordingContext->ClientConnections.Num(); i++)
-		{
-			GDemoRecordingContext->ClientConnections[i]->NeedsUpdate = true;
-		}
-		GDemoRecordingContext->Tick();
-	}
-	unguard;
+    unguard;
 }
 
 //========================================================================
@@ -362,12 +340,6 @@ void SV_RunClients()
 			G_DoReborn(i);
 		}
 
-		if (Player->Net)
-		{
-			Player->Net->NeedsUpdate = false;
-			Player->Net->GetMessages();
-		}
-
 		// pause if in menu or console and at least one tic has been run
 		if (Player->PlayerFlags & VBasePlayer::PF_Spawned &&
 			!sv.intermission && !GGameInfo->IsPaused())
@@ -429,7 +401,6 @@ void SV_Ticker()
 	if (GGameInfo->NetMode >= NM_DedicatedServer && (!LastMasterUpdate ||
 		host_time - LastMasterUpdate > master_heartbeat_time))
 	{
-		GNet->UpdateMaster();
 		LastMasterUpdate = host_time;
 	}
 
@@ -674,68 +645,7 @@ static void G_DoReborn(int playernum)
 int NET_SendToAll(int blocktime)
 {
 	guard(NET_SendToAll);
-	double		start;
-	int			i;
-	int			count = 0;
-	bool		state1[MAXPLAYERS];
-	bool		state2[MAXPLAYERS];
-
-	for (i = 0; i < svs.max_clients; i++)
-	{
-		VBasePlayer* Player = GGameInfo->Players[i];
-		if (Player && Player->Net)
-		{
-			if (Player->Net->IsLocalConnection())
-			{
-				state1[i] = false;
-				state2[i] = true;
-				continue;
-			}
-			count++;
-			state1[i] = false;
-			state2[i] = false;
-		}
-		else
-		{
-			state1[i] = true;
-			state2[i] = true;
-		}
-	}
-
-	start = Sys_Time();
-	while (count)
-	{
-		count = 0;
-		for (i = 0; i < svs.max_clients; i++)
-		{
-			VBasePlayer* Player = GGameInfo->Players[i];
-			if (!state1[i])
-			{
-				state1[i] = true;
-				Player->Net->Channels[0]->Close();
-				count++;
-				continue;
-			}
-
-			if (!state2[i])
-			{
-				if (Player->Net->State == NETCON_Closed)
-				{
-					state2[i] = true;
-				}
-				else
-				{
-					Player->Net->GetMessages();
-					Player->Net->Tick();
-				}
-				count++;
-				continue;
-			}
-		}
-		if ((Sys_Time() - start) > blocktime)
-			break;
-	}
-	return count;
+    return 0;
 	unguard;
 }
 
@@ -748,19 +658,6 @@ int NET_SendToAll(int blocktime)
 void SV_SendServerInfoToClients()
 {
 	guard(SV_SendServerInfoToClients);
-	for (int i = 0; i < svs.max_clients; i++)
-	{
-		VBasePlayer* Player = GGameInfo->Players[i];
-		if (!Player)
-		{
-			continue;
-		}
-		Player->Level = GLevelInfo;
-		if (Player->Net)
-		{
-			Player->Net->SendServerInfo();
-		}
-	}
 	unguard;
 }
 
@@ -826,7 +723,6 @@ void SV_SpawnServer(const char *mapname, bool spawn_thinkers, bool titlemap)
 
 	//	Load it
 	SV_LoadLevel(VName(mapname, VName::AddLower8));
-	GLevel->NetContext = ServerNetContext;
 	GLevel->WorldInfo = GGameInfo->WorldInfo;
 
 	const mapInfo_t& info = P_GetMapInfo(GLevel->MapName);
@@ -915,25 +811,6 @@ void SV_SpawnServer(const char *mapname, bool spawn_thinkers, bool titlemap)
 COMMAND(PreSpawn)
 {
 	guard(COMMAND PreSpawn);
-	if (Source == SRC_Command)
-	{
-		GCon->Log("PreSpawn is not valid from console");
-		return;
-	}
-
-	//	Make sure level info is spawned on client side, since there
-	// could be some RPCs that depend on it.
-	VThinkerChannel* Chan = Player->Net->ThinkerChannels.FindPtr(GLevelInfo);
-	if (!Chan)
-	{
-		Chan = (VThinkerChannel*)Player->Net->CreateChannel(CHANNEL_Thinker,
-			-1);
-		if (Chan)
-		{
-			Chan->SetThinker(GLevelInfo);
-			Chan->Update();
-		}
-	}
 	unguard;
 }
 
@@ -982,9 +859,6 @@ void SV_DropClient(VBasePlayer* Player, bool crash)
 	Player->PlayerFlags &= ~VBasePlayer::PF_Spawned;
 
 	Player->PlayerReplicationInfo->DestroyThinker();
-
-	delete Player->Net;
-	Player->Net = NULL;
 
 	svs.num_connected--;
 	Player->UserInfo = VStr();
@@ -1036,12 +910,7 @@ void SV_ShutdownGame()
 		if (!cls.demoplayback)
 		{
 			GCon->Log(NAME_Dev, "Sending clc_disconnect");
-			cl->Net->Channels[0]->Close();
-			cl->Net->Flush();
 		}
-
-		delete cl->Net;
-		cl->Net = NULL;
 		cl->ConditionalDestroy();
 
 		if (GClLevel)
@@ -1084,23 +953,12 @@ void SV_ShutdownGame()
 			delete GGameInfo->WorldInfo;
 			GGameInfo->WorldInfo = NULL;
 		}
-		for (int i = 0; i < MAXPLAYERS; i++)
-		{
-			//	Save net pointer
-			VNetConnection* OldNet = GPlayersBase[i]->Net;
-			GPlayersBase[i]->GetClass()->DestructObject(GPlayersBase[i]);
-			memset((vuint8*)GPlayersBase[i] + sizeof(VObject), 0,
-				GPlayersBase[i]->GetClass()->ClassSize - sizeof(VObject));
-			//	Restore pointer
-			GPlayersBase[i]->Net = OldNet;
-		}
 		memset(GGameInfo->Players, 0, sizeof(GGameInfo->Players));
 		memset(&sv, 0, sizeof(sv));
 
 		//	Tell master server that this server is gone.
 		if (GGameInfo->NetMode >= NM_DedicatedServer)
 		{
-			GNet->QuitMaster();
 			LastMasterUpdate = 0;
 		}
 	}
@@ -1217,13 +1075,6 @@ COMMAND(Stats)
 void SV_ConnectClient(VBasePlayer *player)
 {
 	guard(SV_ConnectClient);
-	if (player->Net)
-	{
-		GCon->Logf(NAME_Dev, "Client %s connected", *player->Net->GetAddress());
-
-		ServerNetContext->ClientConnections.Append(player->Net);
-		player->Net->NeedsUpdate = false;
-	}
 
 	GGameInfo->Players[SV_GetPlayerNum(player)] = player;
 	player->ClientNum = SV_GetPlayerNum(player);
@@ -1256,43 +1107,7 @@ void SV_ConnectClient(VBasePlayer *player)
 void SV_CheckForNewClients()
 {
 	guard(SV_CheckForNewClients);
-	VSocketPublic*	sock;
-	int				i;
-		
-	//
-	// check for new connections
-	//
-	while (1)
-	{
-		sock = GNet->CheckNewConnections();
-		if (!sock)
-		{
-			break;
-		}
 
-		//
-		// init a new client structure
-		//
-		for (i = 0; i < svs.max_clients; i++)
-		{
-			if (!GGameInfo->Players[i])
-			{
-				break;
-			}
-		}
-		if (i == svs.max_clients)
-		{
-			Sys_Error("Host_CheckForNewClients: no free clients");
-		}
-
-		VBasePlayer* Player = GPlayersBase[i];
-		Player->Net = new VNetConnection(sock, ServerNetContext, Player);
-		Player->Net->ObjMap->SetUpClassLookup();
-		((VPlayerChannel*)Player->Net->Channels[CHANIDX_Player])->SetPlayer(Player);
-		Player->Net->CreateChannel(CHANNEL_ObjectMap, -1);
-		SV_ConnectClient(Player);
-		svs.num_connected++;
-	}
 	unguard;
 }
 
@@ -1576,17 +1391,6 @@ COMMAND(Say)
 	GLevelInfo->StartSound(TVec(0, 0, 0), 0,
 		GSoundManager->GetSoundID("misc/chat"), 0, 1.0, 0, false);
 	unguard;
-}
-
-//==========================================================================
-//
-//	VServerNetContext::GetLevel
-//
-//==========================================================================
-
-VLevel* VServerNetContext::GetLevel()
-{
-	return GLevel;
 }
 
 //**************************************************************************

@@ -34,7 +34,6 @@
 // HEADER FILES ------------------------------------------------------------
 
 #include "gamedefs.h"
-#include "network.h"
 #include "sv_local.h"
 
 // MACROS ------------------------------------------------------------------
@@ -79,11 +78,6 @@ void VThinker::Destroy()
 {
 	guard(VThinker::Destroy);
 	//	Close any thinker channels.
-	if (XLevel)
-	{
-		XLevel->NetContext->ThinkerDestroyed(this);
-	}
-
 	Super::Destroy();
 	unguard;
 }

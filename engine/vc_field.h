@@ -77,7 +77,6 @@ public:
 	static void CleanField(vuint8*, const VFieldType&);
 	static void DestructField(vuint8*, const VFieldType&);
 	static bool IdenticalValue(const vuint8*, const vuint8*, const VFieldType&);
-	static bool NetSerialiseValue(VStream&, VNetObjectsMap*, vuint8*, const VFieldType&);
 #endif
 
 	friend inline VStream& operator<<(VStream& Strm, VField*& Obj)

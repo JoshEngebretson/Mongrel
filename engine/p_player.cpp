@@ -26,7 +26,6 @@
 // HEADER FILES ------------------------------------------------------------
 
 #include "gamedefs.h"
-#include "network.h"
 #include "sv_local.h"
 #include "cl_local.h"
 
@@ -65,33 +64,6 @@ static VCvarI			font_colour2("font_colour2", "11", CVAR_Archive);
 bool VBasePlayer::ExecuteNetMethod(VMethod* Func)
 {
 	guard(VBasePlayer::ExecuteNetMethod);
-	if (GDemoRecordingContext)
-	{
-		//	Find initial version of the method.
-		VMethod* Base = Func;
-		while (Base->SuperMethod)
-		{
-			Base = Base->SuperMethod;
-		}
-		//	Execute it's replication condition method.
-		check(Base->ReplCond);
-		P_PASS_REF(this);
-		vuint32 SavedFlags = PlayerFlags;
-		PlayerFlags &= ~VBasePlayer::PF_IsClient;
-		bool ShouldSend = false;
-		if (VObject::ExecuteFunction(Base->ReplCond).i)
-		{
-			ShouldSend = true;
-		}
-		PlayerFlags = SavedFlags;
-
-		if (ShouldSend)
-		{
-			//	Replication condition is true, the method must be replicated.
-			GDemoRecordingContext->ClientConnections[0]->Channels[
-				CHANIDX_Player]->SendRpc(Func, this);
-		}
-	}
 
 #ifdef CLIENT
 	if (GGameInfo->NetMode == NM_TitleMap ||
@@ -114,12 +86,6 @@ bool VBasePlayer::ExecuteNetMethod(VMethod* Func)
 	if (!VObject::ExecuteFunction(Base->ReplCond).i)
 	{
 		return false;
-	}
-
-	if (Net)
-	{
-		//	Replication condition is true, the method must be replicated.
-		Net->Channels[CHANIDX_Player]->SendRpc(Func, this);
 	}
 
 	//	Clean up parameters
