@@ -168,14 +168,6 @@ lockdefs.txt			@CMAKE_CURRENT_SOURCE_DIR@/lockdefs.txt
 reverbs.txt				@CMAKE_CURRENT_SOURCE_DIR@/reverbs.txt
 textcolo.txt			@CMAKE_CURRENT_SOURCE_DIR@/textcolo.txt
 
-//	Intermission scripts
-in_epi1.txt				@CMAKE_CURRENT_SOURCE_DIR@/in_epi1.txt
-in_epi2.txt				@CMAKE_CURRENT_SOURCE_DIR@/in_epi2.txt
-in_epi3.txt				@CMAKE_CURRENT_SOURCE_DIR@/in_epi3.txt
-in_htc1.txt				@CMAKE_CURRENT_SOURCE_DIR@/in_htc1.txt
-in_htc2.txt				@CMAKE_CURRENT_SOURCE_DIR@/in_htc2.txt
-in_htc3.txt				@CMAKE_CURRENT_SOURCE_DIR@/in_htc3.txt
-
 //	Line specials, useable in DECORATE
 line_specials.txt		@CMAKE_CURRENT_SOURCE_DIR@/line_specials.txt
 
@@ -242,7 +234,3 @@ glshaders/surf_zbuf.fs			@CMAKE_CURRENT_SOURCE_DIR@/glshaders/surf_zbuf.fs
 glshaders/surf_zbuf.vs			@CMAKE_CURRENT_SOURCE_DIR@/glshaders/surf_zbuf.vs
 glshaders/procsky.fs            @CMAKE_CURRENT_SOURCE_DIR@/glshaders/procsky.fs
 glshaders/procsky.vs            @CMAKE_CURRENT_SOURCE_DIR@/glshaders/procsky.vs
-
-//	Console font
-$load @CMAKE_CURRENT_SOURCE_DIR@/confont.pcx
-confont.lmp				fon1

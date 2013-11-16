@@ -4,15 +4,8 @@ add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/basepak.pk3
 	COMMAND ${VLUMPY} ARGS basepak.ls
 	DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/basepak.ls vlumpy
 		basepak.ls.in
-		confont.pcx
 		decorate.txt
 		default.cfg
-		in_epi1.txt
-		in_epi2.txt
-		in_epi3.txt
-		in_htc1.txt
-		in_htc2.txt
-		in_htc3.txt
 		language.en
 		line_specials.txt
 		lockdefs.txt
