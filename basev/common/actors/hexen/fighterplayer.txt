@@ -45,37 +45,9 @@ actor FighterPlayer : PlayerPawn
         Stop
     XDeath:
         PLAY O 5 A_PlayerScream
-        PLAY P 5 A_SkullPop("HexenBloodySkull")
         PLAY R 5 A_NoBlocking
         PLAY STUV 5
         PLAY W -1
-        Stop
-    Ice:
-        PLAY X 5 A_FreezeDeath
-        PLAY X 1 A_FreezeDeathChunks
-        Wait
-    Burn:
-        FDTH A 5 Bright A_PlaySound("*burndeath")
-        FDTH B 4 Bright
-        FDTH G 5 Bright
-        FDTH H 4 Bright A_PlayerScream
-        FDTH I 5 Bright
-        FDTH J 4 Bright
-        FDTH K 5 Bright
-        FDTH L 4 Bright
-        FDTH M 5 Bright
-        FDTH N 4 Bright
-        FDTH O 5 Bright
-        FDTH P 4 Bright
-        FDTH Q 5 Bright
-        FDTH R 4 Bright
-        FDTH S 5 Bright A_NoBlocking
-        FDTH T 4 Bright
-        FDTH U 5 Bright
-        FDTH V 4 Bright
-        ACLO E 35 A_CheckPlayerDone
-        Wait
-        ACLO E 8
         Stop
     }
 }
