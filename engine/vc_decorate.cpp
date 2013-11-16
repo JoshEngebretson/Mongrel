@@ -378,11 +378,6 @@ static void ParseDecorateDef(VXmlDocument& Doc)
 			{
 				VPropDef& P = Lst.NewProp(PROP_SpawnId, PN);
 			}
-			else if (PN->Name == "prop_conversation_id")
-			{
-				VPropDef& P = Lst.NewProp(PROP_ConversationId, PN);
-				P.SetField(Lst.Class, "ConversationID");
-			}
 			else if (PN->Name == "prop_pain_chance")
 			{
 				VPropDef& P = Lst.NewProp(PROP_PainChance, PN);
@@ -2825,7 +2820,7 @@ static void ParseActor(VScriptParser* sc, TArray<VClassFixup>& ClassFixups)
 					SetClassFieldBool(Class, "bNoTeleport", true);
 					if (GGameInfo->Flags & VGameInfo::GIF_DefaultBloodSplatter)
 					{
-						SetClassFieldBool(Class, "bBloodSplatter", true);
+						//SetClassFieldBool(Class, "bBloodSplatter", true);
 					}
 					break;
 				case PROP_BounceType:
@@ -2902,7 +2897,6 @@ static void ParseActor(VScriptParser* sc, TArray<VClassFixup>& ClassFixups)
 					SetClassFieldByte(Class, "BounceType", BOUNCE_None);
 					SetClassFieldBool(Class, "bColideWithThings", true);
 					SetClassFieldBool(Class, "bColideWithWorld", true);
-					SetClassFieldBool(Class, "bPickUp", false);
 					break;
 				case PROP_DropItem:
 				{

@@ -39,7 +39,7 @@ class Actor : EntityEx
 void Destroyed()
 {
 	// Remove from creature queue
-	if (bMonster && bCorpse)
+	if (bCorpse)
 	{
 		A_DeQueueCorpse();
 	}
@@ -201,10 +201,6 @@ final void A_Respawn(optional int Flags)
 			Spawn(TeleportFog, Origin + vector(0.0, 0.0,
 				LineSpecialGameInfo(Level.Game).TeleFogHeight));
 		}
-		if (CountsAsKill())
-		{
-			Level.TotalKills++;
-		}
 	}
 	else
 	{
@@ -227,10 +223,6 @@ final void A_FreeTargMobj()
 	bSolid = false;
 	bShootable = false;
 	bFloat = false;
-	bCountKill = false;
-	bMonster = false;
-	bSkullFly = false;
-	bIceCorpse = false;
 	bNoGravity = true;
 	bDropOff = true;
 	bCorpse = true;

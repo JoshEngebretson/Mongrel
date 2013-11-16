@@ -217,13 +217,6 @@ final void A_NoBlocking()
 	class<EntityEx>		DropItemType;
 	int					i;
 
-	//	Andy Baker's stealth monsters
-	if (bStealth)
-	{
-		Alpha = 1.0;
-		VisDir = 0;
-	}
-
 	// actor is on ground, it can be walked over
 	bSolid = false;
 
@@ -467,33 +460,5 @@ final void A_DeQueueCorpse()
 
 final void A_ChangeFlag(string Name, bool Value)
 {
-	bool CountKillBefore = CountsAsKill();
-	bool CountItemBefore = bCountItem;
 	SetDecorateFlag(Name, Value);
-	//	Check if count as kill status changed.
-	if (CountsAsKill() != CountKillBefore)
-	{
-		if (CountsAsKill())
-		{
-			//	It now counts as kill.
-			Level.TotalKills++;
-		}
-		else
-		{
-			//	It no longer counts as kill.
-			Level.TotalKills--;
-		}
-	}
-	//	The same for items.
-	if (CountItemBefore != bCountItem)
-	{
-		if (bCountItem)
-		{
-			Level.TotalItems++;
-		}
-		else
-		{
-			Level.TotalItems--;
-		}
-	}
 }

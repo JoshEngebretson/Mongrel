@@ -36,71 +36,7 @@
 final void A_SeekerMissile(int Threshold, int TurnMax, optional int flags,
 							optional int chance, optional int distance)
 {
-	if (Threshold < 0)
-	{
-		Threshold = 0;
-	}
-	else if (Threshold > 90)
-	{
-		Threshold = 90;
-	}
-	if (TurnMax < 0)
-	{
-		TurnMax = 0;
-	}
-	else if (TurnMax > 90)
-	{
-		TurnMax = 90;
-	}
-	if ((flags & SMF_LOOK) && !Tracer && (Random() < itof(chance) / 100.0))
-	{
-		Entity Other;
-
-		foreach RoughBlockSearch(Other, distance)
-		{
-			EntityEx link = EntityEx(Other);
-
-			if (!(link.bMonster || link.bIsPlayer) || link == Target ||
-				link.bDormant)
-			{
-				continue;
-			}
-			if (!link.bShootable)
-			{
-				continue;
-			}
-			if (IsTeammate(link))
-			{
-				continue;
-			}
-			if (!CanSeek(link))
-			{
-				continue;
-			}
-			if (bScreenSeeker)
-			{
-				if (CanSee(link))
-				{
-					float angle = AngleMod360(atan2(link.Origin.y - Target.Origin.y,
-						link.Origin.x - Target.Origin.x) - Target.Angles.yaw);
-					if (angle <= 226.0 * 360.0 / 256.0 || angle >= 30.0 * 360.0 / 256.0)
-					{
-						continue;
-					}
-				}
-			}
-			else
-			{
-				if (!CanSee(link))
-				{
-					continue;
-				}
-			}
-			Tracer = link;
-			break;
-		}
-	}
-	SeekerMissile(itof(Threshold), itof(TurnMax), !!(flags & SMF_PRECISE));
+	
 }
 
 //==========================================================================
@@ -113,56 +49,7 @@ const float TRACE2ANGLE	= (7.0 * 45.0 / 16.0);
 
 final void A_Tracer2()
 {
-	EntityEx dest;
-	float exact;
-	float dist;
-	float slope;
-
-	dest = Tracer;
-
-	if (!dest || dest.Health <= 0 || !CanSeek(dest))
-		return;
-
-	// change angle
-	exact = atan2(dest.Origin.y - Origin.y, dest.Origin.x - Origin.x);
-
-	if (exact != Angles.yaw)
-	{
-		if (AngleMod360(exact - Angles.yaw) > 180.0)
-		{
-			Angles.yaw = AngleMod360(Angles.yaw - TRACE2ANGLE);
-			if (AngleMod360(exact - Angles.yaw) < 180.0)
-				Angles.yaw = exact;
-		}
-		else
-		{
-			Angles.yaw = AngleMod360(Angles.yaw + TRACE2ANGLE);
-			if (AngleMod360(exact - Angles.yaw) > 180.0)
-				Angles.yaw = exact;
-		}
-	}
-
-	exact = Angles.yaw;
-	Velocity.x = Speed * cos(exact);
-	Velocity.y = Speed * sin(exact);
-
-	// change slope
-	dist = DistTo2(dest);
-	dist /= Speed;
-
-	if (dist < 1.0)
-	{
-		dist = 1.0;
-	}
-	slope = (dest.Origin.z + 40.0 - Origin.z) / dist;
-	if (slope < Velocity.z)
-	{
-		Velocity.z -= 1.0 / 8.0 * 35.0;
-	}
-	else
-	{
-		Velocity.z += 1.0 / 8.0 * 35.0;
-	}
+	
 }
 
 //==========================================================================
@@ -264,7 +151,7 @@ final void A_Countdown()
 	if (--ReactionCount <= 0)
 	{
 		//ExplodeMissile(none);
-		bSkullFly = false;
+		//bSkullFly = false;
 	}
 }
 

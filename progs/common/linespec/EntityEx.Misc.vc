@@ -139,8 +139,7 @@ final bool TeleportMove(TVec org, optional bool ForceTelestomp)
 		}
 
 		//  Check if allowed to stomp things
-		if ((!ForceTelestomp && !bTelestomp && !Level.bAllowMonsterTelefrags) ||
-			Other.bNoTeleFrag)
+		if ((!ForceTelestomp && !bTelestomp && !Level.bAllowMonsterTelefrags))
 		{
 			return false;
 		}
@@ -442,7 +441,7 @@ final bool HeightClip()
 
 	if (CeilingZ - FloorZ < Height)
 	{
-		if (bIceCorpse && bSolid)
+		if (false)//bIceCorpse && bSolid)
 		{
 			//Actor(self).A_FreezeDeathChunks();
 			return true;
@@ -509,29 +508,6 @@ bool Touch(Entity InOther)
 	if (bThruActors || Other.bThruActors)
 		return true;
 
-	if (bThruSpecies && (Other.GetSpecies() == GetSpecies()))
-		return true;
-
-	// touchy object is alive, toucher is solid
-	if (Other.bTouchy && bSolid && Other.Health > 0 &&
-		// Thing is an armed mine or a sentient thing
-		(Other.bArmed || Other.IsSentient()) &&
-		// either different classes or players
-		(Other.bIsPlayer || Other.Class != Class) &&
-		// or different species if DONTHARMSPECIES
-	   (!(Other.bDontHurtSpecies) || Other.GetSpecies() != GetSpecies()) &&
-	   // touches vertically
-	   Other.Origin.z + Other.Height >= Origin.z && Origin.z + Height >= Other.Origin.z &&
-	   // prevents lost souls from exploding when fired by pain elementals
-	   (Other.Master != self && Master != Other))
-	// Difference with MBF: MBF hardcodes the LS/PE check and lets actors of the same species
-	// but different classes trigger the touchiness, but that seems less straightforwards.
-	{
-		bArmed = false; // Disarm
-		//Other.Damage(none, none, Other.Health);  // kill object
-		return true;
-	}
-
 	// Check for bBumpSpecial
 	// By default, only players can activate things by bumping into them
 /*	if (bBumpSpecial && (Other.bIsPlayer
@@ -545,29 +521,6 @@ bool Touch(Entity InOther)
 		}
 	}*/
 
-	// check for skulls slamming into things
-	if (bSkullFly)
-	{
-		return Slam(Other);
-	}
-
-	// Check for blasted thing running into another
-	if (bBlasted && Other.bShootable)
-	{
-		if (!Other.bBoss && Other.bMonster)
-		{
-			Other.Velocity.x += Velocity.x;
-			Other.Velocity.y += Velocity.y;
-			if ((Other.Velocity.x + Other.Velocity.y) > 3.0 * 35.0)
-			{
-				damage = (ftoi(Mass) / 100) + 1;
-				//Other.Damage(self, self, damage);
-				damage = (ftoi(Other.Mass) / 100) + 1;
-				//Damage(Other, Other, damage >> 2);
-			}
-			return false;
-		}
-	}
 
 	// missiles can hit other things
 	if (bMissile)
@@ -581,11 +534,6 @@ bool Touch(Entity InOther)
 		if (Other.bGhost && bThruGhost)
 		{
 			return true;
-		}
-
-		if (bMThruSpecies && Target	&& (Target.GetSpecies() == GetSpecies()))
-		{
-			return true;		
 		}
 
 		if ((BounceType == BOUNCE_Doom || BounceType == BOUNCE_Hexen) &&
@@ -610,58 +558,6 @@ bool Touch(Entity InOther)
 				// Don't missile self
 				return true;
 			}
-			//	Let players missile other players.
-			if (!Target.bIsPlayer && !Other.bIsPlayer)
-			{
-				int Inf = Target.GetInfighting();
-				if (Inf < 0)
-				{
-					//	Monsters can't hurt each other, but make exception
-					// depending on friendliness and hate status.
-					if (Target.bShootable)
-					{
-						if (!Other.bMonster)
-						{
-							return false;
-						}
-						//	Hostile monsters can always hurt each other.
-						if (!Other.IsHostile(Target))
-						{
-							//	The same if the shooter hates the target.
-							if (!Other.TID || Target.TIDToHate != Other.TID)
-							{
-								return false;
-							}
-						}
-					}
-				}
-				else if (Inf == 0)
-				{
-					if (Other.IsFriend(Target))
-					{
-						//	Don't hurt friends.
-						return false;
-					}
-					if (Other.TIDToHate && Other.TIDToHate == Target.TIDToHate)
-					{
-						//	Don't hurt monsters that hate the same thing as you do.
-						return false;
-					}
-					if (Target.GetSpecies() == Other.GetSpecies())
-					{
-						//	Don't hurt same species, but only if the target
-						// isn't one's hostile.
-						if (!Other.IsHostile(Target))
-						{
-							//	Allow hurting monsters the shooter hates.
-							if (Other.TID == 0 || Target.TIDToHate != Other.TID)
-							{
-								return false;
-							}
-						}
-					}
-				}
-			}
 		}
 
 		if (!Other.bShootable)
@@ -670,46 +566,6 @@ bool Touch(Entity InOther)
 			return !Other.bSolid;
 		}
 
-		//	Don't hit spectres with non-sigil weapons.
-		if (Other.bSpectral && !bSpectral)
-		{
-			return true;
-		}
-		if (bRip && !Other.bDontRip)
-		{
-			if (!bNoBossRip || !Other.bBoss)
-			{
-				if (!Other.bNoBlood && !Other.bReflective && !Other.bInvulnerable)
-				{
-					// Ok to spawn some blood
-					SpawnRipperBlood();
-				}
-				PlaySound('misc/ripslop', CHAN_BODY);
-				damage = GetMissileDamage(3, 2);
-				//Other.Damage(self, Target, damage, DamageType);
-				if (Other.bPushable && !bCannotPush)
-				{
-					// Push thing
-					Other.Velocity.x += Velocity.x / 4.0;
-					Other.Velocity.y += Velocity.y / 4.0;
-				}
-			}
-			//WHAT A FUCK IS THIS???????			numspechit = 0;
-			return true;
-		}
-
-		// damage / explode
-		damage = GetMissileDamage(bStrifeDamage ? 3 : 7, 1);
-		if (damage > 0)
-		{
-			if (bBloodSplatter && !Other.bNoBlood && !Other.bReflective &&
-				!Other.bInvulnerable && !Other.bDormant &&
-				!bBloodlessImpact && P_Random() < 192)
-			{
-				Other.SpawnBloodSplatter(Origin, damage);
-			}
-			//Other.Damage(self, Target, damage, DamageType);
-		}
 		// don't traverse any more
 		return false;
 	}
@@ -763,7 +619,6 @@ bool IsTouched(Entity Toucher)
 
 bool Slam(EntityEx Other)
 {
-	bSkullFly = false;
 	Velocity = vector(0.0, 0.0, 0.0);
 
 	if (Health > 0)
@@ -811,33 +666,6 @@ int GetMissileDamage(int Mask, int Add)
 int SpecialMissileHit(EntityEx Other)
 {
 	return -1;
-}
-
-//==========================================================================
-//
-//	GetSpecies
-//
-//==========================================================================
-
-name GetSpecies()
-{
-	if (StrToName(Species) != 'None')
-	{
-		return StrToName(Species);
-	}
-
-	class Ret = Class;
-	//	Go up in the inheritance hierarchy while there's a monster flag
-	// and use the top one as species.
-	if (bMonster)
-	{
-		while (class<EntityEx>(GetClassParent(Ret)) &&
-			class<EntityEx>(GetClassParent(Ret)).default.bMonster)
-		{
-			Ret = GetClassParent(Ret);
-		}
-	}
-	return GetClassName(Ret);
 }
 
 //===========================================================================
@@ -919,16 +747,6 @@ final void CrossSpecialLine(line_t *ld, int side)
 
 bool Activate(EntityEx Activator)
 {
-	if (bMonster)
-	{
-		// Monster
-		if (bDormant)
-		{
-			bDormant = false;
-			StateTime = 0.1;
-			return true;
-		}
-	}
 	return false;
 }
 
@@ -940,24 +758,6 @@ bool Activate(EntityEx Activator)
 
 bool Deactivate(EntityEx Activator)
 {
-	if (bMonster)
-	{
-		// Monster
-		if (!bDormant)
-		{
-			bDormant = true;
-			state S = FindState('Inactive');
-			if (S)
-			{
-				SetState(S);
-			}
-			else
-			{
-				StateTime = -1.0;
-			}
-			return true;
-		}
-	}
 	return false;
 }
 
@@ -1046,14 +846,6 @@ void OnMapSpawn(mthing_t* mthing)
 		Speed = FastSpeed;
 	}
 
-	if (CountsAsKill())
-	{
-		Level.TotalKills++;
-	}
-	if (bCountItem)
-	{
-		Level.TotalItems++;
-	}
 
 	//	Set the state, but do not use SetState, because action routines can't
 	// be called yet.  If the spawnstate has an action routine, it will not
@@ -1065,12 +857,6 @@ void OnMapSpawn(mthing_t* mthing)
 		float x;
 		float y;
 		float z;
-
-		if (bNoDeathmatch && Level.Game.deathmatch)
-		{
-			Destroy();
-			return;
-		}
 
 		Level.CopyMThing(mthing, &SpawnPoint);
 
@@ -1141,12 +927,7 @@ void OnMapSpawn(mthing_t* mthing)
 		if (mthing->options & LineSpecialLevelInfo::MTF_FRIENDLY)
 		{
 			bFriendly = true;
-			//	Friendlies don't count as kills.
-			if (bCountKill)
-			{
-				bCountKill = false;
-				Level.TotalKills--;
-			}
+
 		}
 		if (mthing->options & LineSpecialLevelInfo::MTF_SHADOW)
 		{
@@ -1180,113 +961,6 @@ void OnMapSpawn(mthing_t* mthing)
 	}
 }
 
-//==========================================================================
-//
-// CanSeek
-//
-// Checks if a seeker missile can home in on its target
-//
-//==========================================================================
-
-bool CanSeek(EntityEx Targ)
-{
-	if (Targ.bCantSeek)
-	{
-		return false;
-	}
-
-	if (bDontSeekInvisible && (Targ.bShadow || Targ.bGhost))
-	{
-		 return false;
-	}
-	return true;
-}
-
-//==========================================================================
-//
-//  SeekerMissile
-//
-//  The missile Tracer field must be Actor target. Returns true if
-// target was tracked, false if not.
-//
-//==========================================================================
-
-final bool SeekerMissile(float thresh, float turnMax, optional bool precise)
-{
-	int dir;
-	float dist;
-	float delta;
-	float angle;
-
-	if (!Tracer)
-	{
-		return false;
-	}
-	if (!Tracer.bShootable)
-	{
-		// Target died
-		Tracer = none;
-		return false;
-	}
-	dir = FaceActor(Tracer, delta);
-	if (delta > thresh)
-	{
-		delta /= 2.0;
-		if (delta > turnMax)
-		{
-			delta = turnMax;
-		}
-	}
-	if (dir)
-	{
-		// Turn clockwise
-		Angles.yaw = AngleMod360(Angles.yaw + delta);
-	}
-	else
-	{
-		// Turn counter clockwise
-		Angles.yaw = AngleMod360(Angles.yaw - delta);
-	}
-	angle = Angles.yaw;
-	if (!precise)
-	{
-		Velocity.x = Speed * cos(angle);
-		Velocity.y = Speed * sin(angle);
-		if (Origin.z + Height < Tracer.Origin.z ||
-			Tracer.Origin.z + Tracer.Height < Origin.z)
-		{
-			// Need to seek vertically
-			dist = DistTo2(Tracer);
-			dist = dist / Speed;
-			if (dist < 1.0)
-			{
-				dist = 1.0;
-			}
-			Velocity.z = (Tracer.Origin.z + Tracer.Height / 2.0 -
-				Origin.z - Height / 2.0) / dist;
-		}
-	}
-	else
-	{
-		// Need to seek vertically
-		TVec d = vector(Tracer.Origin.x - Origin.x, Tracer.Origin.y - Origin.y, 0.0);
-		dist = Length(d) > 1.0 ? Length(d) : 1.0;
-		
-		// Aim at a player's eyes and at the middle of the actor for everything else.
-		float aimheight = Tracer.Height / 2.0;
-		if (Tracer.bIsPlayer)
-		{
-			aimheight = PlayerEx(Tracer.Player).ViewHeight;
-		}
-		float pitch = atan2((Tracer.Origin.z + aimheight) - (Origin.z + Height / 2.0), fabs(dist));
-
-		float xyscale = Speed * cos(pitch);
-		Velocity.x = xyscale * cos(angle);
-		Velocity.y = xyscale * sin(angle);
-		Velocity.z = Speed * sin(pitch);
-	}
-	return true;
-}
 
 //==========================================================================
 //
@@ -1350,28 +1024,6 @@ void Tick(float deltaTime)
 			}
 		}
 	}
-	else if (bStealth)
-	{
-		//	Fade a stealth monster in and out of visibility
-		if (VisDir > 0)
-		{
-			Alpha += 2.0 * deltaTime;
-			if (Alpha > 1.0)
-			{
-				Alpha = 1.0;
-				VisDir = 0;
-			}
-		}
-		else if (VisDir < 0)
-		{
-			Alpha -= 3.0 * deltaTime / 2.0;
-			if (Alpha < 0.0)
-			{
-				Alpha = 0.0;
-				VisDir = 0;
-			}
-		}
-	}
 
 	if (JumpTime)
 	{
@@ -1401,7 +1053,7 @@ void Tick(float deltaTime)
 		// Check for nightmare respawn
 		if (!bAlwaysRespawn)
 		{
-			if (!bMonster || bDormant || bNeverRespawn)
+			if ( bDormant || bNeverRespawn)
 			{
 				return;
 			}
@@ -1499,13 +1151,6 @@ final bool SectorChanged(int CrushChange)
 			if (CanDestroy)
 				Destroy();
 		}
-		return true;
-	}
-
-	//	Crunch dropped items
-	if (bDropped)
-	{
-		Destroy();
 		return true;
 	}
 
@@ -2042,8 +1687,7 @@ final void SendExplosion(int colour, float rad, TVec org)
 
 int AngleIncrements()
 {
-	return bMonster ? 45 : LineSpecialGameInfo(
-		Level.Game).NonMonsterAngleIncrements;
+	return LineSpecialGameInfo(Level.Game).NonMonsterAngleIncrements;
 }
 
 //==========================================================================
@@ -2146,7 +1790,6 @@ final void SetActorProperty(int Prop, int IntVal, string StrVal)
 		break;
 
 	case APROP_ChaseGoal:
-		bChaseGoal = !!IntVal;
 		break;
 
 	case APROP_Frightened:
@@ -2225,7 +1868,7 @@ final int GetActorProperty(int Prop)
 		return ftoi(PlayerPawn(self).JumpVelZ / 35.0 * 65536.0);
 
 	case APROP_ChaseGoal:
-		return bChaseGoal;
+		return 0;
 
 	case APROP_Frightened:
 		return 0;
@@ -2758,7 +2401,7 @@ bool UseThing(EntityEx Other)
 	{
 		return true;
 	}
-	return LineSpecialLevelInfo(Level).StartConversation(self, Other);
+	return false;
 }
 
 //==========================================================================
@@ -2784,14 +2427,6 @@ final bool IsSentient()
 
 final bool IsFast()
 {
-	if (bAlwaysFast)
-	{
-		return true;
-	}
-	if (bNeverFast)
-	{
-		return false;
-	}
 	return Level.Game.fastparm;
 }
 
@@ -2809,29 +2444,18 @@ void RespawnResetFlags()
 	bSolid = default.bSolid;
 	bShootable = default.bShootable;
 	bAmbush = default.bAmbush;
-	bJustHit = default.bJustHit;
-	bJustAttacked = default.bJustAttacked;
 	bSpawnCeiling = default.bSpawnCeiling;
 	bNoGravity = default.bNoGravity;
 	bDropOff = default.bDropOff;
-	bPickUp = default.bPickUp;
 	bFloat = default.bFloat;
 	bMissile = default.bMissile;
-	bDropped = default.bDropped;
 	bShadow = default.bShadow;
 	bNoBlood = default.bNoBlood;
 	bCorpse = default.bCorpse;
 	bInFloat = default.bInFloat;
-	bCountKill = default.bCountKill;
-	bCountItem = default.bCountItem;
-	bSkullFly = default.bSkullFly;
-	bNoDeathmatch = default.bNoDeathmatch;
 	bSpawnSoundSource = default.bSpawnSoundSource;
 	bNoLiftDrop = default.bNoLiftDrop;
-	bStealth = default.bStealth;
-	bIceCorpse = default.bIceCorpse;
 
-	bDontReflect = default.bDontReflect;
 	bWindThrust = default.bWindThrust;
 	bBlasted = default.bBlasted;
 	bFly = default.bFly;
@@ -2845,9 +2469,7 @@ void RespawnResetFlags()
 	bPassMobj = default.bPassMobj;
 	bCannotPush = default.bCannotPush;
 	bThruGhost = default.bThruGhost;
-	bBoss = default.bBoss;
 	bDontTranslate = default.bDontTranslate;
-	bNoDamageThrust = default.bNoDamageThrust;
 	bTelestomp = default.bTelestomp;
 	bFloatBob = default.bFloatBob;
 	bActivateImpact = default.bActivateImpact;
@@ -2867,46 +2489,28 @@ void RespawnResetFlags()
 	bAlwaysPuff = default.bAlwaysPuff;
 	bNoSplash = default.bNoSplash;
 	bDontOverlap = default.bDontOverlap;
-	bNoMorph = default.bNoMorph;
 	bDontSquash = default.bDontSquash;
 	bFullVolActive = default.bFullVolActive;
-	bMonster = default.bMonster;
 	bExplodeOnSky = default.bExplodeOnSky;
-	bStayMorphed = default.bStayMorphed;
-	bDontBlast = default.bDontBlast;
-	bCanBlast = default.bCanBlast;
 	bNeverTarget = default.bNeverTarget;
 	bDontGib = default.bDontGib;
 	bNoBlockMonst = default.bNoBlockMonst;
 	bFullVolDeath = default.bFullVolDeath;
 	bCanBounceWater = default.bCanBounceWater;
 	bNoWallBounceSnd = default.bNoWallBounceSnd;
-	bDamageInvulnerable = default.bDamageInvulnerable;
 	bNoTeleOther = default.bNoTeleOther;
 	bBloodlessImpact = default.bBloodlessImpact;
 	bNoExplodeFloor = default.bNoExplodeFloor;
 	bPuffOnActors = default.bPuffOnActors;
 
 	bNoGrudge = default.bNoGrudge;
-	bNoIceDeath = default.bNoIceDeath;
-	bBossDeath = default.bBossDeath;
 	bRandomise = default.bRandomise;
 	bActLikeBridge = default.bActLikeBridge;
-	bStrifeDamage = default.bStrifeDamage;
 	bTriggerHappy = default.bTriggerHappy;
-	bMissileEvenMore = default.bMissileEvenMore;
-	bForceRadiusDmg = default.bForceRadiusDmg;
 	bNoGravKill = default.bNoGravKill;
-	bInCombat = default.bInCombat;
-	bLookAllAround = default.bLookAllAround;
 	bStanding = default.bStanding;
-	bSpectral = default.bSpectral;
-	bFireResist = default.bFireResist;
 	bSynchronised = default.bSynchronised;
 	bNoTargetSwitch = default.bNoTargetSwitch;
-	bDontHurtSpecies = default.bDontHurtSpecies;
-	bShieldReflect = default.bShieldReflect;
-	bDeflect = default.bDeflect;
 	bPuffParticles = default.bPuffParticles;
 	bNoExtremeDeath = default.bNoExtremeDeath;
 	bExtremeDeath = default.bExtremeDeath;
@@ -2918,12 +2522,7 @@ void RespawnResetFlags()
 	bBounceOnActors = default.bBounceOnActors;
 	bExplodeOnWater = default.bExplodeOnWater;
 	bAvoidingDropoff = default.bAvoidingDropoff;
-	bNoDamage = default.bNoDamage;
-	bChaseGoal = default.bChaseGoal;
-	bPierceArmor = default.bPierceArmor;
 	bNoPain = default.bNoPain;
-	bAlwaysFast = default.bAlwaysFast;
-	bNeverFast = default.bNeverFast;
 	bCanUseWalls = default.bCanUseWalls;
 }
 
@@ -2943,7 +2542,7 @@ void CalcFakeZMovement(out TVec Ret, float DeltaTime)
 	if (bFloat && Target)
 	{
 		// float down towards enemy if too close
-		if (!bSkullFly && !bInFloat)
+		if (!bInFloat)
 		{
 			float dist = DistTo2(Target);
 			float delta = Target.Origin.z + Height / 2.0 - Ret.z;
@@ -3016,70 +2615,9 @@ final bool DoThingRaise()
 	Target = none;
 	LastEnemy = none;
 
-	//	If it counts as kill, count it as another one.
-	if (CountsAsKill())
-	{
-		Level.TotalKills++;
-	}
 	return true;
 }
 
-//==========================================================================
-//
-//	GetInfighting
-//
-//==========================================================================
-
-final int GetInfighting()
-{
-	if (bNoInfighting)
-	{
-		return -1;
-	}
-	if (Level.Infighting)
-	{
-		return Level.Infighting;
-	}
-	return GetCvar('infighting');
-}
-
-//==========================================================================
-//
-//	IsFriend
-//
-//==========================================================================
-
-final bool IsFriend(EntityEx Other)
-{
-	if (bFriendly && Other.bFriendly)
-	{
-		return !Level.Game.deathmatch || FriendPlayer == Other.FriendPlayer ||
-			FriendPlayer == 0 || Other.FriendPlayer == 0;
-	}
-	return false;
-}
-
-//==========================================================================
-//
-//	IsHostile
-//
-//==========================================================================
-
-final bool IsHostile(EntityEx Other)
-{
-	//	If bot monsters are not friendles, hostiles depend on infighting.
-	if (!bFriendly && !Other.bFriendly)
-	{
-		return false;
-	}
-
-	if (bFriendly && Other.bFriendly)
-	{
-		return Level.Game.deathmatch && FriendPlayer != Other.FriendPlayer &&
-			FriendPlayer != 0 && Other.FriendPlayer != 0;
-	}
-	return true;
-}
 
 //==========================================================================
 //
@@ -3110,18 +2648,6 @@ final int ClassifyActor()
 			Ret |= ACTOR_BOT;
 		}
 	}
-	else if (bMonster)
-	{
-		Ret |= ACTOR_MONSTER;
-		if (Health <= 0)
-		{
-			Ret |= ACTOR_DEAD;
-		}
-		else
-		{
-			Ret |= ACTOR_ALIVE;
-		}
-	}
 	else if (bMissile)
 	{
 		Ret |= ACTOR_MISSILE;
@@ -3135,48 +2661,12 @@ final int ClassifyActor()
 
 //==========================================================================
 //
-//	CountsAsKill
-//
-//==========================================================================
-
-final bool CountsAsKill()
-{
-	return bCountKill && !bFriendly;
-}
-
-//==========================================================================
-//
 //	GetViewEntRenderParams
 //
 //==========================================================================
 
 void GetViewEntRenderParams(out float OutAlpha, out int OutRenderStyle)
 {
-}
-
-//==========================================================================
-//
-//	CopyFriendliness
-//
-//==========================================================================
-
-void CopyFriendliness(EntityEx Src, bool ChangeTarget)
-{
-	Level.TotalKills -= CountsAsKill();
-	TIDToHate = Src.TIDToHate;
-	LastLook = Src.LastLook;
-	LastLookActor = Src.LastLookActor;
-	bFriendly = Src.bFriendly;
-	bNoSightCheck = Src.bNoSightCheck;
-	bHuntPlayers = Src.bHuntPlayers;
-	bNoHatePlayers = Src.bNoHatePlayers;
-	FriendPlayer = Src.FriendPlayer;
-	Level.TotalKills += CountsAsKill();
-	if (ChangeTarget && Src.Target && !Src.Target.bNeverTarget)
-	{
-		Target = Src.Target;
-		LastHeard = Src.Target;
-	}
 }
 
 bool IsTeammate(EntityEx Other)
@@ -3270,7 +2760,7 @@ int decorate_tid
 
 int decorate_tidtohate
 {
-	get { return TIDToHate; }
+	get { return 0; }
 }
 
 int decorate_waterlevel

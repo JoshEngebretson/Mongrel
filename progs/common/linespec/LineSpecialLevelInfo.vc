@@ -4085,152 +4085,8 @@ final bool DoThingProjectile(int tid, int TypeID, int AAngle, int ASpeed,
 	int AVSpeed, bool gravity, int newtid, name TypeName, Entity Activator,
 	int DestTID, Entity ForceDest, bool Intercept)
 {
-	float		angle;
-	float		speed;
-	float		vspeed;
-	class<EntityEx>	moType;
-	Entity		A;
-	EntityEx	newA;
-	bool		success;
 
-	success = false;
-	if (TypeName)
-	{
-		moType = class<EntityEx>(FindClassLowerCase(TypeName));
-	}
-	else
-	{
-		moType = class<EntityEx>(FindClassFromScriptId(TypeID,
-			LineSpecialGameInfo(Game).GameFilterFlag));
-	}
-	if (!moType)
-	{
-		return false;
-	}
-	moType = class<EntityEx>(GetClassReplacement(moType));
-	if (Level.Game.nomonsters && moType.default.bMonster)
-	{
-		return false;
-	}
-	angle = itof(AAngle) * (360.0 / 256.0);
-	speed = itof(ASpeed) / 8.0;
-	vspeed = itof(AVSpeed) / 8.0;
-	for (A = tid ? FindMobjFromTID(tid, none) : Activator; A;
-		A = FindMobjFromTID(tid, A))
-	{
-		Entity Targ = ForceDest;
-		if (DestTID)
-		{
-			Targ = FindMobjFromTID(DestTID, none);
-			if (!Targ)
-			{
-				continue;
-			}
-		}
-
-		newA = Spawn(moType, A.Origin);
-		if (newA.SightSound)
-		{
-			newA.PlaySound(newA.SightSound, CHAN_VOICE);
-		}
-		newA.Target = EntityEx(A);	// Originator
-		if (Targ)
-		{
-			TVec TargOrg = Targ.Origin + vector(0.0, 0.0, Targ.Height / 2.0);
-			TVec Delta = TargOrg - newA.Origin;
-			TVec TargVel = Targ.Velocity;
-			if (!Targ.bNoGravity && Targ.WaterLevel < 3)
-			{
-				// If the target is subject to gravity and not underwater,
-				// assume that it isn't moving vertically. Thanks to gravity,
-				// even if we did consider the vertical component of the target's
-				// velocity, we would still miss more often than not.
-				TargVel.z = 0.0;
-			}
-
-			if (Intercept && speed > 0.0 && (TargVel.x || TargVel.y || TargVel.z))
-			{
-				// Aiming at the target's position some time in the future
-				// is basically just an application of the law of sines:
-				//     a/sin(A) = b/sin(B)
-
-				float Dist = Length(Delta);
-				float TargSpeed = Length(TargVel) / 35.0;
-				float YDotX = DotProduct(-Delta, TargVel) / 35.0;
-				float a = acos(FClamp(YDotX / TargSpeed / Dist, -1.0, 1.0));
-				float Multiplier = (Random() - Random()) * 0.1 + 1.1;
-				float SinB = FClamp(TargSpeed * Multiplier * sin(a) / speed, -1.0, 1.0);
-
-				//	Use the cross product of two of the triangle's sides to
-				// get a rotation vector.
-				TVec rv = CrossProduct(TargVel, Delta);
-				//	The vector must be normalized.
-				rv = Normalise(rv);
-				//	Rotate around this vector.
-				TVec AimVec = RotateVectorAroundVector(Delta, rv, asin(SinB));
-				// And make the projectile follow that vector at the desired speed.
-				float AimScale = speed / Dist * 35.0;
-				newA.Velocity = AimVec * AimScale;
-				newA.Angles.yaw = atan2(newA.Velocity.y, newA.Velocity.x);
-			}
-			else
-			{
-				newA.Angles.yaw = atan2(Delta.y, Delta.x);
-				newA.Velocity = Normalise(Delta) * speed * 35.0;
-			}
-			if (newA.bSeekerMissile)
-			{
-				newA.Tracer = EntityEx(Targ);
-			}
-		}
-		else
-		{
-			newA.Angles.yaw = angle;
-			newA.Velocity.x = speed * cos(angle) * 35.0;
-			newA.Velocity.y = speed * sin(angle) * 35.0;
-			newA.Velocity.z = vspeed * 35.0;
-		}
-		if (newA.bSpecial)
-		{
-			newA.bDropped = true;	// Don't respawn
-		}
-		if (gravity)
-		{
-			newA.bNoGravity = false;
-			newA.Gravity = 0.125;
-		}
-		newA.SetTID(newtid);
-		if (newA.bMissile)
-		{
-			//if (newA.CheckMissileSpawn())
-			//{
-				//success = true;
-			//}
-		}
-		else if (!newA.TestLocation())
-		{
-			//	If it counts as kill, adjust total kills count
-			if (newA.CountsAsKill())
-			{
-				TotalKills--;
-			}
-			//	Same for items.
-			if (newA.bCountItem)
-			{
-				TotalItems--;
-			}
-			newA.Destroy();
-		}
-		else
-		{
-			success = true;
-		}
-		if (!tid)
-		{
-			break;
-		}
-	}
-	return success;
+	return false;
 }
 
 //==========================================================================
@@ -4258,10 +4114,7 @@ final bool EV_ThingSpawn(int Arg1, int Arg2, int Arg3, int Arg4, int Arg5,
 		return false;
 	}
 	moType = class<EntityEx>(GetClassReplacement(moType));
-	if (Level.Game.nomonsters && moType.default.bMonster)
-	{
-		return false;
-	}
+
 	angle = itof(Arg3) * 360.0 / 256.0;
 	for (A = tid ? FindMobjFromTID(tid, none) : Activator; A;
 		A = FindMobjFromTID(tid, A))
@@ -4275,16 +4128,6 @@ final bool EV_ThingSpawn(int Arg1, int Arg2, int Arg3, int Arg4, int Arg5,
 		if (!newAct.TestLocation())
 		{
 			// Didn't fit
-			//	If it counts as kill, adjust total kills count
-			if (newAct.CountsAsKill())
-			{
-				TotalKills--;
-			}
-			//	Same for items.
-			if (newAct.bCountItem)
-			{
-				TotalItems--;
-			}
 			newAct.Destroy();
 		}
 		else
@@ -4298,7 +4141,7 @@ final bool EV_ThingSpawn(int Arg1, int Arg2, int Arg3, int Arg4, int Arg5,
 			}
 			if (newAct.bSpecial)
 			{
-				newAct.bDropped = true;	// Don't respawn
+
 			}
 			if (newAct.bFloatBob)
 			{
@@ -4341,16 +4184,6 @@ final int AcsSpawnThing(name Name, TVec Org, int Tid, float Angle)
 	if (!NewAct.TestLocation())
 	{
 		// Didn't fit
-		//	If it counts as kill, subtract total.
-		if (NewAct.CountsAsKill())
-		{
-			Level.TotalKills--;
-		}
-		//	The same for items.
-		if (NewAct.bCountItem)
-		{
-			Level.TotalItems--;
-		}
 		NewAct.Destroy();
 		return false;
 	}
@@ -4360,7 +4193,6 @@ final int AcsSpawnThing(name Name, TVec Org, int Tid, float Angle)
 	NewAct.SetTID(Tid);
 	if (NewAct.bSpecial)
 	{
-		NewAct.bDropped = true;	// Don't respawn
 	}
 	return true;
 }
@@ -4459,15 +4291,6 @@ final bool EV_ThingRemove(int tid)
 	success = false;
 	for (A = FindMobjFromTID(tid, none); A; A = FindMobjFromTID(tid, A))
 	{
-		//	Be friendly to level statistics.
-		if (EntityEx(A).CountsAsKill() && A.Health > 0)
-		{
-			TotalKills--;
-		}
-		if (EntityEx(A).bCountItem)
-		{
-			TotalItems--;
-		}
 		A.RemoveThing();
 		success = true;
 	}
@@ -4572,7 +4395,7 @@ final bool EV_ThingSetGoal(int Arg1, int Arg2, int Arg3, int Arg4, int Arg5)
 		if (E.bShootable)
 		{
 			E.Goal = NewGoal;
-			E.bChaseGoal = !!Arg4;
+			//E.bChaseGoal = 0;//!!Arg4;
 			if (!E.Target)
 			{
 				E.ReactionTime = itof(Arg3);
@@ -4688,149 +4511,8 @@ final bool EV_ThingSetTranslation(int Arg1, int Arg2, int Arg3, int Arg4,
 final bool EV_ThingHate(int Arg1, int Arg2, int Arg3, int Arg4, int Arg5,
 	EntityEx A)
 {
-	EntityEx Hatee = none;
-	bool NothingToHate = false;
-	if (Arg2)
-	{
-		for (Hatee = EntityEx(FindMobjFromTID(Arg2, none)); Hatee;
-			Hatee = EntityEx(FindMobjFromTID(Arg2, Hatee)))
-		{
-			if (Hatee.bShootable &&	// can't hate nonshootable things
-				Hatee.Health > 0 &&	// can't hate dead things
-				!Hatee.bDormant)	// can't target dormant things
-			{
-				break;
-			}
-		}
-		if (!Hatee)
-		{
-			// Nothing to hate
-			NothingToHate = true;
-		}
-	}
 
-	EntityEx Hater;
-	if (Arg1 == 0)
-	{
-		if (A && A.bIsPlayer)
-		{
-			// Players cannot have their attitudes set
-			return false;
-		}
-		else
-		{
-			Hater = A;
-		}
-	}
-	else
-	{
-		for (Hater = EntityEx(FindMobjFromTID(Arg1, none)); Hater;
-			Hater = EntityEx(FindMobjFromTID(Arg1, Hater)))
-		{
-			if (Hater.Health > 0 && Hater.bShootable)
-			{
-				break;
-			}
-		}
-	}
-
-	while (Hater)
-	{
-		// Can't hate if can't attack.
-		if (Hater.SeeState)
-		{
-			// If hating a group of things, record the TID and NULL
-			// the target (if its TID doesn't match). A_Look will
-			// find an appropriate thing to go chase after.
-			if (Arg3)
-			{
-				Hater.TIDToHate = Arg2;
-				Hater.LastLookActor = none;
-
-				// If the TID to hate is 0, then don't forget the target and
-				// lastenemy fields.
-				if (Arg2)
-				{
-					if (Hater.Target && Hater.Target.TID != Arg2)
-					{
-						Hater.Target = none;
-					}
-					if (Hater.LastEnemy && Hater.LastEnemy.TID != Arg2)
-					{
-						Hater.LastEnemy = none;
-					}
-				}
-			}
-			// Hate types for Arg3:
-			//
-			// 0 - Just hate one specific actor
-			// 1 - Hate actors with given TID and attack players when shot
-			// 2 - Same as 1, but will go after enemies without seeing them first
-			// 3 - Hunt actors with given TID and also players
-			// 4 - Same as 3, but will go after monsters without seeing them first
-			// 5 - Hate actors with given TID and ignore player attacks
-			// 6 - Same as 5, but will go after enemies without seeing them first
-
-			// Note here: If you use Thing_Hate (tid, 0, 2), you can make
-			// a monster go after a player without seeing him first.
-			Hater.bNoSightCheck = Arg3 == 2 || Arg3 == 4 || Arg3 == 6;
-			Hater.bHuntPlayers = Arg3 == 3 || Arg3 == 4;
-			Hater.bNoHatePlayers = Arg3 == 5 || Arg3 == 6;
-
-			if (Arg2 == 0)
-			{
-				Hatee = A;
-			}
-			else if (NothingToHate)
-			{
-				Hatee = none;
-			}
-			else if (Arg3)
-			{
-				do
-				{
-					Hatee = EntityEx(FindMobjFromTID(Arg2, Hatee));
-				}
-				while (!Hatee ||
-					Hatee == Hater ||		// can't hate self
-					!Hatee.bShootable ||	// can't hate nonshootable things
-					Hatee.Health <= 0 ||	// can't hate dead things
-					Hatee.bDormant);
-			}
-
-			if (Hatee && Hatee != Hater && (Arg3 == 0 || (Hater.Goal && Hater.Target != Hater.Goal)))
-			{
-				if (Hater.Target)
-				{
-					Hater.LastEnemy = Hater.Target;
-				}
-				Hater.Target = Hatee;
-				if (!Hater.bDormant)
-				{
-					if (Hater.Health > 0)
-					{
-						Hater.SetState(Hater.SeeState);
-					}
-				}
-			}
-		}
-		if (Arg1)
-		{
-			for (Hater = EntityEx(FindMobjFromTID(Arg1, Hater)); Hater;
-				Hater = EntityEx(FindMobjFromTID(Arg1, Hater)))
-			{
-				if (Hater.Health > 0 && Hater.bShootable)
-				{
-					break;
-				}
-			}
-		}
-		else
-		{
-			Hater = none;
-		}
-	}
-	return true;
+	return false;
 }
 
 //===========================================================================
@@ -6305,14 +5987,6 @@ final void PolyCrushMobj(Entity Other, polyobj_t* po)
 {
 	if (po->bCrush)
 	{
-		//	Crunch Ice Corpses
-		if (EntityEx(Other).bIceCorpse)
-		{
-			// Crush Ice corpses
-			//Actor(Other).A_FreezeDeathChunks();
-			return;
-		}
-
 		//	Crunch bodies to giblets
 		if (EntityEx(Other).bCorpse && !EntityEx(Other).bDontGib && Other.Health <= 0)
 		{
@@ -6690,11 +6364,6 @@ final void SpawnMapThing(mthing_t* mthing)
 	if (!moClass)
 		return;
 
-	if (Level.Game.nomonsters && moClass.default.bMonster)
-	{
-		return;
-	}
-
 	// spawn it
 	Spawn(moClass,,, mthing, false);
 }
@@ -6790,127 +6459,6 @@ final bool CheckLockDef(LockDef* Lock, EntityEx User)
 	return true;
 }
 
-//**************************************************************************
-//
-//	CONVERSATION STUFF
-//
-//**************************************************************************
-
-//==========================================================================
-//
-//	StartConversation
-//
-//==========================================================================
-
-bool StartConversation(EntityEx User, EntityEx UseOn)
-{
-	/*
-	int SpeechNum;
-
-	if (Game.netgame)
-	{
-		return false;
-	}
-	if (!User || !User.bIsPlayer || User.Health <= 0)
-	{
-		return false;
-	}
-	if (!UseOn || UseOn.Health <= 0)
-	{
-		return false;
-	}
-	if (UseOn.bInCombat)
-	{
-		//	This dude is too busy to talk right now.
-		return false;
-	}
-	if (!UseOn.ConversationID)
-	{
-		return false;
-	}
-	SpeechNum = UseOn.GetSpeech();
-	if (SpeechNum)
-	{
-		CurrentSpeaker = UseOn;
-		CurrentSpeakingTo = User;
-		OldSpeakerAngle = UseOn.Angles.yaw;
-		UseOn.Angles.yaw = atan2(User.Origin.y - UseOn.Origin.y,
-			User.Origin.x - UseOn.Origin.x);
-		User.PlaySound('misc/chat', CHAN_VOICE);
-		StartSpeech(SpeechNum);
-	}
-	*/
-	return true;
-}
-
-//==========================================================================
-//
-//	StartSpeech
-//
-//==========================================================================
-
-final void StartSpeech(int SpeechNum)
-{	
-/*
-	RogueConSpeech *Speech;
-	bool conJumped;
-
-	do
-	{
-		conJumped = false;
-		if (!SpeechNum)
-		{
-			StopSpeech();
-			return;
-		}
-		if (SpeechNum < 0)
-		{
-			Speech = &XLevel.GenericSpeeches[-SpeechNum - 1];
-		}
-		else
-		{
-			Speech = &XLevel.LevelSpeeches[SpeechNum - 1];
-		}
-		if (Speech->JumpToConv &&
-			CheckForNeededItem(CurrentSpeakingTo, Speech->CheckItem1, 1) != -2 &&
-			CheckForNeededItem(CurrentSpeakingTo, Speech->CheckItem2, 1) != -2 &&
-			CheckForNeededItem(CurrentSpeakingTo, Speech->CheckItem3, 1) != -2)
-		{
-			CurrentSpeaker.CurrentSpeech = Speech->JumpToConv;
-			SpeechNum = CurrentSpeaker.GetSpeech();
-			conJumped = true;
-		}
-	}
-	while (conJumped);
-	CurrentSpeechIndex = SpeechNum;
-
-	PlayerEx(CurrentSpeakingTo.Player).ClientSpeech(CurrentSpeaker, SpeechNum);
-	*/
-}
-
-//==========================================================================
-//
-//	GetClassFromID
-//
-//==========================================================================
-
-final class<EntityEx> GetClassFromID(int ID)
-{
-	class Cls;
-	if (ID)
-	{
-		foreach (AllClasses(EntityEx, Cls))
-		{
-			if (class<EntityEx>(Cls).default.ConversationID == ID)
-			{
-				return class<EntityEx>(Cls);
-			}
-		}
-		print("Unknown item %d", ID);
-	}
-
-	return none;
-}
 
 //==========================================================================
 //
@@ -7229,35 +6777,6 @@ void AcsCancelFade(Entity Activator)
 			FlashFader(Th).Cancel();
 		}
 	}
-}
-
-//==========================================================================
-//
-//  P_Massacre
-//
-//  Kills all monsters.
-//
-//==========================================================================
-
-final int P_Massacre()
-{
-	int count;
-	EntityEx mo;
-
-	count = 0;
-	foreach AllThinkers(EntityEx, mo)
-	{
-		if (mo.bMonster && mo.Health > 0)
-		{
-			mo.bNonShootable = false;
-			mo.bInvulnerable = false;
-			mo.bDormant = false;
-			mo.bShootable = true;
-			//mo.Damage(none, none, 10000);
-			count++;
-		}
-	}
-	return count;
 }
 
 //==========================================================================

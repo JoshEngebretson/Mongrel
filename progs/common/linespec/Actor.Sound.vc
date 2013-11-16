@@ -230,11 +230,6 @@ final void A_Scream()
 	//  Remove muzzle flash & other light effects
 	bDynamicLight = false;
 
-	if (DeathSound)
-	{
-		// Make boss death sounds full volume
-		PlaySound(DeathSound, CHAN_VOICE, 1.0, bBoss ? ATTN_NONE : ATTN_NORMAL);
-	}
 }
 
 //==========================================================================

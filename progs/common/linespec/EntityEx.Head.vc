@@ -151,18 +151,11 @@ name			BounceSound;
 bool bSpecial;			// Call P_SpecialThing when touched.
 bool bShootable;		// Can be hit.
 bool bAmbush;
-bool bJustHit;			// Try to attack right back.
-bool bJustAttacked;		// Take at least one step before attacking.
 bool bSpawnCeiling;		// Hang from ceiling instead of floor.
 // movement flags
-bool bPickUp;			//  For players to pick up items.
-bool bDropped;			//  Dropped by a demon, not level spawned.
 bool bNoBlood;			//  Don't bleed when shot (use puff).
 bool bInFloat;			//  Floating to a height for a move, don't.
 						//  Auto float to target's height.
-bool bSkullFly;			//  Skull in flight.
-bool bCountKill;		//  Count towards intermission kill total.
-bool bCountItem;		//  Count towards intermission item total.
 bool bWindThrust;		//  Gets pushed around by the wind specials.
 bool bActivateImpact;	//  An MF_MISSILE mobj can activate.
 						//  SPAC_IMPACT
@@ -200,27 +193,17 @@ bool bSlide;			//  Slides against walls.
 bool bReflective;		//  Reflects missiles.
 bool bSeekerMissile;	//  Is a seeker (for reflection).
 bool bNoExplodeFloor;	//	Don't explode when hitting the floor.
-bool bIceCorpse;		//	A frozen corpse (for blasting).
 bool bExplodeOnWater;	//	Explode on water surfaces.
 bool bCanBounceWater;	//	Bounce on water surfaces.
 bool bFallingFriction;	//	Apply friction while falling.
 bool bNoRadiusDamage;	//	Does not take radius damage.
-bool bCantAutoAim;		//	Can't auto aim at this actor.
 bool bPuffOnActors;		//	Spawn this puff when hitting actors.
 bool bInvulnerable;		//  Mobj is invulnerable.
 bool bFriendly;			//  Will fight on player's side.
 bool bRandomise;		//	Randomise initial state time.
 bool bFullVolDeath;		//	Play missile death sound at full volume.
-bool bExploCount;		//	Use explosion counters.
-bool bSpectral;			//  Can be killed only with Sigil.
-bool bDamageInvulnerable;	//  These inflictors aren't foiled by invulnerability.
-bool bSkullFlyInvulnerable;	//	Invulnerable during skull fly attack.
-bool bNoDamageThrust;	//  Does not thrust target when damaging.
-bool bConditionalFireDamage;
 bool bNoExtremeDeath;	//  Does never gib enemies.
 bool bExtremeDeath;		//  Always gibs enemies.
-bool bLightning;		//	Electrocutes victims.
-bool bHowlVictims;		//	Make victims play howl sound when damaged.
 bool bNoGrudge;
 bool bNeverTarget;		//	Never switch target to this actor.
 bool bNoTargetSwitch;	//	Never switches target until current one is dead.
@@ -228,87 +211,43 @@ bool bNoGravKill;		//	Doesn't set NoGravity to false when killed.
 bool bFaster;
 bool bFastMelee;
 bool bStanding;			//  Don't walk around.
-bool bBoss;				//  Mobj is a major boss.
 bool bNonShootable;		//  Mobj is totally non-shootable,
 						//  but still considered solid.
 bool bThruGhost;		//  Missile will pass through ghosts.
 bool bRip;				//  Missile rips through solid targets.
 bool bPushable;			//  Can be pushed by other moving mobjs.
 bool bBloodlessImpact;	//	Don't spawn blood when hitting a thing.
-bool bMonster;
-bool bNoDeathmatch;
 bool bTeleport;			//  Don't cross lines or look at heights.
 bool bSpawnFloat;		//  Spawn random float z.
-bool bNoMorph;			//  Don't morph into chicken/pig.
 bool bNoBlockMonst;		//  Can cross ML_BLOCKMONSTERS lines
-bool bLookAllAround;	//  Actor can see all around.
-bool bNeutral;			//  Neutral characters (peasants and beggars).
 bool bStandMustSeeTarget;	//  COUNTITEM	800000
-bool bInCombat;			//  Actors in combat won't talk.
 bool bFullVolActive;	//	Play active sound at full volume.
 bool bDehackedSpecial;	//  Old style special handling.
 bool bUnknown2;			//  8000000
 bool bPuffParticles;	//  Puff spawns particles.
 bool bExplodeParticles;	//  Use particle explosion.
-bool bStealth;			//  Andy Baker's Stealth monsters.
-bool bChaseGoal;		//  Walks to goal instead of target if a valid goal is set.
-bool bExplosionDontHurtSelf; //  For A_Explodearms.
 bool bNoSightCheck;		//  Go after target without checking sight.
-bool bHuntPlayers;		//  With TIDToHate, hate players too.
-bool bNoHatePlayers;	//  Ignore player attacks.
-bool bStrifeDamage;		//  Missiles do 4x damage instead of 8x.
-bool bDontBlast;		//  Not blasted by blast radius.
 bool bVisibilityPulse;	//  Pulse visibility in and out.
 bool bArgsDefined;		//  Args are already defined.
 bool bShadow;			//  Actor is hard for monsters to see.
 bool bGhost;			//  Actor is a ghost.
-bool bBossDeath;		//  A_FreezeDeathChunks calls A_BossDeath.
-bool bNoIceDeath;		//  Don't use generic ice death.
 bool bDontTranslate;	//  Don't use translation.
-bool bMissileEvenMore;
 bool bNoLiftDrop;		//  Don't fall down with the lift.
-bool bStayMorphed;		//  Don't unmorph.
-bool bCanBlast;			//  Special cases that can be blasted.
-bool bShieldReflect;	//  Centaur style shield reflection.
-bool bDontShieldReflect;	//  Projectile not reflected by shield reflection.
-bool bDeflect;			//  Different projectile reflection style.
-bool bDontReflect;		//  Projectile cannot be reflected.
-bool bFireResist;		//  Actor takes half damage from fire.
-bool bLowSpectralResist;	//  Actor resists full damage from first sigil projectiles.
 bool bDontSquash;		//  Death ball can't squash this actor.
 bool bNoTeleOther;		//  Monster is not affected by teleport other artifact.
-bool bDontHurtClass;	//  Don't hurt own class with explosions.
-bool bDontHurtSpecies;	//  Don't hurt own species with explosions.
-bool bNoDamage;			//  Actor reacts to pain but does not take any damage.
 bool bDontGib;			//  Don't crunch this corpse to gibs.
 bool bNoPain;			//  Don't enter pain state.
-bool bPainless;			//  Actor always inflicts painless damage.
-bool bForcePain;		//  Forces target into painstate (unless it has the NOPAIN flag).
-bool bCantSeek;			//  Seeker missiles cannot home in on this actor.
-bool bDontSeekInvisible; //  For seeker missiles: Don't home in on invisible/shadow targets.
-bool bPierceArmor;		//  Damage from this actor is not protected by armor.
-bool bForceRadiusDmg;	//  Override NoRadiusDmg.
 bool bSpawnSoundSource;	//  Play missile's see sound on spawning object.
 bool bAlwaysPuff;		//  Always show puff, even when hit nothing.
 bool bSynchronised;		//  For map spawned things don't randomise tics.
-bool bAlwaysFast;		//  Always uses 'fast' attack logic.
-bool bNeverFast;		//  Never uses 'fast' attack logic.
 bool bAlwaysRespawn;	//  Always respawns, regardless of skill.
 bool bNeverRespawn;		//  Never respawns, regardless of skill.
-bool bDontRip;			//  Ripping projectiles explode when hitting this actor.
 bool bCanUseWalls;		//  Can activate "use" specials.
 transient bool bInChase; //  Used to prevent recursion in A_Chase.
 bool bUseSpecial;		//  Execute special when this thing is being used.
-bool bNoInfighting;		//  Disable infighting for this actor.
-bool bBloodSplatter;	//  Use blood splatter like in Raven games.
 bool bDehExplosion;		//  Use explosion style specified using DeHackEd.
-bool bNoVerticalMeleeRange;	//  Does not check vertical distance for melee range.
-bool bSummonedMonster;  //  Flag MinotaurFriend and other summoned monsters (i.e. by powerups, etc.).
-bool bSeesDaggers;		//  Actor is able to hear dagger attacks.
 bool bPuffGetsOwner;	//  [BB] Sets the owner of the puff to the player who fired it.
 bool bNoInteraction;	//  Thing is completely excluded from any gameplay related checks.
-bool bFrightened;		//  Monster runs away from player.
-bool bNoFear;			//  Not scared of frightening players.
 bool bTouchy;			//  killough 11/98: Dies when solids touch it.
 bool bArmed;			//  Object is armed (for touchy objects).
 bool bJumpDown;			//  Generalization of dog behavior with dropoffs.
@@ -316,11 +255,6 @@ bool bMoveWithSector;	//  P_ChangeSector() will still process this actor if it h
 bool bNoTrigger;		//  Actor cannot trigger any line actions.
 bool bBlockedBySolidActors;	//  Blocked by solid actors, even if not solid itself.
 bool bThruActors;		//  Performs no actor<->actor collision checks.
-bool bThruSpecies;		//  Actors passes through other of the same species.
-bool bMThruSpecies;		//  Missile passes through actors of its shooter's species.
-bool bNoTeleFrag;		//  Actor can't be telefragged.
-bool bNoBossRip;		//  For rippermissiles: Don't rip through bosses.
-bool bScreenSeeker;		//  Fails the IsOkayToAttack test if potential target is outside player FOV.
 bool bBumpSpecial;		//  Actor executes its special when being collided (as the ST flag).
 bool bMBFBounce;		//	Doesn't dies while bouncing speed is higher than 0.
 bool bAvoidsDropOffs;	//	Monster does avoid dropoffs, overrides value of compat_dropoff CVar.
@@ -368,11 +302,6 @@ EntityEx		LastHeard;
 int				LastLook;
 //	The same for actor.
 Entity			LastLookActor;
-
-//	TID of things to hate, 0 if none.
-int				TIDToHate;
-
-byte			FriendPlayer;
 
 int				MissileDamage;	// For missiles
 int				MissilePoisonDamage;
@@ -422,12 +351,6 @@ name			DamageType;
 
 float			DeathHeight;
 float			BurnHeight;
-
-string			StrifeName;
-
-// Identifier in conversation scripts, originaly index into mobjinfo.
-int				ConversationID;
-int				CurrentSpeech;	// Current speech index.
 
 float			FloatBobPhase;
 

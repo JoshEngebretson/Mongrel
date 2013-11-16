@@ -642,22 +642,15 @@ static void ReadThing(int num)
 				SetClassFieldBool(Ent, "bSpawnCeiling", Values[0] & 0x00000100);
 				SetClassFieldBool(Ent, "bNoGravity", Values[0] & 0x00000200);
 				SetClassFieldBool(Ent, "bDropOff", Values[0] & 0x00000400);
-				SetClassFieldBool(Ent, "bPickUp", Values[0] & 0x00000800);
 				SetClassFieldBool(Ent, "bColideWithThings", !(Values[0] & 0x00001000));
 				SetClassFieldBool(Ent, "bColideWithWorld", !(Values[0] & 0x00001000));
 				SetClassFieldBool(Ent, "bFloat", Values[0] & 0x00004000);
 				SetClassFieldBool(Ent, "bTeleport", Values[0] & 0x00008000);
 				SetClassFieldBool(Ent, "bMissile", Values[0] & 0x00010000);
-				SetClassFieldBool(Ent, "bDropped", Values[0] & 0x00020000);
 				SetClassFieldBool(Ent, "bShadow", Values[0] & 0x00040000);
 				SetClassFieldBool(Ent, "bNoBlood", Values[0] & 0x00080000);
 				SetClassFieldBool(Ent, "bCorpse", Values[0] & 0x00100000);
 				SetClassFieldBool(Ent, "bInFloat", Values[0] & 0x00200000);
-				SetClassFieldBool(Ent, "bCountKill", Values[0] & 0x00400000);
-				SetClassFieldBool(Ent, "bCountItem", Values[0] & 0x00800000);
-				SetClassFieldBool(Ent, "bSkullFly", Values[0] & 0x01000000);
-				SetClassFieldBool(Ent, "bNoDeathmatch", Values[0] & 0x02000000);
-				SetClassFieldBool(Ent, "bStealth", Values[0] & 0x40000000);
 
 				//	Set additional flags for missiles.
 				SetClassFieldBool(Ent, "bActivatePCross", Values[0] & 0x00010000);
@@ -699,8 +692,6 @@ static void ReadThing(int num)
 				SetClassFieldBool(Ent, "bPassMobj", Values[1] & 0x00001000);
 				SetClassFieldBool(Ent, "bCannotPush", Values[1] & 0x00002000);
 				SetClassFieldBool(Ent, "bThruGhost", Values[1] & 0x00004000);
-				SetClassFieldBool(Ent, "bBoss", Values[1] & 0x00008000);
-				SetClassFieldBool(Ent, "bNoDamageThrust", Values[1] & 0x00020000);
 				SetClassFieldBool(Ent, "bTelestomp", Values[1] & 0x00040000);
 				SetClassFieldBool(Ent, "bInvisible", Values[1] & 0x00080000);
 				SetClassFieldBool(Ent, "bFloatBob", Values[1] & 0x00100000);

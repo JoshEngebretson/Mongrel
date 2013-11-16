@@ -326,17 +326,7 @@ final float XYMovement(float DeltaTime, float ScrollX, float ScrollY)
 
 	if (!xmove && !ymove)
 	{
-		if (bSkullFly)
-		{
-			//	A flying mobj slammed into something
-			bSkullFly = false;
-			Velocity = vector(0.0, 0.0, 0.0);
-			if (Health > 0)
-			{
-				SetState(SeeState ? SeeState : IdleState);
-			}
-		}
-		else if (bBlasted)
+		if (bBlasted)
 		{
 			// Reset to not blasted when momentums are gone
 			ResetBlasted();
@@ -459,7 +449,7 @@ final void ZMovement(float DeltaTime, float OldFloorZ)
 	if (bFloat && !bDormant && Target)
 	{
 		// float down towards enemy if too close
-		if (!bSkullFly && !bInFloat)
+		if (!bInFloat)
 		{
 			dist = DistTo2(Target);
 			delta = Target.Origin.z + Height / 2.0 - Origin.z;
@@ -657,7 +647,7 @@ final void HitMobj(Entity Other, float ptryx, float ptryy)
 
 			//  Bounce against walls and non-killable objects
 			if ((bBounceOnActors || EntityEx(Other).bReflective ||
-				(!Other.bIsPlayer && !EntityEx(Other).bMonster)  || !EntityEx(Other).IsSentient()) ||
+				(!Other.bIsPlayer)  || !EntityEx(Other).IsSentient()) ||
 				EntityEx(Other).bBounceOnAllActors)
 			{
 				angle = AngleMod360(atan2(Origin.y - Other.Origin.y,
@@ -777,13 +767,8 @@ final bool HitFloor()
 	}
 
 	vdot = DotProduct(Velocity, Floor->normal);
-	if (bMonster)	// Blasted mobj falling
-	{
-		if (vdot < -23.0 * 35.0)
-		{
-			//MonsterFallingDamage();
-		}
-	}
+
+
 	Origin.z = FloorZ;
 	if (vdot < -0.1)
 	{
@@ -817,11 +802,7 @@ final bool HitFloor()
 		TVec Vel = vdot * Floor->normal;
 		Velocity.z -= Vel.z;
 	}
-	if (bSkullFly)
-	{
-		// The skull slammed into something
-		Velocity.z = -Velocity.z;
-	}
+	
 	Crash();
 	return true;
 }
@@ -882,12 +863,6 @@ final bool HitCeiling()
 	{
 		TVec Vel = vdot * Ceiling->normal;
 		Velocity.z -= Vel.z;
-	}
-
-	if (bSkullFly)
-	{
-		// the skull slammed into something
-		Velocity.z = -Velocity.z;
 	}
 
 	return true;
@@ -1043,50 +1018,9 @@ final void CeilingBounceMissile()
 
 final float GetReflectedAngle(EntityEx Other)
 {
-	if (Other.bDontReflect)
-	{
-		return -1.0;
-	}
 
 	float angle = atan2(Other.Origin.y - Origin.y,
 		Other.Origin.x - Origin.x);
-
-	if (bShieldReflect)
-	{
-		// Change angle for delflection/reflection
-		if (fabs(AngleMod180(angle - Angles.yaw)) > 45.0 * 45.0 / 32.0)
-		{
-			return -1.0;
-		}
-		if (Other.bDontShieldReflect)
-		{
-			return -1.0;
-		}
-		// Deflection
-		if (Random() < 0.5)
-		{
-			angle = AngleMod360(angle + 45.0);
-		}
-		else
-		{
-			angle = AngleMod360(angle - 45.0);
-		}
-		return angle;
-	}
-
-	if (bDeflect)
-	{
-		// Change angle for delflection
-		if (Random() < 0.5)
-		{
-			angle = AngleMod360(angle + 45.0);
-		}
-		else
-		{
-			angle = AngleMod360(angle - 45.0);
-		}
-		return angle;
-	}
 
 	// Change angle for reflection
 	angle = AngleMod360(angle + Random() * 16.0 - 8.0);
@@ -1262,10 +1196,7 @@ final void MonsterFallingDamage()
 final void ResetBlasted()
 {
 	bBlasted = false;
-	if (!bIceCorpse)
-	{
-		bSlide = false;
-	}
+	bSlide = false;
 }
 
 //==========================================================================
@@ -1434,7 +1365,7 @@ final void ApplyFriction()
 {
 	float dot;
 
-	if (bMissile || bSkullFly)
+	if (bMissile)
 	{
 		// no friction for missiles ever
 		return;

@@ -31,8 +31,6 @@ defaultproperties
 	ReactionCount = 8;
 	bSolid = false;
 	bShootable = false;
-	bPickUp = false;
-	bNoDeathmatch = false;
 	bFriendly = false;
 	bSlide = false;
 	bActivatePushWall = false;

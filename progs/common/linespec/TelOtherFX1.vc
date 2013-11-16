@@ -27,21 +27,6 @@ class TelOtherFX1 : Actor;
 
 //==========================================================================
 //
-//  DoSpecialDamage
-//
-//==========================================================================
-
-int DoSpecialDamage(EntityEx victim, EntityEx source, int damage)
-{
-   if ((victim.bMonster || victim.bIsPlayer) && !victim.bBoss && !victim.bNoTeleOther)
-	{
-		TeleportOther(Actor(victim));
-	}
-	return -1;
-}
-
-//==========================================================================
-//
 //  TeleportOther
 //
 //==========================================================================
@@ -256,5 +241,4 @@ defaultproperties
 	bNoGravity = true;
 	bNoTeleport = true;
 	bBloodlessImpact = true;
-	bBloodSplatter = true;
 }

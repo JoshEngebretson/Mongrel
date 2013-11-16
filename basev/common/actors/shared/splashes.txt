@@ -10,7 +10,6 @@ actor WaterSplash
 	+NoTeleport
 	+CannotPush
 	+DontSplash
-	+DontBlast
 	states
 	{
 	Spawn:
@@ -30,7 +29,6 @@ actor WaterSplashBase
 	+NoGravity
 	+NoClip
 	+DontSplash
-	+DontBlast
 	states
 	{
 	Spawn:
@@ -121,7 +119,6 @@ actor BloodSplash
 	+NoTeleport
 	+CannotPush
 	+DontSplash
-	+DontBlast
 	states
 	{
 	Spawn:
@@ -141,7 +138,6 @@ actor BloodSplashBase
 	+NoGravity
 	+NoClip
 	+DontSplash
-	+DontBlast
 	states
 	{
 	Spawn:

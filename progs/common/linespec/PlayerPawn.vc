@@ -140,8 +140,6 @@ defaultproperties
 	bSolid = true;
 	bShootable = true;
 	bDropOff = true;
-	bPickUp = true;
-	bNoDeathmatch = true;
 	bFriendly = true;
 	bSlide = true;
 	bPassMobj = true;

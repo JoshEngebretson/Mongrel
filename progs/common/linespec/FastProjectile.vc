@@ -137,5 +137,4 @@ defaultproperties
 	bNoTeleport = true;
 	bActivateImpact = true;
 	bActivatePCross = true;
-	bBloodSplatter = true;
 }

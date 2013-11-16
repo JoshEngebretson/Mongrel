@@ -148,10 +148,6 @@ bool Activate(EntityEx Activator)
 		Tracer.bSolid = false;
 		Tracer.LinkToWorld();
 	}
-	if (Tracer.bMonster)
-	{
-		Tracer.bDormant = true;
-	}
 	return true;
 }
 

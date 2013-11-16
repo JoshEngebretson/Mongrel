@@ -150,42 +150,7 @@ final void InitSpawnedItem(EntityEx A, bool TransTransl, bool SetMaster,
 		NoCheckPos = true;
 	}
 
-	if (A.bMonster)
-	{
-		//	Check if thing fits in it's current location.
-		if (!NoCheckPos && !A.TestLocation())
-		{
-			if (A.CountsAsKill())
-			{
-				Level.TotalKills--;
-			}
-			A.Destroy();
-			//	Set result for state chain calls.
-			if (XLevel.StateCall)
-			{
-				XLevel.StateCall->Result = false;
-			}
-			return;
-		}
-
-		if (Instig)
-		{
-			if (Instig.bMonster)
-			{
-				A.CopyFriendliness(self, true);
-				if (SetMaster)
-				{
-					A.Master = self;
-				}
-			}
-			else if (Instig.bIsPlayer)
-			{
-				//	Make monster friendly.
-				A.bFriendly = true;
-			}
-		}
-	}
-	else if (!TransPitch)
+	if (!TransPitch)
 	{
 		//	For missiles or anything else set target to instigator.
 		if (!Instig)
