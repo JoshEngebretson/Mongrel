@@ -454,7 +454,6 @@ protected:
 	int						CurrentFade;
 
 	bool					pointparmsable;
-	bool					HaveShaders;
 	bool					HaveDepthClamp;
 	bool					HaveStencilWrap;
 	bool					HaveVertexBufferObject;
