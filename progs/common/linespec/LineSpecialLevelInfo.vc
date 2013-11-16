@@ -6748,6 +6748,9 @@ final bool CheckLockDef(LockDef* Lock, EntityEx User)
 {
 	int			i;
 	int			j;
+
+	// we always have the key for now
+	return true;
 	
 	//	Empty lock list means check for any key.
 	if (!Lock->Locks.Num)
