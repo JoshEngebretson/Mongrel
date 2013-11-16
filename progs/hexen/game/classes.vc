@@ -29,7 +29,6 @@ import 'linespec';
 #include "MainGameInfo.vc"
 #include "HexenLevelInfo.vc"
 #include "Player.vc"
-#include "BotPlayer.vc"
 #include "PlayerSpeed.vc"
 
 class FighterPlayer : PlayerPawn decorate;

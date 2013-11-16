@@ -30,9 +30,6 @@ const int NUMBOTTYPES		= 24;
 
 const float TELEFOGHEIGHT	= 32.0;
 
-BotPlayer::botinfo_t botinfo[NUMTOTALBOTS];
-int botskill;
-
 int classFlags[3];
 
 //==========================================================================
@@ -68,7 +65,6 @@ void Init()
 
 	SetSeqTrans('Wind', 0, SEQ_Environment);
 
-	InitBotTypes();
 }
 
 //==========================================================================
@@ -86,249 +82,6 @@ void InitNewGame(int skill)
 	bWeaponsStay = netgame && !GetCvar('deathmatch');
 }
 
-//==========================================================================
-//
-//  InitBotTypes
-//
-//==========================================================================
-
-void InitBotTypes()
-{
-	SetBotType(0,
-		"botf1",
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		"\\name\\botf1\\colour\\0\\class\\0\\model\\\\skin\\"
-	);
-	SetBotType(1,
-		"botf2",
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		"\\name\\botf2\\colour\\1\\class\\0\\model\\\\skin\\"
-	);
-	SetBotType(2,
-		"botf3",
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		"\\name\\botf3\\colour\\2\\class\\0\\model\\\\skin\\"
-	);
-	SetBotType(3,
-		"botf4",
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		"\\name\\botf4\\colour\\3\\class\\0\\model\\\\skin\\"
-	);
-	SetBotType(4,
-		"botf5",
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		"\\name\\botf5\\colour\\4\\class\\0\\model\\\\skin\\"
-	);
-	SetBotType(5,
-		"botf6",
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		"\\name\\botf6\\colour\\5\\class\\0\\model\\\\skin\\"
-	);
-	SetBotType(6,
-		"botf7",
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		"\\name\\botf7\\colour\\6\\class\\0\\model\\\\skin\\"
-	);
-	SetBotType(7,
-		"botf8",
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		"\\name\\botf8\\colour\\7\\class\\0\\model\\\\skin\\"
-	);
-	SetBotType(8,
-		"botc1",
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		"\\name\\botc1\\colour\\0\\class\\1\\model\\\\skin\\"
-	);
-	SetBotType(9,
-		"botc2",
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		"\\name\\botc2\\colour\\1\\class\\1\\model\\\\skin\\"
-	);
-	SetBotType(10,
-		"botc3",
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		"\\name\\botc3\\colour\\2\\class\\1\\model\\\\skin\\"
-	);
-	SetBotType(11,
-		"botc4",
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		"\\name\\botc4\\colour\\3\\class\\1\\model\\\\skin\\"
-	);
-	SetBotType(12,
-		"botc5",
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		"\\name\\botc5\\colour\\4\\class\\1\\model\\\\skin\\"
-	);
-	SetBotType(13,
-		"botc6",
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		"\\name\\botc6\\colour\\5\\class\\1\\model\\\\skin\\"
-	);
-	SetBotType(14,
-		"botc7",
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		"\\name\\botc7\\colour\\6\\class\\1\\model\\\\skin\\"
-	);
-	SetBotType(15,
-		"botc8",
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		"\\name\\botc8\\colour\\7\\class\\1\\model\\\\skin\\"
-	);
-	SetBotType(16,
-		"botm1",
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		"\\name\\botm1\\colour\\0\\class\\2\\model\\\\skin\\"
-	);
-	SetBotType(17,
-		"botm2",
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		"\\name\\botm2\\colour\\1\\class\\2\\model\\\\skin\\"
-	);
-	SetBotType(18,
-		"botm3",
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		"\\name\\botm3\\colour\\2\\class\\2\\model\\\\skin\\"
-	);
-	SetBotType(19,
-		"botm4",
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		"\\name\\botm4\\colour\\3\\class\\2\\model\\\\skin\\"
-	);
-	SetBotType(20,
-		"botm5",
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		"\\name\\botm5\\colour\\4\\class\\2\\model\\\\skin\\"
-	);
-	SetBotType(21,
-		"botm6",
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		"\\name\\botm6\\colour\\5\\class\\2\\model\\\\skin\\"
-	);
-	SetBotType(22,
-		"botm7",
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		"\\name\\botm7\\colour\\6\\class\\2\\model\\\\skin\\"
-	);
-	SetBotType(23,
-		"botm8",
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		BotPlayer::bsk_medium,
-		"\\name\\botm8\\colour\\7\\class\\2\\model\\\\skin\\"
-	);
-}
-
-//==========================================================================
-//
-//  SetBotType
-//
-//==========================================================================
-
-void SetBotType(int i, string Name, int accuracy, int intelect, int evade,
-	int anticip, int reaction, string userinfo)
-{
-	botinfo[i].Name = Name;
-	botinfo[i].accuracy = accuracy;
-	botinfo[i].intelect = intelect;
-	botinfo[i].evade = evade;
-	botinfo[i].anticip = anticip;
-	botinfo[i].reaction = reaction;
-	botinfo[i].userinfo = userinfo;
-}
 
 defaultproperties
 {
@@ -346,9 +99,7 @@ defaultproperties
 
 	classFlags[0] = HexenLevelInfo::MTF2_FIGHTER;
 	classFlags[1] = HexenLevelInfo::MTF2_CLERIC;
-	classFlags[2] = HexenLevelInfo::MTF2_MAGE;
-
-	botskill = 2;
+	classFlags[2] = HexenLevelInfo::MTF2_MAGE;	
 
 	PlayerClasses.Num = 1;
 	PlayerClasses[0] = FighterPlayer;

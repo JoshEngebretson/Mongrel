@@ -15,7 +15,6 @@ progs/cgame/ClientGame.vc					@CMAKE_SOURCE_DIR@/progs/hexen/cgame/ClientGame.vc
 
 //	Progs
 progs/game/classes.vc				@CMAKE_SOURCE_DIR@/progs/hexen/game/classes.vc
-progs/game/BotPlayer.vc				@CMAKE_SOURCE_DIR@/progs/hexen/game/BotPlayer.vc
 progs/game/HexenDefs.vc				@CMAKE_SOURCE_DIR@/progs/hexen/game/HexenDefs.vc
 progs/game/HexenLevelInfo.vc		@CMAKE_SOURCE_DIR@/progs/hexen/game/HexenLevelInfo.vc
 progs/game/MainGameInfo.vc			@CMAKE_SOURCE_DIR@/progs/hexen/game/MainGameInfo.vc
