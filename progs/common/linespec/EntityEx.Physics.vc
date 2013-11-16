@@ -1119,7 +1119,7 @@ final void PlayerLandedOnThing()
 {
 	PlayerEx(Player).DeltaViewHeight = Velocity.z / 8.0;
 	//FallingDamage();
-	if (Health > 0 && !PlayerEx(Player).MorphTime)
+	if (Health > 0 )
 	{
 		if (Velocity.z < -DEFAULT_GRAVITY * 0.375)
 		{

@@ -70,12 +70,6 @@ bool					bAlwaysRelevant;	//	Always updated
 readonly bool			bNetInitial;		//	Initial update
 readonly bool			bNetOwner;			//	Is owned by current player.
 
-replication
-{
-	reliable if (Role == ROLE_Authority)
-		Role, RemoteRole;
-}
-
 native final spawner Thinker Spawn(class<Thinker> Type, optional TVec AOrigin,
 	optional TAVec AAngles, optional mthing_t* mthing,
 	optional bool AllowReplace);

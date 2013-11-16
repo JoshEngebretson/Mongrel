@@ -58,12 +58,6 @@ class ParticleFountain : Actor;
 bool		bFountain;
 float		GenDelay;
 
-replication
-{
-	reliable if (Role == ROLE_Authority)
-		bFountain;
-}
-
 //==========================================================================
 //
 //	Activate

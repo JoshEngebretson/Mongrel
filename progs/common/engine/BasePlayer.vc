@@ -134,32 +134,6 @@ native readonly ClientGameBase	ClGame;			//	Valid only on client side
 
 PlayerReplicationInfo	PlayerReplicationInfo;
 
-replication
-{
-	reliable if (!bIsClient)
-		Health, Frags, Deaths, ExtraLight, FixedColourmap, CShift,
-		PSpriteSY, KillCount, ItemCount, SecretCount, ViewStates,
-		ClientNum, WorldTimer, MO, Camera, bAutomapRevealed,
-		bAutomapShowThings, SoundEnvironment, bAttackDown;
-
-	unreliable if (!bIsClient)
-		ClientStartSound, ClientStopSound, ClientSetViewOrg;
-
-	reliable if (!bIsClient)
-		ClientStartSequence, ClientAddSequenceChoice, ClientStopSequence,
-		ClientPrint, ClientCentrePrint, ClientSetAngles, ClientIntermission,
-		ClientPause, ClientSkipIntermission, ClientFinale, ClientChangeMusic,
-		ClientSetServerInfo, ClientHudMessage;
-
-	//	Movement variables
-	reliable if (bIsClient)
-		ViewAngles, ClientForwardMove, ClientSideMove, FlyMove, Buttons;
-
-	//	Methods client can execute on server
-	reliable if (bIsClient)
-		ServerImpulse, ServerSetUserInfo;
-}
-
 //  Print to client
 native final void cprint(string format, ...);
 //  Client's centre message

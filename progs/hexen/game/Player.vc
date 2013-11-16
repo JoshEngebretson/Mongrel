@@ -38,7 +38,6 @@ void CreateBot()
 	Bot = BotPlayer(SpawnObject(BotPlayer));
 	Bot.player = self;
 	Bot.OnBeginPlay();
-	bAutoAim = true;
 }
 
 //==========================================================================
@@ -213,12 +212,6 @@ void Cheat_Class()
 	int i;
 	int pclass;	
 
-	if (MorphTime)
-	{
-		// don't change class if the player is morphed
-		cprint("CAN'T CHANGE CLASS WHILE MORPHED");
-		return;
-	}
 	if (Cmd_CheckParm("fighter"))
 	{
 		pclass = HexenDefs::PCLASS_FIGHTER;

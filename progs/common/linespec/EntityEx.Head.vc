@@ -464,8 +464,3 @@ float			JumpVelZ;
 
 float			JumpTime;
 
-replication
-{
-	reliable if (Role == ROLE_Authority && bNetOwner)
-		bInvulnerable;
-}

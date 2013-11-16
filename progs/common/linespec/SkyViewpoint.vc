@@ -30,12 +30,6 @@ bool			bAlways;
 SkyViewpoint	Mate;
 float			PlaneAlpha;
 
-replication
-{
-	reliable if (Role == ROLE_Authority)
-		bAlways, Mate, PlaneAlpha;
-}
-
 //==========================================================================
 //
 //	BeginPlay

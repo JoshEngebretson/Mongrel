@@ -215,29 +215,6 @@ final void A_StopSoundEx(string Channel)
 
 final void A_Pain()
 {
-	if (bIsPlayer && !PlayerEx(Player).MorphTime)
-	{
-		if (Health < 25)
-		{
-			PlaySound('*pain25', CHAN_VOICE);
-		}
-		else if (Health < 50)
-		{
-			PlaySound('*pain50', CHAN_VOICE);
-		}
-		else if (Health < 75)
-		{
-			PlaySound('*pain75', CHAN_VOICE);
-		}
-		else
-		{
-			PlaySound('*pain100', CHAN_VOICE);
-		}
-	}
-	else if (PainSound)
-	{
-		PlaySound(PainSound, CHAN_VOICE);
-	}
 }
 
 //==========================================================================

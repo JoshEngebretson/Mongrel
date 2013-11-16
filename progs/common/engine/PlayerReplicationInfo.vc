@@ -42,13 +42,6 @@ int				KillCount;
 int				ItemCount;
 int				SecretCount;
 
-replication
-{
-	reliable if (Role == ROLE_Authority)
-		PlayerNum, PlayerName, UserInfo, TranslStart, TranslEnd, Colour,
-		Frags, Deaths, KillCount, ItemCount, SecretCount;
-}
-
 defaultproperties
 {
 	bAlwaysRelevant = true;

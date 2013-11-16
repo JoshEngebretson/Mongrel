@@ -45,7 +45,7 @@ const float USETHINGRANGE	= 128.0;
 
 const float BLINKTHRESHOLD	= 4.0;
 
-// 16 pixels of bob
+// 4 pixels of bob
 const float MAXBOB			= 4.0;
 
 const int MAXHEALTH			= 100;
@@ -62,9 +62,6 @@ float			DeltaViewHeight;
 // bounded/scaled total momentum.
 float			Bob;
 
-// Who did damage (none for floors/ceilings).
-EntityEx		Attacker;
-
 float			JumpTime;
 int				LocalQuakeHappening;
 
@@ -79,16 +76,9 @@ float			LastHazardTime;
 // See cheat_t, above.
 int				Cheats;
 
-// Refired shots are less accurate.
-int				Refire;
-
 float			FlyHeight;
 
 array<name>		RevealedMaps;
-
-float			InventoryTime;
-int				ArtifactFlash;
-int				InvSize;
 
 bool			onground;
 //	Revert camera if player moves.
@@ -103,34 +93,16 @@ bool			bNoTarget;
 bool			bInstantWeaponSwitch;
 //	Player is flying
 bool			bFly;
-//	Inventory bar is always open
-bool			bInventoryAlwaysOpen;
-//	Auto aiming
-bool			bAutoAim;
 
 int				PoisonCount;	// screen flash for poison damage
 float			LastPoisonTime;
-EntityEx		Poisoner;		// none for non-player mobjs
-PlayerEx		PoisonerPlayer;	// for KArena
 
 int				Objectives;
-
-float			MorphTime;	// player is morphed into something if > 0
-int				MorphStyle;
-class<Actor>	UnmorphFlash;
-
-int				Accuracy;
-int				Stamina;
 
 float			BlendR;
 float			BlendG;
 float			BlendB;
 float			BlendA;
-
-int				ChickenPeck;	// chicken peck countdown
-
-Actor			Rain1;	// active rain maker 1
-Actor			Rain2;	// active rain maker 2
 
 const int MAX_MAPS_VISITED = 100;
 
@@ -138,25 +110,6 @@ name			MapsVisited[MAX_MAPS_VISITED];
 
 float			FOV;			// current Field Of Vision
 float			DesiredFOV;		// desired Field Of Vision
-
-replication
-{
-	reliable if (!bIsClient)
-		Cheats, InventoryTime, ArtifactFlash,
-		Objectives, MorphTime, Accuracy, Stamina, MapsVisited, DamageFlash,
-		BonusFlash, Attacker, bFrozen, bTotallyFrozen, DesiredFOV, FOV;
-
-	unreliable if (!bIsClient)
-		ParticleEffect, ClientExplosion, ClientParticleExplosion,
-		ClientSparkParticles, ClientRailTrail;
-
-	reliable if (!bIsClient)
-		ClientVoice, ClientSpeech, ClientFinaleType, ClientSlideshow1,
-		ClientSlideshow2, SetFOV;
-
-	reliable if (bIsClient)
-		bAutoAim;
-}
 
 //==========================================================================
 //
@@ -1552,9 +1505,6 @@ void SpawnClient()
 	bool playerWasReborn;
 	EntityEx OldMO = EntityEx(MO);
 
-	Attacker = none;
-	Poisoner = none;
-
 	AddVisitedMap(Level.XLevel.MapName);
 
 	if (Level.Game.netgame && !Level.Game.deathmatch)
@@ -1817,17 +1767,13 @@ void SetUpPlayerClass()
 void ResetPlayerOnSpawn()
 {
 	PlayerState = PST_LIVE;
-	Refire = 0;
 	DamageFlash = 0.0;
 	BonusFlash = 0.0;
 	PoisonCount = 0;
-	MorphTime = 0.0;
 	ExtraLight = 0;
 	FixedColourmap = 0;
 	LastSectorDamageTime = 0.0;
 	LastHazardTime = 0.0;
-	Rain1 = none;
-	Rain2 = none;
 }
 
 //==========================================================================
@@ -1966,11 +1912,6 @@ void PlayerExitMap(bool clusterChange)
 		// Entering new cluster
 	}
 
-	if (MorphTime)
-	{
-		MorphTime = 0.0;
-	}
-
 	MO.Angles.pitch = 0.0;
 	MO.RenderStyle = Entity::STYLE_Normal;
 	MO.Alpha = 1.0;
@@ -1984,8 +1925,6 @@ void PlayerExitMap(bool clusterChange)
 	BlendG = 0.0;
 	BlendB = 0.0;
 	BlendA = 0.0;
-	Rain1 = none;
-	Rain2 = none;
 }
 
 
@@ -2065,39 +2004,8 @@ final void DeathPlayerTick(float deltaTime)
 	}
 	CalcHeight(deltaTime);
 
-	if (Attacker && Attacker != MO)
+	if (false)
 	{
-		// Watch killer
-		dir = EntityEx(MO).FaceActor(EntityEx(Attacker), delta);
-		if (delta < 10.0)
-		{
-			// Looking at killer, so fade damage and poison counters
-			if (DamageFlash)
-			{
-				DamageFlash -= deltaTime;
-				if (DamageFlash <= 0.0)
-					DamageFlash = 0.0;
-			}
-			if (PoisonCount)
-			{
-				PoisonCount--;
-			}
-		}
-		delta = delta / 8.0;
-		if (delta > 5.0)
-		{
-			delta = 5.0;
-		}
-		if (dir)
-		{
-			// Turn clockwise
-			MO.Angles.yaw += delta;
-		}
-		else
-		{
-			// Turn counter clockwise
-			MO.Angles.yaw -= delta;
-		}
 	}
 	else if (DamageFlash)
 	{
@@ -2227,7 +2135,7 @@ void PlayerTick(float deltaTime)
 	PlayerInContents(deltaTime);
 
 	if (MO.Velocity.z <= -35.0 * 35.0 && MO.Velocity.z >= -40.0 * 35.0 &&
-		!MorphTime && MO.WaterLevel == 0 &&
+		MO.WaterLevel == 0 &&
 		!GetSoundPlayingInfo(MO, GetSoundID('*falling')))
 	{
 		MO.PlaySound('*falling', CHAN_VOICE);
@@ -2352,13 +2260,6 @@ final void SetViewPos()
 			ViewAngles.yaw = MO.Angles.yaw;
 			ViewAngles.pitch = MO.Angles.pitch;
 		}
-
-		if (MorphTime && ChickenPeck)
-		{
-			// Set chicken attack view position
-			ViewOrg.x += itof(ChickenPeck) * cos(MO.Angles.yaw);
-			ViewOrg.y += itof(ChickenPeck) * sin(MO.Angles.yaw);
-		}
 	}
 
 	PaletteFlash();
@@ -2389,7 +2290,7 @@ final void SetViewPos()
 
 void ClientTick(float deltaTime)
 {
-	bAutoAim = !!GetCvar('autoaim');
+
 }
 
 //==========================================================================
@@ -2713,5 +2614,5 @@ void PlayerUnmorphed()
 
 defaultproperties
 {
-	InvSize = 6;
+
 }

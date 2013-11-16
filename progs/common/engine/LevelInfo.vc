@@ -136,17 +136,6 @@ float			AirControl;
 int				Infighting;
 array<MapSpecialAction>	SpecialActions;
 
-replication
-{
-	reliable if (Role == ROLE_Authority)
-		LevelName, Cluster, ParTime, SuckTime, Sky1Texture, Sky2Texture,
-		Sky1ScrollDelta, Sky2ScrollDelta, SkyBox, FadeTable, Fade, OutsideFog,
-		SongLump, CDTrack, bDoubleSky, bLightning, bNoIntermission,
-		bForceNoSkyStretch, bLookupName, TotalKills, TotalItems, TotalSecret,
-		CurrentKills, CurrentItems, CurrentSecret, CompletitionTime,
-		bNoFreelook;
-}
-
 bool CompatShortTex
 {
 	get

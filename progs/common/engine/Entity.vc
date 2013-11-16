@@ -329,24 +329,6 @@ name			SoundGender;
 	//	Owner entity of inventory item
 Entity			Owner;
 
-replication
-{
-	reliable if (Role == ROLE_Authority)
-		Origin, Angles, FloorClip, State, StateTime, SpriteType,
-		FixedSpriteName, ModelVersion, RenderStyle, Alpha, Translation,
-		ScaleX, ScaleY, bFly, bNoSector, bInvisible, bFullBright, bFixedModel,
-		SoundOriginID, bUseDispState, bBright;
-
-	reliable if (Role == ROLE_Authority && bUseDispState)
-		DispState;
-
-	reliable if (Role == ROLE_Authority && bFixedModel)
-		FixedModelName;
-
-	reliable if (Role == ROLE_Authority && bNetOwner)
-		Owner;
-}
-
 //
 //	Natives
 //
