@@ -77,8 +77,7 @@ bool VGameInfo::IsPaused()
 	}
 #ifdef CLIENT
 	//	In single player pause game if in menu or console.
-	return (Flags & GIF_Paused) || (NetMode == NM_Standalone &&
-		(MN_Active() || C_Active()));
+    return (Flags & GIF_Paused) || (NetMode == NM_Standalone && C_Active());
 #endif
 	return !!(Flags & GIF_Paused);
 	unguard;

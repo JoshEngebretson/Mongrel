@@ -344,9 +344,6 @@ public:
 	DECLARE_FUNCTION(IN_GetBindingKeys)
 	DECLARE_FUNCTION(IN_SetBinding)
 	DECLARE_FUNCTION(SV_GetSaveString)
-	DECLARE_FUNCTION(StartSearch)
-	DECLARE_FUNCTION(GetSlist)
-
 	DECLARE_FUNCTION(LoadTextLump)
 
 	//	Graphics
@@ -385,7 +382,6 @@ public:
 	DECLARE_FUNCTION(GetSeqSlot)
 	DECLARE_FUNCTION(StopAllSounds)
 
-	DECLARE_FUNCTION(SB_Start)
 	DECLARE_FUNCTION(TerrainType)
 	DECLARE_FUNCTION(GetSplashInfo)
 	DECLARE_FUNCTION(GetTerrainInfo)

@@ -97,7 +97,6 @@ void CL_Ticker()
 	switch (GClGame->intermission)
 	{
 	case 0:
-		SB_Ticker();
 		AM_Ticker();
 		break;
 	}
@@ -246,7 +245,6 @@ void CL_EstablishConnection(const char* host)
 	GClGame->eventConnected();
 	cls.signon = 0;				// need all the signon messages before playing
 
-	MN_DeactivateMenu();
 	unguard;
 }
 
@@ -276,8 +274,6 @@ void CL_SetUpLocalPlayer()
 
 	GClGame->eventConnected();
 	cls.signon = 0;				// need all the signon messages before playing
-
-	MN_DeactivateMenu();
 
 	CL_SetUpStandaloneClient();
 	unguard;
@@ -310,8 +306,6 @@ void CL_SetUpStandaloneClient()
 
 	R_Start(GClLevel);
 	GAudio->Start();
-
-	SB_Start();
 
 	for (int i = 0; i < GClLevel->NumStaticLights; i++)
 	{

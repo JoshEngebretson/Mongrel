@@ -417,22 +417,11 @@ void VInput::ProcessEvents()
 		if (C_Responder(ev))
 			continue;
 
-		if (CT_Responder(ev))
-			continue;
-
-		if (MN_Responder(ev))
-			continue;
-
 		if (cl && !GClGame->intermission)
 		{
-			if (SB_Responder(ev))
-				continue;	// status window ate it
 			if (AM_Responder(ev))
 				continue;	// automap ate it
 		}
-
-		if (F_Responder(ev))
-			continue;
 
 		//
 		//	Key bindings

@@ -1801,7 +1801,6 @@ void SetUpPlayerClass()
 			PClass = (PClass + 1) % Level.Game.PlayerClasses.Num;
 		}
 		BaseClass = PClass;
-		SB_Start();
 	}
 	else
 	{
@@ -1900,9 +1899,6 @@ void SpawnPlayer(mthing_t * mthing, bool Voodoo)
 	//	Set up gun psprite.
 	SetupPsprites();
 
-
-	// wake up the status bar
-	SB_Start();
 
 	if (bIsBot)
 	{

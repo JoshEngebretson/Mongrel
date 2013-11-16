@@ -4,6 +4,8 @@ include_directories ( ${CMAKE_SOURCE_DIR}/tools  ${CMAKE_SOURCE_DIR}/vendor/SDL2
 file ( GLOB ENGINE_SOURCE *.cpp )
 file ( GLOB ENGINE_HEADERS *.h )
 
+add_definitions( -DDEVELOPER=1 )
+
 add_executable( mongrel ${ENGINE_SOURCE} ${ENGINE_HEADERS} )
 
 get_target_property(ENGINE_BIN mongrel LOCATION)

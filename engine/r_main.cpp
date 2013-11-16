@@ -491,8 +491,8 @@ void VRenderLevelShared::ExecuteSetViewSize()
 	else
 	{
 		refdef.width = screenblocks * ScreenWidth / 10;
-		refdef.height = (screenblocks * (ScreenHeight - SB_REALHEIGHT) / 10);
-		refdef.y = (ScreenHeight - SB_REALHEIGHT - refdef.height) >> 1;
+        refdef.height = (screenblocks * (ScreenHeight) / 10);
+        refdef.y = (ScreenHeight - refdef.height) >> 1;
 	}
 	refdef.x = (ScreenWidth - refdef.width) >> 1;
 
@@ -555,8 +555,8 @@ void R_DrawViewBorder()
 	else
 	{
 		GClGame->eventDrawViewBorder(320 - screenblocks * 32,
-			(480 - sb_height - screenblocks * (480 - sb_height) / 10) / 2,
-			screenblocks * 64, screenblocks * (480 - sb_height) / 10);
+            (480 - screenblocks * (480) / 10) / 2,
+            screenblocks * 64, screenblocks * (480) / 10);
 	}
 	unguard;
 }

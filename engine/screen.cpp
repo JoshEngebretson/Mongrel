@@ -529,15 +529,10 @@ void SCR_Update()
 			}
 			if (GGameInfo->NetMode != NM_TitleMap)
 			{
-				CT_Drawer();
-				SB_Drawer();
 			}
 			break;
 		}
 	}
-
-	// Menu drawing
-	MN_Drawer();
 
 	// Console drawing
 	C_Drawer();

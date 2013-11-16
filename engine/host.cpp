@@ -174,16 +174,13 @@ void Host_Init()
 	GAudio = VAudioPublic::Create();
 	GAudio->Init();
 	SCR_Init();
-	CT_Init();
 	V_Init();
 
 	R_Init();
 
 	T_Init();
 
-	MN_Init();
 	AM_Init();
-	SB_Init();
 #endif
 
 	VCommand::ProcessKeyConf();

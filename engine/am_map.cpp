@@ -40,7 +40,7 @@
 #define MAPBLOCKUNITS	128
 
 #define AM_W			640
-#define AM_H			(480 - sb_height)
+#define AM_H			(480)
 
 // scale on entry
 #define INITSCALEMTOF		0.2
@@ -607,7 +607,7 @@ static void AM_LevelInit()
 
 	f_x = f_y = 0;
 	f_w = ScreenWidth;
-	f_h = ScreenHeight - SB_REALHEIGHT;
+    f_h = ScreenHeight;
 
 	AM_clearMarks();
 	mapxstart = mapystart = 0;
@@ -1721,7 +1721,7 @@ static vuint32 StringToColour(const char *str)
 static void AM_CheckVariables()
 {
 	//	Check for screen resolution change
-	if (f_w != ScreenWidth || f_h != ScreenHeight - SB_REALHEIGHT)
+    if (f_w != ScreenWidth || f_h != ScreenHeight )
 	{
 		float		a;
 		float		b;
@@ -1731,7 +1731,7 @@ static void AM_CheckVariables()
 		mtof_zoommul = scale_mtof / start_scale_mtof;
 
 		f_w = ScreenWidth;
-		f_h = ScreenHeight - SB_REALHEIGHT;
+        f_h = ScreenHeight;
 
 		a = (float)f_w / max_w;
 		b = (float)f_h / max_h;

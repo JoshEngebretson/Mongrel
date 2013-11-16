@@ -137,7 +137,6 @@ void C_Shutdown()
 
 void C_Start()
 {
-	MN_DeactivateMenu();
 	if (consolestate == cons_closed)
 	{
 		c_iline.Init();
@@ -156,7 +155,6 @@ void C_Start()
 
 void C_StartFull()
 {
-	MN_DeactivateMenu();
 	c_iline.Init();
 	last_line = num_lines;
 	consolestate = cons_open;

@@ -956,7 +956,7 @@ void VRenderLevelShared::DrawCroshair()
 
 		int			cy;
 		if (screenblocks < 11)
-			cy = (480 - sb_height) / 2;
+            cy = (480) / 2;
 		else
 			cy = 240;
 		int handle = GTextureManager.AddPatch(VName(va("CROSHAI%i",
