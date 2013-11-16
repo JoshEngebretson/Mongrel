@@ -34,7 +34,6 @@
 
 #include "gamedefs.h"
 #include "cl_local.h"
-#include "ui.h"
 
 // MACROS ------------------------------------------------------------------
 
@@ -422,9 +421,6 @@ void VInput::ProcessEvents()
 			continue;
 
 		if (MN_Responder(ev))
-			continue;
-
-		if (GRoot->Responder(ev))
 			continue;
 
 		if (cl && !GClGame->intermission)

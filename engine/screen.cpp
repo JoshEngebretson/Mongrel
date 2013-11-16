@@ -28,7 +28,6 @@
 #include "gamedefs.h"
 #include "cl_local.h"
 #include "drawer.h"
-#include "ui.h"
 
 // MACROS ------------------------------------------------------------------
 
@@ -293,7 +292,7 @@ static void DrawFPS()
 			fps_start = time;
 			fps_frames = 0;
 		}
-
+        /*
 		T_SetFont(SmallFont);
 		T_SetAlign(hright, vtop);
 		T_DrawText(VirtualWidth - 2, 0, va("%d fps", show_fps), CR_UNTRANSLATED);
@@ -301,6 +300,7 @@ static void DrawFPS()
 		{
 			T_DrawText(VirtualWidth - 2, 12, va("%.2f ms ", ms), CR_UNTRANSLATED);
 		}
+        */
 	}
 	unguard;
 }
@@ -316,6 +316,7 @@ static void DrawCycles()
 	guard(DrawCycles);
 	if (draw_cycles)
 	{
+        /*
 		T_SetFont(ConFont);
 		T_SetAlign(hright, vtop);
 		for (int i = 0; i < 16; i++)
@@ -324,6 +325,7 @@ static void DrawCycles()
 				host_cycles[i]), CR_UNTRANSLATED);
 			host_cycles[i] = 0;
 		}
+        */
 	}
 	unguard;
 }
@@ -533,9 +535,6 @@ void SCR_Update()
 			break;
 		}
 	}
-
-	//	Draw user interface.
-	GRoot->DrawWidgets();
 
 	// Menu drawing
 	MN_Drawer();

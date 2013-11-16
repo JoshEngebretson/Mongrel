@@ -1576,6 +1576,7 @@ static void DrawWorldTimer()
 	worldTimer -= minutes * 60;
 	seconds = worldTimer;
 
+    /*
 	T_SetFont(SmallFont);
 	T_SetAlign(hleft, vtop);
 	sprintf(timeBuffer, "%.2d : %.2d : %.2d", hours, minutes, seconds);
@@ -1597,6 +1598,7 @@ static void DrawWorldTimer()
 			T_DrawText(550, 28, "YOU FREAK!!!", CR_UNTRANSLATED);
 		}
 	}
+    */
 }
 
 //===========================================================================
@@ -1681,6 +1683,7 @@ static void AM_DrawLevelStats()
 	totalitems = GClLevel->LevelInfo->TotalItems;
 	totalsecrets = GClLevel->LevelInfo->TotalSecret;
 
+    /*
 	T_SetFont(SmallFont);
 	T_SetAlign(hleft, vtop);
 	sprintf(kill, "Kills: %.2d / %.2d", kills, totalkills);
@@ -1689,6 +1692,7 @@ static void AM_DrawLevelStats()
 	T_DrawText(8, 400, item, CR_BLUE);
 	sprintf(secret, "Secrets: %.2d / %.2d", secrets, totalsecrets);
 	T_DrawText(8, 410, secret, CR_WHITE);
+    */
 }
 
 //==========================================================================
@@ -1789,9 +1793,11 @@ void AM_Drawer()
 	}
 	Drawer->EndAutomap();
 	DrawWorldTimer();
+    /*
 	T_SetFont(SmallFont);
 	T_SetAlign(hleft, vbottom);
 	T_DrawText(20, 480 - sb_height - 7, *GClLevel->LevelInfo->GetLevelName(), CR_UNTRANSLATED);
+    */
 	if (ShowStats)
 	{
 		AM_DrawLevelStats();

@@ -27,8 +27,6 @@
 
 #include "gamedefs.h"
 #include "cl_local.h"
-#include "ui.h"
-
 // MACROS ------------------------------------------------------------------
 
 // TYPES -------------------------------------------------------------------
@@ -55,7 +53,7 @@
 
 void T_Init()
 {
-	VFont::StaticInit();
+    //VFont::StaticInit();
 }
 
 //==========================================================================
@@ -66,7 +64,7 @@ void T_Init()
 
 void T_Shutdown()
 {
-	VFont::StaticShutdown();
+    //VFont::StaticShutdown();
 }
 
 //==========================================================================
@@ -77,7 +75,7 @@ void T_Shutdown()
 
 void T_SetFont(VFont* AFont)
 {
-	GRoot->SetFont(AFont);
+    //GRoot->SetFont(AFont);
 }
 
 //==========================================================================
@@ -88,7 +86,7 @@ void T_SetFont(VFont* AFont)
 
 void T_SetAlign(halign_e NewHAlign, valign_e NewVAlign)
 {
-	GRoot->SetTextAlign(NewHAlign, NewVAlign);
+    //GRoot->SetTextAlign(NewHAlign, NewVAlign);
 }
 
 //==========================================================================
@@ -99,7 +97,7 @@ void T_SetAlign(halign_e NewHAlign, valign_e NewVAlign)
 
 void T_DrawText(int x, int y, const VStr& String, int col)
 {
-	GRoot->DrawText(x, y, String, col, CR_YELLOW, 1.0);
+    //GRoot->DrawText(x, y, String, col, CR_YELLOW, 1.0);
 }
 
 //==========================================================================
@@ -110,7 +108,7 @@ void T_DrawText(int x, int y, const VStr& String, int col)
 
 void T_DrawCursor()
 {
-	GRoot->DrawCursor();
+    //GRoot->DrawCursor();
 }
 
 //==========================================================================
@@ -121,5 +119,5 @@ void T_DrawCursor()
 
 void T_DrawCursorAt(int x, int y)
 {
-	GRoot->DrawCursorAt(x, y);
+    //GRoot->DrawCursorAt(x, y);
 }

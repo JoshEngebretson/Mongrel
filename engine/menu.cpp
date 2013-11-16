@@ -32,7 +32,6 @@
 
 #include "gamedefs.h"
 #include "cl_local.h"
-#include "ui.h"
 
 // MACROS ------------------------------------------------------------------
 
@@ -76,7 +75,8 @@ void MN_Init()
 #else
 	GClGame->ClientFlags &= ~VClientGameBase::CF_LocalServer;
 #endif
-	VRootWidget::StaticInit();
+
+    // TODO: do we need this?
 	GClGame->eventRootWindowCreated();
 }
 

@@ -24,17 +24,5 @@
 //**************************************************************************
 
 import 'game';
-import 'uibase';
 
-#include "MenuScreenMain.vc"
-#include "MenuScreenMultiplayer.vc"
-#include "MenuScreenNewNetGame.vc"
-#include "MenuScreenPlayerSetup.vc"
-#include "MenuScreenOptions.vc"
-#include "MenuScreenControls2.vc"
-#include "MenuScreenGameplayOptions.vc"
-#include "MenuScreenHelp.vc"
-#include "TitleScreen.vc"
-#include "StatusBarScreen.vc"
-#include "IntermissionScreen.vc"
 #include "ClientGame.vc"

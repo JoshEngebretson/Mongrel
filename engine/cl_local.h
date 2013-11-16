@@ -30,7 +30,6 @@
 
 #include "iline.h"		//	Input line widget
 
-class VRootWidget;
 struct VModel;
 
 // MACROS ------------------------------------------------------------------
@@ -94,9 +93,7 @@ class VClientGameBase : public VObject
 	VBasePlayer*		cl;
 	VLevel*				GLevel;
 
-	im_t				im;
-
-	VRootWidget*		GRoot;
+	im_t				im;	
 
 	int					sb_height;
 

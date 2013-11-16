@@ -159,9 +159,11 @@ void CT_Drawer()
 {
 	if (chatmodeon)
 	{
+        /*
 		T_SetFont(SmallFont);
 		T_SetAlign(hleft, vtop);
 		T_DrawText(25, 10, w_chat.Data, CR_UNTRANSLATED);
 		T_DrawCursor();
+        */
 	}
 }

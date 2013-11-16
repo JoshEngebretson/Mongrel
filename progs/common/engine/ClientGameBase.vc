@@ -38,8 +38,6 @@ readonly Level GLevel;
 
 readonly im_t im;
 
-readonly RootWidget GRoot;
-
 int sb_height;
 
 int maxclients;

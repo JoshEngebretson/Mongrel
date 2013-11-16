@@ -96,11 +96,13 @@ static void GLBSP_Draw(void)
 
 	Drawer->FillRect(0, 0, ScreenWidth, ScreenHeight, 0xff000000);
 
+    /*
 	T_SetFont(SmallFont);
 	T_SetAlign(hcentre, vcentre);
 	T_DrawText(320, 32, MESSAGE1, CR_GREEN);
 	T_DrawText(320, 64, MESSAGE2, CR_RED);
 	T_SetAlign(hleft, vtop);
+    */
 
 	int i;
 
@@ -129,10 +131,11 @@ static void GLBSP_Draw(void)
 		Drawer->FillRect(b.x, b.y1, b.x + b.w * b.position, b.y2, 0xff00ff00);
 	}
 
-	T_DrawText(BARTEXTX, BARTEXT1Y, bars[0].text, CR_UNTRANSLATED);
+    //T_DrawText(BARTEXTX, BARTEXT1Y, bars[0].text, CR_UNTRANSLATED);
+
 	if (num_bars > 1)
 	{
-		T_DrawText(BARTEXTX, BARTEXT2Y, bars[1].text, CR_UNTRANSLATED);
+        //T_DrawText(BARTEXTX, BARTEXT2Y, bars[1].text, CR_UNTRANSLATED);
 	}
 
 	Drawer->Update();

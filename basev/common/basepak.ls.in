@@ -6,7 +6,6 @@ startup.vs				@CMAKE_CURRENT_SOURCE_DIR@/startup.vs
 
 //	Native engine classes
 progs/engine/classes.vc					@CMAKE_SOURCE_DIR@/progs/common/engine/classes.vc
-progs/engine/ActorDisplayWindow.vc		@CMAKE_SOURCE_DIR@/progs/common/engine/ActorDisplayWindow.vc
 progs/engine/BasePlayer.vc				@CMAKE_SOURCE_DIR@/progs/common/engine/BasePlayer.vc
 progs/engine/ClientGameBase.vc			@CMAKE_SOURCE_DIR@/progs/common/engine/ClientGameBase.vc
 progs/engine/Entity.vc					@CMAKE_SOURCE_DIR@/progs/common/engine/Entity.vc
@@ -16,10 +15,8 @@ progs/engine/Level.vc					@CMAKE_SOURCE_DIR@/progs/common/engine/Level.vc
 progs/engine/LevelInfo.vc				@CMAKE_SOURCE_DIR@/progs/common/engine/LevelInfo.vc
 progs/engine/Object.vc					@CMAKE_SOURCE_DIR@/progs/common/engine/Object.vc
 progs/engine/PlayerReplicationInfo.vc	@CMAKE_SOURCE_DIR@/progs/common/engine/PlayerReplicationInfo.vc
-progs/engine/RootWidget.vc				@CMAKE_SOURCE_DIR@/progs/common/engine/RootWidget.vc
 progs/engine/ScriptsParser.vc			@CMAKE_SOURCE_DIR@/progs/common/engine/ScriptsParser.vc
 progs/engine/Thinker.vc					@CMAKE_SOURCE_DIR@/progs/common/engine/Thinker.vc
-progs/engine/Widget.vc					@CMAKE_SOURCE_DIR@/progs/common/engine/Widget.vc
 progs/engine/WorldInfo.vc				@CMAKE_SOURCE_DIR@/progs/common/engine/WorldInfo.vc
 
 //	Common game classes.
@@ -134,64 +131,6 @@ progs/linespec/WallLightTransfer.vc			@CMAKE_SOURCE_DIR@/progs/common/linespec/W
 progs/linespec/WaterZone.vc					@CMAKE_SOURCE_DIR@/progs/common/linespec/WaterZone.vc
 progs/linespec/WorldInfoEx.vc				@CMAKE_SOURCE_DIR@/progs/common/linespec/WorldInfoEx.vc
 progs/linespec/ZBridge.vc					@CMAKE_SOURCE_DIR@/progs/common/linespec/ZBridge.vc
-
-//	Common UI classes
-progs/uibase/classes.vc							@CMAKE_SOURCE_DIR@/progs/common/uibase/classes.vc
-progs/uibase/ClientGameShared.vc				@CMAKE_SOURCE_DIR@/progs/common/uibase/ClientGameShared.vc
-progs/uibase/ConDialog.vc						@CMAKE_SOURCE_DIR@/progs/common/uibase/ConDialog.vc
-progs/uibase/ConDlgChoice.vc					@CMAKE_SOURCE_DIR@/progs/common/uibase/ConDlgChoice.vc
-progs/uibase/FinaleBackground.vc				@CMAKE_SOURCE_DIR@/progs/common/uibase/FinaleBackground.vc
-progs/uibase/FinaleScreen.vc					@CMAKE_SOURCE_DIR@/progs/common/uibase/FinaleScreen.vc
-progs/uibase/HUDMessage.vc						@CMAKE_SOURCE_DIR@/progs/common/uibase/HUDMessage.vc
-progs/uibase/HUDMessageFadeInOut.vc				@CMAKE_SOURCE_DIR@/progs/common/uibase/HUDMessageFadeInOut.vc
-progs/uibase/HUDMessageFadeOut.vc				@CMAKE_SOURCE_DIR@/progs/common/uibase/HUDMessageFadeOut.vc
-progs/uibase/HUDMessageTypeOnFadeOut.vc			@CMAKE_SOURCE_DIR@/progs/common/uibase/HUDMessageTypeOnFadeOut.vc
-progs/uibase/IntermissionBackground.vc			@CMAKE_SOURCE_DIR@/progs/common/uibase/IntermissionBackground.vc
-progs/uibase/MenuBigTextButton.vc				@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuBigTextButton.vc
-progs/uibase/MenuChoice.vc						@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuChoice.vc
-progs/uibase/MenuChoice_BackButton.vc			@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuChoice_BackButton.vc
-progs/uibase/MenuChoice_LoadSlot.vc				@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuChoice_LoadSlot.vc
-progs/uibase/MenuChoice_OnOff.vc				@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuChoice_OnOff.vc
-progs/uibase/MenuChoice_SaveSlot.vc				@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuChoice_SaveSlot.vc
-progs/uibase/MenuChoiceEnum.vc					@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuChoiceEnum.vc
-progs/uibase/MenuChoiceEpisode.vc				@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuChoiceEpisode.vc
-progs/uibase/MenuChoicePClass.vc				@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuChoicePClass.vc
-progs/uibase/MenuChoiceSkill.vc					@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuChoiceSkill.vc
-progs/uibase/MenuChoiceSlider.vc				@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuChoiceSlider.vc
-progs/uibase/MenuChoiceSlot.vc					@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuChoiceSlot.vc
-progs/uibase/MenuControlKey.vc					@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuControlKey.vc
-progs/uibase/MenuInputLine.vc					@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuInputLine.vc
-progs/uibase/MenuModel.vc						@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuModel.vc
-progs/uibase/MenuSaveSlot.vc					@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuSaveSlot.vc
-progs/uibase/MenuScreen.vc						@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuScreen.vc
-progs/uibase/MenuScreenAdvancedVideoOptions.vc	@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuScreenAdvancedVideoOptions.vc
-progs/uibase/MenuScreenClass.vc					@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuScreenClass.vc
-progs/uibase/MenuScreenControls.vc				@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuScreenControls.vc
-progs/uibase/MenuScreenEpisode.vc				@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuScreenEpisode.vc
-progs/uibase/MenuScreenJoinGame.vc				@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuScreenJoinGame.vc
-progs/uibase/MenuScreenLoadGame.vc				@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuScreenLoadGame.vc
-progs/uibase/MenuScreenMasterList.vc			@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuScreenMasterList.vc
-progs/uibase/MenuScreenMODOptions.vc			@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuScreenMODOptions.vc
-progs/uibase/MenuScreenMouseOptions.vc			@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuScreenMouseOptions.vc
-progs/uibase/MenuScreenSaveGame.vc				@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuScreenSaveGame.vc
-progs/uibase/MenuScreenScreenResolution.vc		@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuScreenScreenResolution.vc
-progs/uibase/MenuScreenSinglePlayer.vc			@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuScreenSinglePlayer.vc
-progs/uibase/MenuScreenSkill.vc					@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuScreenSkill.vc
-progs/uibase/MenuScreenSList.vc					@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuScreenSList.vc
-progs/uibase/MenuScreenSoundOptions.vc			@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuScreenSoundOptions.vc
-progs/uibase/MenuScreenSpecialControls.vc		@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuScreenSpecialControls.vc
-progs/uibase/MenuScreenVideoOptions.vc			@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuScreenVideoOptions.vc
-progs/uibase/MenuSelector_Big.vc				@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuSelector_Big.vc
-progs/uibase/MenuSelector_SmallLeft.vc			@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuSelector_SmallLeft.vc
-progs/uibase/MenuSelector_SmallRight.vc			@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuSelector_SmallRight.vc
-progs/uibase/MenuSList.vc						@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuSList.vc
-progs/uibase/MenuSmallTextButton.vc				@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuSmallTextButton.vc
-progs/uibase/MenuSpriteAnim.vc					@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuSpriteAnim.vc
-progs/uibase/MenuStaticAnim.vc					@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuStaticAnim.vc
-progs/uibase/MenuStaticBitmap.vc				@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuStaticBitmap.vc
-progs/uibase/MenuTextButton.vc					@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuTextButton.vc
-progs/uibase/MenuTitleText.vc					@CMAKE_SOURCE_DIR@/progs/common/uibase/MenuTitleText.vc
-progs/uibase/StatusBarShared.vc					@CMAKE_SOURCE_DIR@/progs/common/uibase/StatusBarShared.vc
 
 //	Graphics
 graphics/mc_arrow.png	@CMAKE_CURRENT_SOURCE_DIR@/graphics/mc_arrow.png

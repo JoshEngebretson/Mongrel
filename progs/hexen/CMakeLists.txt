@@ -10,6 +10,6 @@ add_dependencies(hexen_game vcc linespec)
 
 add_custom_command(OUTPUT ${OUTDIR}/cgame.dat
 	COMMAND ${VCC} ARGS -P${COMMON_PROGS_DIR} -P${OUTDIR} ${CMAKE_CURRENT_SOURCE_DIR}/cgame/classes.vc ${OUTDIR}/cgame.dat
-	DEPENDS vcc cgame/*.vc ${COMMON_PROGS_DIR}/uibase.dat ${OUTDIR}/game.dat)
+	DEPENDS vcc cgame/*.vc ${OUTDIR}/game.dat)
 add_custom_target(hexen_cgame ALL DEPENDS ${OUTDIR}/cgame.dat)
-add_dependencies(hexen_cgame vcc hexen_game uibase)
+add_dependencies(hexen_cgame vcc hexen_game)

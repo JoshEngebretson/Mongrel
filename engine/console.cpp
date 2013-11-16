@@ -258,6 +258,7 @@ void C_Drawer()
 	// Backbround
 	Drawer->DrawConsoleBackground((int)(fScaleY * cons_h));
 
+    /*
 	T_SetFont(ConFont);
 	T_SetAlign(hleft, vtop);
 
@@ -279,6 +280,7 @@ void C_Drawer()
 			CR_UNTRANSLATED);
 		y -= 9;
 	}
+    */
 }
 
 //==========================================================================

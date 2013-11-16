@@ -28,7 +28,6 @@
 #include "gamedefs.h"
 #include "network.h"
 #include "cl_local.h"
-#include "ui.h"
 //#include "svnrev.h"
 #include <time.h>
 
@@ -399,9 +398,6 @@ unclock_cycle(host_cycles[0]);
 #ifdef CLIENT
 		//	Fetch results from server
 		CL_ReadFromServer();
-
-		//	Update user interface.
-		GRoot->TickWidgets(host_frametime);
 
 		//	Collect all garbage
 		VObject::CollectGarbage();

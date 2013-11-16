@@ -33,8 +33,5 @@
 #include "BasePlayer.vc"
 #include "WorldInfo.vc"
 #include "GameInfo.vc"
-#include "Widget.vc"
-#include "RootWidget.vc"
-#include "ActorDisplayWindow.vc"
 #include "ClientGameBase.vc"
 #include "ScriptsParser.vc"
