@@ -63,15 +63,9 @@ VTexture* VTexture::CreateTexture(int Type, int LumpNum)
 		int				Type;
 	} TexTable[] =
 	{
-		{ VImgzTexture::Create,		TEXTYPE_Any },
 		{ VPngTexture::Create,		TEXTYPE_Any },
 		{ VJpegTexture::Create,		TEXTYPE_Any },
-		{ VPcxTexture::Create,		TEXTYPE_Any },
-		{ VTgaTexture::Create,		TEXTYPE_Any },
-		{ VFlatTexture::Create,		TEXTYPE_Flat },
-		{ VRawPicTexture::Create,	TEXTYPE_Pic },
-		{ VPatchTexture::Create,	TEXTYPE_Any },
-		{ VAutopageTexture::Create,	TEXTYPE_Autopage },
+        { VTgaTexture::Create,		TEXTYPE_Any }
 	};
 
 	if (LumpNum < 0)

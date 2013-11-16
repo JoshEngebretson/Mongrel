@@ -949,20 +949,6 @@ void VRenderLevelShared::DrawPlayerSprites()
 void VRenderLevelShared::DrawCroshair()
 {
 	guard(VRenderLevelShared::DrawCroshair);
-	if (croshair)
-	{
-		if (croshair_alpha < 0.0)	croshair_alpha = 0.0;
-		if (croshair_alpha > 1.0)	croshair_alpha = 1.0;
-
-		int			cy;
-		if (screenblocks < 11)
-            cy = (480) / 2;
-		else
-			cy = 240;
-		int handle = GTextureManager.AddPatch(VName(va("CROSHAI%i",
-			(int)croshair), VName::AddLower8), TEXTYPE_Pic);
-		R_DrawPic(320, cy, handle, croshair_alpha);
-	}
 	unguard;
 }
 

@@ -102,6 +102,8 @@ static TArray<VParticleEffectDef>	GParticleEffectDefs;
 static void InitPalette()
 {
 	guard(InitPalette);
+
+	/*
 	//	We use colour 0 as transparent colour, so we must find an alternate
 	// index for black colour. In Doom, Heretic and Strife there is another
 	// black colour, in Hexen it's almost black.
@@ -140,6 +142,7 @@ static void InitPalette()
 	}
 	delete Strm;
 	Strm = NULL;
+	*/
 	unguard;
 }
 
@@ -193,6 +196,7 @@ static void InitRgbTable()
 static void InitTranslationTables()
 {
 	guard(InitTranslationTables);
+	/*
 	VStream* Strm = W_CreateLumpReaderName(NAME_translat);
 	NumTranslationTables = Strm->TotalSize() / 256;
 	TranslationTables = new VTextureTranslation*[NumTranslationTables];
@@ -231,6 +235,7 @@ static void InitTranslationTables()
 		IceTranslation.Palette[i].a = 255;
 		IceTranslation.Table[i] = R_LookupRGB(r, g, b);
 	}
+	*/
 	unguard;
 }
 

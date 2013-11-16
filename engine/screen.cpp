@@ -185,9 +185,7 @@ static VCvarI	draw_cycles("draw_cycles", "0", CVAR_Archive);
 static VCvarS screenshot_type("screenshot_type", "png", CVAR_Archive);
 
 void WriteTGA(char* filename, void* data, int width, int height, int bpp,
-	bool bot2top);
-void WritePCX(char* filename, void* data, int width, int height, int bpp,
-	bool bot2top);
+    bool bot2top);
 void WritePNG(const VStr& FileName, const void* Data, int Width, int Height,
 	int Bpp, bool Bot2top);
 void WriteJPG(const VStr& FileName, const void* Data, int Width, int Height,
@@ -232,11 +230,7 @@ COMMAND(ScreenShot)
 	data = Drawer->ReadScreen(&bpp, &bot2top);
 	if (data)
 	{
-		if (!VStr::ICmp(screenshot_type, "pcx"))
-		{
-			WritePCX(filename, data, ScreenWidth, ScreenHeight, bpp, bot2top);
-		}
-		else if (!VStr::ICmp(screenshot_type, "tga"))
+        if (!VStr::ICmp(screenshot_type, "tga"))
 		{
 			WriteTGA(filename, data, ScreenWidth, ScreenHeight, bpp, bot2top);
 		}
@@ -554,13 +548,6 @@ void SCR_Update()
 void Draw_TeleportIcon()
 {
 	guard(Draw_TeleportIcon);
-	if (W_CheckNumForName(NAME_teleicon) >= 0)
-	{
-		Drawer->BeginDirectUpdate();
-		R_DrawPic(260, 68, GTextureManager.AddPatch(NAME_teleicon,
-			TEXTYPE_Pic));
-		Drawer->EndDirectUpdate();
-	}
 	unguard;
 }
 
@@ -573,13 +560,6 @@ void Draw_TeleportIcon()
 void Draw_SaveIcon()
 {
 	guard(Draw_SaveIcon);
-	if (W_CheckNumForName(NAME_saveicon) >= 0)
-	{
-		Drawer->BeginDirectUpdate();
-		R_DrawPic(260, 68, GTextureManager.AddPatch(NAME_saveicon,
-			TEXTYPE_Pic));
-		Drawer->EndDirectUpdate();
-	}
 	unguard;
 }
 
@@ -592,13 +572,6 @@ void Draw_SaveIcon()
 void Draw_LoadIcon()
 {
 	guard(Draw_LoadIcon);
-	if (W_CheckNumForName(NAME_loadicon) >= 0)
-	{
-		Drawer->BeginDirectUpdate();
-		R_DrawPic(260, 68, GTextureManager.AddPatch(NAME_loadicon,
-			TEXTYPE_Pic));
-		Drawer->EndDirectUpdate();
-	}
 	unguard;
 }
 

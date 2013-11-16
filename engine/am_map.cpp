@@ -568,28 +568,9 @@ static void AM_initVariables()
 	old_m_y = m_y;
 	old_m_w = m_w;
 	old_m_h = m_h;
-}
 
-//==========================================================================
-//
-//	AM_loadPics
-//
-//==========================================================================
 
-static void AM_loadPics()
-{
-	if (W_CheckNumForName(NAME_ammnum0) >= 0)
-	{
-		for (int i = 0; i < 10; i++)
-		{
-			marknums[i] = GTextureManager.AddPatch(va("ammnum%d", i),
-				TEXTYPE_Pic);
-		}
-		use_marks = true;
-	}
-
-	mappic = GTextureManager.AddPatch(NAME_autopage, TEXTYPE_Autopage);
-	mapheight = (int)GTextureManager.TextureHeight(mappic);
+    mapheight = 200;
 }
 
 //==========================================================================
@@ -653,7 +634,6 @@ static void AM_Start()
 		lastmap = GClLevel->MapName;
 	}
 	AM_initVariables();
-	AM_loadPics();
 }
 
 //==========================================================================
@@ -1037,14 +1017,17 @@ static void AM_clearFB()
 	}
 
 	//blit the automap background to the screen.
+    /*
 	for (int y = mapystart - mapheight; y < AM_H; y += mapheight)
 	{
 		for (int x = mapxstart - AM_W; x < AM_W; x += 320)
 		{
-			R_DrawPic(x, y, mappic);
+            R_DrawPic(x, y, mappic);
 		}
 	}
+    */
 }
+
 
 //==========================================================================
 //

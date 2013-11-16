@@ -94,40 +94,6 @@ void InitMapInfo()
 				W_CreateLumpReaderNum(Lump)));
 		}
 	}
-	//	Optionally parse script file.
-	if (fl_devmode && FL_FileExists("scripts/mapinfo.txt"))
-	{
-		ParseMapInfo(new VScriptParser("scripts/mapinfo.txt",
-			FL_OpenFileRead("scripts/mapinfo.txt")));
-	}
-
-	for (int i = 0; i < MapInfo.Num(); i++)
-	{
-		if (VStr(MapInfo[i].NextMap).StartsWith("&wt@"))
-		{
-			MapInfo[i].NextMap = P_TranslateMap(atoi(
-				*MapInfo[i].NextMap + 4));
-		}
-		if (VStr(MapInfo[i].SecretMap).StartsWith("&wt@"))
-		{
-			MapInfo[i].SecretMap = P_TranslateMap(atoi(
-				*MapInfo[i].SecretMap + 4));
-		}
-	}
-	for (int i = 0; i < EpisodeDefs.Num(); i++)
-	{
-		if (VStr(EpisodeDefs[i].Name).StartsWith("&wt@"))
-		{
-			EpisodeDefs[i].Name = P_TranslateMap(atoi(
-				*EpisodeDefs[i].Name + 4));
-		}
-		if (VStr(EpisodeDefs[i].TeaserName).StartsWith("&wt@"))
-		{
-			EpisodeDefs[i].TeaserName = P_TranslateMap(atoi(
-				*EpisodeDefs[i].TeaserName + 4));
-		}
-	}
-
 	//	Set up default map info returned for maps that have not defined in
 	// MAPINFO
 	DefaultMap.Name = "Unnamed";

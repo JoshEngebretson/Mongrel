@@ -274,8 +274,6 @@ public:
 	int TextureAnimation(int InTex);
 	void SetFrontSkyLayer(int tex);
 	void GetTextureInfo(int TexNum, picinfo_t* info);
-	int AddPatch(VName Name, int Type, bool Silent = false);
-	int AddRawWithPal(VName Name, VName PalName);
 	int AddFileTexture(VName Name, int Type);
 
 	//	Get unanimated texture

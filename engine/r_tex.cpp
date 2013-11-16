@@ -463,78 +463,6 @@ void VTextureManager::GetTextureInfo(int TexNum, picinfo_t* info)
 
 //==========================================================================
 //
-//	VTextureManager::AddPatch
-//
-//==========================================================================
-
-int VTextureManager::AddPatch(VName Name, int Type, bool Silent)
-{
-	guard(VTextureManager::AddPatch);
-	//	Find the lump number.
-	int LumpNum = W_CheckNumForName(Name, WADNS_Graphics);
-	if (LumpNum < 0)
-		LumpNum = W_CheckNumForName(Name, WADNS_Sprites);
-	if (LumpNum < 0)
-	{
-		if (!Silent)
-		{
-			GCon->Logf("VTextureManager::AddPatch: Pic %s not found", *Name);
-		}
-		return -1;
-	}
-
-	//	Check if it's already registered.
-	int i = CheckNumForName(Name, Type);
-	if (i >= 0)
-	{
-		return i;
-	}
-
-	//	Create new patch texture.
-	return AddTexture(VTexture::CreateTexture(Type, LumpNum));
-	unguard;
-}
-
-//==========================================================================
-//
-//	VTextureManager::AddRawWithPal
-//
-//	Adds a raw image with custom palette lump. It's here to support
-// Heretic's episode 2 finale pic.
-//
-//==========================================================================
-
-int VTextureManager::AddRawWithPal(VName Name, VName PalName)
-{
-	guard(VTextureManager::AddRawWithPal);
-	int LumpNum = W_CheckNumForName(Name, WADNS_Graphics);
-	if (LumpNum < 0)
-	{
-		GCon->Logf("VTextureManager::AddRawWithPal: %s not found", *Name);
-		return -1;
-	}
-	//	Check if lump's size to see if it really is a raw image. If not,
-	// load it as regular image.
-	if (W_LumpLength(LumpNum) != 64000)
-	{
-		GCon->Logf("VTextureManager::AddRawWithPal: %s doesn't appear to be"
-			" a raw image", *Name);
-		return AddPatch(Name, TEXTYPE_Pic);
-	}
-
-	int i = CheckNumForName(Name, TEXTYPE_Pic);
-	if (i >= 0)
-	{
-		return i;
-	}
-
-	return AddTexture(new VRawPicTexture(LumpNum,
-		W_GetNumForName(PalName)));
-	unguard;
-}
-
-//==========================================================================
-//
 //	VTextureManager::AddFileTexture
 //
 //==========================================================================
@@ -575,6 +503,7 @@ int VTextureManager::AddFileTexture(VName Name, int Type)
 void VTextureManager::AddTextures()
 {
 	guard(VTextureManager::AddTextures);
+	/*
 	int NamesFile = -1;
 	int LumpTex1 = -1;
 	int LumpTex2 = -1;
@@ -613,106 +542,7 @@ void VTextureManager::AddTextures()
 	FirstTex = Textures.Num();
 	AddTexturesLump(W_GetNumForName(NAME_pnames), LastTex1, FirstTex, true);
 	AddTexturesLump(W_GetNumForName(NAME_pnames), LastTex2, FirstTex, false);
-	unguard;
-}
-
-//==========================================================================
-//
-//	VTextureManager::AddTexturesLump
-//
-//==========================================================================
-
-void VTextureManager::AddTexturesLump(int NamesLump, int TexLump,
-	int FirstTex, bool First)
-{
-	guard(VTextureManager::AddTexturesLump);
-	if (TexLump < 0)
-	{
-		return;
-	}
-
-	//	Load the patch names from pnames.lmp.
-	VStream* Strm = W_CreateLumpReaderNum(NamesLump);
-	vint32 nummappatches = Streamer<vint32>(*Strm);
-	VTexture** patchtexlookup = new VTexture*[nummappatches];
-	for (int i = 0; i < nummappatches; i++)
-	{
-		//	Read patch name.
-		char TmpName[12];
-		Strm->Serialise(TmpName, 8);
-		TmpName[8] = 0;
-		VName PatchName(TmpName, VName::AddLower8);
-
-		//	Check if it's already has ben added.
-		int PIdx = CheckNumForName(PatchName, TEXTYPE_WallPatch, false, false);
-		if (PIdx >= 0)
-		{
-			patchtexlookup[i] = Textures[PIdx];
-			continue;
-		}
-
-		//	Get wad lump number.
-		int LNum = W_CheckNumForName(PatchName, WADNS_Patches);
-		//	Sprites also can be used as patches.
-		if (LNum < 0)
-		{
-			LNum = W_CheckNumForName(PatchName, WADNS_Sprites);
-		}
-
-		//	Add it to textures.
-		if (LNum < 0)
-		{
-			patchtexlookup[i] = NULL;
-		}
-		else
-		{
-			patchtexlookup[i] = VTexture::CreateTexture(TEXTYPE_WallPatch,
-				LNum);
-			AddTexture(patchtexlookup[i]);
-		}
-	}
-	delete Strm;
-	Strm = NULL;
-
-	//	Load the map texture definitions from textures.lmp.
-	//	The data is contained in one or two lumps, TEXTURE1 for shareware,
-	// plus TEXTURE2 for commercial.
-	Strm = W_CreateLumpReaderNum(TexLump);
-	vint32 NumTex = Streamer<vint32>(*Strm);
-
-	//	Check the texture file format.
-	bool IsStrife = false;
-	vint32 PrevOffset = Streamer<vint32>(*Strm);
-	for (int i = 0; i < NumTex - 1; i++)
-	{
-		vint32 Offset = Streamer<vint32>(*Strm);
-		if (Offset - PrevOffset == 24)
-		{
-			IsStrife = true;
-			GCon->Log(NAME_Init, "Strife textures detected");
-			break;
-		}
-		PrevOffset = Offset;
-	}
-
-	for (int i = 0; i < NumTex; i++)
-	{
-		VMultiPatchTexture* Tex = new VMultiPatchTexture(*Strm, i,
-			patchtexlookup, nummappatches, FirstTex, IsStrife);
-		AddTexture(Tex);
-		if (i == 0 && First)
-		{
-			//	Copy dimensions of the first texture to the dummy texture in
-			// case they are used.
-			Textures[0]->Width = Tex->Width;
-			Textures[0]->Height = Tex->Height;
-			Tex->Type = TEXTYPE_Null;
-		}
-	}
-	delete Strm;
-	Strm = NULL;
-	delete[] patchtexlookup;
-	patchtexlookup = NULL;
+	*/
 	unguard;
 }
 
@@ -765,11 +595,7 @@ void VTextureManager::AddHiResTextures()
 		}
 
 		//	Find texture to replace.
-		int OldIdx = CheckNumForName(Name, TEXTYPE_Wall, true, true);
-		if (OldIdx < 0)
-		{
-			OldIdx = AddPatch(Name, TEXTYPE_Pic, true);
-		}
+        int OldIdx = -1;
 
 		if (OldIdx < 0)
 		{
@@ -827,11 +653,11 @@ void VTextureManager::AddHiResTextures()
 				}
 
 				sc->ExpectName8();
-				int OldIdx = CheckNumForName(sc->Name8, Type, Overload, false);
-				if (OldIdx < 0)
-				{
-					OldIdx = AddPatch(sc->Name8, TEXTYPE_Pic, true);
-				}
+                int OldIdx = -1 ;//CheckNumForName(sc->Name8, Type, Overload, false);
+                //if (OldIdx < 0)
+                //{
+                //	OldIdx = AddPatch(sc->Name8, TEXTYPE_Pic, true);
+                //}
 
 				sc->ExpectName8();
 				int LumpIdx = W_CheckNumForName(sc->Name8, WADNS_Graphics);
@@ -905,27 +731,7 @@ void VTextureManager::AddHiResTextures()
 				else
 				{
 					AddTexture(NewTex);
-				}
-			}
-			else if (sc->Check("walltexture"))
-			{
-				AddTexture(new VMultiPatchTexture(sc, TEXTYPE_Wall));
-			}
-			else if (sc->Check("flat"))
-			{
-				AddTexture(new VMultiPatchTexture(sc, TEXTYPE_Flat));
-			}
-			else if (sc->Check("texture"))
-			{
-				AddTexture(new VMultiPatchTexture(sc, TEXTYPE_Overload));
-			}
-			else if (sc->Check("sprite"))
-			{
-				AddTexture(new VMultiPatchTexture(sc, TEXTYPE_Sprite));
-			}
-			else if (sc->Check("graphic"))
-			{
-				AddTexture(new VMultiPatchTexture(sc, TEXTYPE_Pic));
+                }
 			}
 			else
 			{
