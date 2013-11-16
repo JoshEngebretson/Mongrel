@@ -162,7 +162,7 @@ void R_Start(VLevel* ALevel)
 	switch (r_level_renderer)
 	{
 	case 1:
-		ALevel->RenderData = new VRenderLevel(ALevel);
+        Sys_Error("VRenderLevel was removed use VAdvancedRenderLevel");
 		break;
 
 	case 2:
@@ -170,14 +170,10 @@ void R_Start(VLevel* ALevel)
 		break;
 
 	default:
-		if (Drawer->SupportsAdvancedRendering())
-		{
-			ALevel->RenderData = new VAdvancedRenderLevel(ALevel);
-		}
-		else
-		{
-			ALevel->RenderData = new VRenderLevel(ALevel);
-		}
+        if (!Drawer->SupportsAdvancedRendering())
+            Sys_Error("VAdvancedRenderLevel not supported");
+
+        ALevel->RenderData = new VAdvancedRenderLevel(ALevel);
 		break;
 	}
 	unguard;
@@ -248,30 +244,6 @@ VRenderLevelShared::VRenderLevelShared(VLevel* ALevel)
 	{
 		PrecacheLevel();
 	}
-	unguard;
-}
-
-//==========================================================================
-//
-//	VRenderLevel::VRenderLevel
-//
-//==========================================================================
-
-VRenderLevel::VRenderLevel(VLevel* ALevel)
-: VRenderLevelShared(ALevel)
-, c_subdivides(0)
-, c_seg_div(0)
-, freeblocks(NULL)
-{
-	guard(VRenderLevel::VRenderLevel);
-	NeedsInfiniteFarClip = false;
-
-	memset(cacheblocks, 0, sizeof(cacheblocks));
-	memset(blockbuf, 0, sizeof(blockbuf));
-
-	FlushCaches();
-
-	memset(DLights, 0, sizeof(DLights));
 	unguard;
 }
 
@@ -790,35 +762,6 @@ void VRenderLevelShared::MarkLeaves()
 			}
 		}
 	}
-	unguard;
-}
-
-//==========================================================================
-//
-//  VRenderLevel::RenderScene
-//
-//==========================================================================
-
-void VRenderLevel::RenderScene(const refdef_t* RD, const VViewClipper* Range)
-{
-	guard(VRenderLevel::RenderScene);
-	r_viewleaf = Level->PointInSubsector(vieworg);
-
-	TransformFrustum();
-
-	Drawer->SetupViewOrg();
-
-	MarkLeaves();
-
-	UpdateWorld(RD, Range);
-
-	RenderWorld(RD, Range);
-
-	RenderMobjs(RPASS_Normal);
-
-	DrawParticles();
-
-	DrawTranslucentPolys();
 	unguard;
 }
 

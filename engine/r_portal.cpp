@@ -152,22 +152,15 @@ void VPortal::Draw(bool UseStencil)
 	int SavedExtraLight = RLev->ExtraLight;
 	int SavedFixedLight = RLev->FixedLight;
 	vuint8* SavedBspVis = RLev->BspVis;
-	VRenderLevel::trans_sprite_t* SavedTransSprites = RLev->trans_sprites;
 	bool SavedMirrorClip = MirrorClip;
 	TClipPlane SavedClip = view_clipplanes[4];
 	TClipPlane* SavedClipLink = view_clipplanes[3].next;
-
-	VRenderLevel::trans_sprite_t *TransSprites =
-		(VRenderLevel::trans_sprite_t *)Z_Calloc(sizeof(VRenderLevel::trans_sprite_t) * VRenderLevel::MAX_TRANS_SPRITES);
 
 	if (NeedsDepthBuffer())
 	{
 		//	Set up BSP visibility table and translated sprites. This has to
 		// be done only for portals that do rendering of view.
 		RLev->BspVis = new vuint8[RLev->VisSize];
-
-		memset(TransSprites, 0, sizeof(VRenderLevel::trans_sprite_t) * VRenderLevel::MAX_TRANS_SPRITES);
-		RLev->trans_sprites = TransSprites;
 	}
 
 	DrawContents();
@@ -187,7 +180,6 @@ void VPortal::Draw(bool UseStencil)
 		RLev->BspVis = NULL;
 	}
 	RLev->BspVis = SavedBspVis;
-	RLev->trans_sprites = SavedTransSprites;
 	MirrorClip = SavedMirrorClip;
 	view_clipplanes[4] = SavedClip;
 	view_clipplanes[3].next = SavedClipLink;
@@ -196,7 +188,6 @@ void VPortal::Draw(bool UseStencil)
 
 	Drawer->EndPortal(this, UseStencil);
 
-	Z_Free(TransSprites);
 	unguard;
 }
 

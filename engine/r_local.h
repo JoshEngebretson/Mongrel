@@ -475,58 +475,6 @@ public:
 	void DecayLights(float);
 };
 
-class VRenderLevel : public VRenderLevelShared
-{
-private:
-	int				c_subdivides;
-	int				c_seg_div;
-
-	//	Surface cache.
-	surfcache_t*	freeblocks;
-	surfcache_t*	cacheblocks[NUM_BLOCK_SURFS];
-	surfcache_t		blockbuf[NUM_CACHE_BLOCKS];
-
-	//	General
-	void RenderScene(const refdef_t*, const VViewClipper*);
-
-	//	Surf methods
-	void InitSurfs(surface_t*, texinfo_t*, TPlane*, subsector_t*);
-	surface_t* SubdivideFace(surface_t*, const TVec&, const TVec*);
-	surface_t* SubdivideSeg(surface_t*, const TVec&, const TVec*);
-	void UpdateSubsector(int, float*);
-	void UpdateBSPNode(int, float*);
-	void UpdateWorld(const refdef_t*, const VViewClipper*);
-
-	//	Light methods
-	static void CalcMinMaxs(surface_t*);
-	float CastRay(const TVec&, const TVec&, float);
-	static void CalcFaceVectors(surface_t*);
-	void CalcPoints(surface_t*);
-	void SingleLightFace(light_t*, surface_t*);
-	void LightFace(surface_t*, subsector_t*);
-	void MarkLights(dlight_t*, int, int);
-	void AddDynamicLights(surface_t*);
-	void PushDlights();
-	void FlushCaches();
-	void FlushOldCaches();
-	surfcache_t* AllocBlock(int, int);
-	surfcache_t	*FreeBlock(surfcache_t*, bool);
-	void FreeSurfCache(surfcache_t*);
-	void CacheSurface(surface_t*);
-
-	//	World BSP rendering
-	void QueueWorldSurface(surface_t*);
-	void RenderWorld(const refdef_t*, const VViewClipper*);
-
-public:
-	VRenderLevel(VLevel*);
-
-	void PreRender();
-
-	vuint32 LightPoint(const TVec &p);
-	bool BuildLightMap(surface_t*, int);
-};
-
 class VAdvancedRenderLevel : public VRenderLevelShared
 {
 private:

@@ -90,31 +90,6 @@ void VRenderLevelShared::SetUpFrustumIndexes()
 
 //==========================================================================
 //
-//	VRenderLevel::QueueWorldSurface
-//
-//==========================================================================
-
-void VRenderLevel::QueueWorldSurface(surface_t* surf)
-{
-	guard(VRenderLevel::QueueWorldSurface);
-	bool lightmaped = surf->lightmap != NULL ||
-		surf->dlightframe == r_dlightframecount;
-
-	if (lightmaped)
-	{
-		CacheSurface(surf);
-		if (Drawer->HaveMultiTexture)
-		{
-			return;
-		}
-	}
-
-	QueueSimpleSurf(surf);
-	unguard;
-}
-
-//==========================================================================
-//
 //	VAdvancedRenderLevel::QueueWorldSurface
 //
 //==========================================================================
@@ -1044,23 +1019,6 @@ void VRenderLevelShared::RenderPortals()
 	{
 		Portals.Clear();
 	}
-	unguard;
-}
-
-//==========================================================================
-//
-//	VRenderLevel::RenderWorld
-//
-//==========================================================================
-
-void VRenderLevel::RenderWorld(const refdef_t* rd, const VViewClipper* Range)
-{
-	guard(VRenderLevel::RenderWorld);
-	RenderBspWorld(rd, Range);
-
-	Drawer->WorldDrawing();
-
-	RenderPortals();
 	unguard;
 }
 
