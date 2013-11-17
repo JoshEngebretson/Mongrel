@@ -180,7 +180,7 @@ void Host_Init()
 
 	T_Init();
 
-	AM_Init();
+    AM_Init();
 #endif
 
 	VCommand::ProcessKeyConf();

@@ -34,10 +34,10 @@
 #include <unistd.h>
 #include <signal.h>
 #include <dirent.h>
-
 #include <SDL.h>
 
 #include "gamedefs.h"
+#include "ui_public.h"
 
 // MACROS ------------------------------------------------------------------
 
@@ -504,6 +504,8 @@ static void signal_handler(int s)
 //
 //==========================================================================
 
+void CheckResolutionChange();
+
 int main(int argc,char** argv)
 {
 
@@ -530,6 +532,11 @@ int main(int argc,char** argv)
 		signal(SIGQUIT, signal_handler);
 
 		Host_Init();
+
+        // a bit of a hack, this will initialize GL
+        CheckResolutionChange();
+
+        UI_Init();
 
 		while (1)
 		{

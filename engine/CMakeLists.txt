@@ -21,7 +21,7 @@ add_custom_command(TARGET mongrel
 
 else()
 
-target_link_libraries( mongrel vendor SDL2 common glbsp glvis
+target_link_libraries( mongrel vendor SDL2 mygui common glbsp glvis
                               "-framework AudioUnit"
                               "-framework Carbon"
                               "-framework Cocoa"

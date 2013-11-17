@@ -394,7 +394,7 @@ static void ChangeResolution(int InWidth, int InHeight, int InBpp)
 //
 //==========================================================================
 
-static void CheckResolutionChange()
+void CheckResolutionChange()
 {
 	guard(CheckResolutionChange);
 	bool		res_changed = false;
