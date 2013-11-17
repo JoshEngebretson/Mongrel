@@ -336,8 +336,8 @@ namespace MyGUI
 			void* data = mImageLoader->loadImage(width, height, format, _filename);
 			if (data)
 			{
-				createManual(width, height, TextureUsage::Static | TextureUsage::Write, format, data);
-				delete data;
+                createManual(width, height, TextureUsage::Static | TextureUsage::Write, format, data);
+                //delete data;
 			}
 		}
 	}

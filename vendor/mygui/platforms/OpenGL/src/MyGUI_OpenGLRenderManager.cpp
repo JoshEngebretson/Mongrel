@@ -90,7 +90,7 @@ namespace MyGUI
 
 		glBindTexture(GL_TEXTURE_2D, texture_id);
 
-		glBindBuffer(GL_ARRAY_BUFFER, buffer_id);
+        glBindBuffer(GL_ARRAY_BUFFER, buffer_id);
 
 		// enable vertex arrays
 		glEnableClientState(GL_VERTEX_ARRAY);
@@ -100,12 +100,12 @@ namespace MyGUI
 		// before draw, specify vertex and index arrays with their offsets
 		size_t offset = 0;
 		glVertexPointer(3, GL_FLOAT, sizeof(Vertex), (void*)offset);
-		offset += (sizeof(float) * 3);
-		glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(Vertex), (void*)offset);
-		offset += (4);
-		glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), (void*)offset);
+        offset += (sizeof(float) * 3);
+        glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(Vertex), (void*)offset);
+        offset += (4);
+        glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), (void*)offset);
 
-		glDrawArrays(GL_TRIANGLES, 0, _count);
+        glDrawArrays(GL_TRIANGLES, 0, _count);
 
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 		glDisableClientState(GL_COLOR_ARRAY);
@@ -117,6 +117,7 @@ namespace MyGUI
 
 	void OpenGLRenderManager::begin()
 	{
+        glUseProgramObjectARB(0);
 		//save current attributes
 		glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
 		glPushAttrib(GL_ALL_ATTRIB_BITS);
@@ -136,11 +137,11 @@ namespace MyGUI
 		glDisable(GL_FOG);
 		glDisable(GL_TEXTURE_GEN_S);
 		glDisable(GL_TEXTURE_GEN_T);
-		glDisable(GL_TEXTURE_GEN_R);
+        glDisable(GL_TEXTURE_GEN_R);
 
 		//glFrontFace(GL_CW);
 		//glCullFace(GL_BACK);
-		//glEnable(GL_CULL_FACE);
+        //glEnable(GL_CULL_FACE);
 
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

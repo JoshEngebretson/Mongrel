@@ -84,7 +84,7 @@ namespace MyGUI
 				return;
 			}
 #endif
-			// непосредственный рендринг
+            // непосредственный рендринг
 			if (mManualRender)
 			{
 				for (VectorDrawItem::iterator iter = mDrawItems.begin(); iter != mDrawItems.end(); ++iter)
@@ -92,7 +92,7 @@ namespace MyGUI
 			}
 			else
 			{
-				_target->doRender(mVertexBuffer, mTexture, mCountVertex);
+                _target->doRender(mVertexBuffer, mTexture, mCountVertex);
 			}
 		}
 	}

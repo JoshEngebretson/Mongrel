@@ -536,7 +536,7 @@ int main(int argc,char** argv)
         // a bit of a hack, this will initialize GL
         CheckResolutionChange();
 
-        UI_Init();
+        int x = 0;
 
 		while (1)
 		{
@@ -552,10 +552,17 @@ int main(int argc,char** argv)
             //Process console commands
             GCmdBuf.Exec();
 
+            x++;
+            if (x == 10)
+            {
+                UI_Init();
+            }
+
 		}
 	}
 	catch (VavoomError &e)
 	{
+        UI_Shutdown();
 		Host_Shutdown();
 		stack_trace();
 
@@ -567,6 +574,7 @@ int main(int argc,char** argv)
 	}
 	catch (...)
 	{
+        UI_Shutdown();
 		Host_Shutdown();
 		dprintf("\n\nExiting due to external exception\n");
 		fprintf(stderr, "\nExiting due to external exception\n");

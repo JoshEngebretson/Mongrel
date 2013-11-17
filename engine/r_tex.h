@@ -71,7 +71,12 @@ public:
 
 	VPngTexture(int, int, int, int, int);
 	~VPngTexture();
-	vuint8* GetPixels();
+    vuint8* GetPixels(VStream* inputStream = NULL);
+    vuint8* GetPixels()
+    {
+        return GetPixels(NULL);
+    }
+
 	void Unload();
 };
 

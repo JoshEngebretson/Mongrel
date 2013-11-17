@@ -27,6 +27,7 @@
 
 #include "gamedefs.h"
 #include "cl_local.h"
+#include "ui_public.h"
 #include "drawer.h"
 
 // MACROS ------------------------------------------------------------------
@@ -515,11 +516,11 @@ void SCR_Update()
 		case 0:
 			if (automapactive)
 			{
-				AM_Drawer();
+                AM_Drawer();
 			}
 			else
 			{
-				R_RenderPlayerView();
+                R_RenderPlayerView();
 			}
 			if (GGameInfo->NetMode != NM_TitleMap)
 			{
@@ -527,6 +528,8 @@ void SCR_Update()
 			break;
 		}
 	}
+
+    UI_Render();
 
 	// Console drawing
 	C_Drawer();

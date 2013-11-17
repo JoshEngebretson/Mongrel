@@ -198,7 +198,7 @@ static void ReadFunc(png_structp png, png_bytep data, png_size_t len)
 //
 //==========================================================================
 
-vuint8* VPngTexture::GetPixels()
+vuint8* VPngTexture::GetPixels(VStream *inputStream)
 {
 	guard(VPngTexture::GetPixels);
 #ifdef CLIENT
@@ -237,7 +237,10 @@ vuint8* VPngTexture::GetPixels()
 	}
 
 	//	Open stream.
-	VStream* Strm = W_CreateLumpReaderNum(SourceLump);
+    VStream* Strm = inputStream;
+
+    if (!Strm)
+        Strm = W_CreateLumpReaderNum(SourceLump);
 
 	//	Verify signature.
 	png_byte Signature[8];
@@ -306,8 +309,11 @@ vuint8* VPngTexture::GetPixels()
 	RowPtrs = NULL;
 
 	//	Free memory.
-	delete Strm;
-	Strm = NULL;
+    if (!inputStream)
+    {
+        delete Strm;
+        Strm = NULL;
+    }
 	return Pixels;
 #else
 	Sys_Error("ReadPixels on dedicated server");
