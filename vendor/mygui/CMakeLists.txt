@@ -8,4 +8,7 @@ file ( GLOB MYGUI_HEADER include/*.h )
 file ( GLOB MYGUI_OPENGL_SOURCE platforms/OpenGL/src/*.cpp )
 file ( GLOB MYGUI_OPENGL_HEADER platforms/OpenGL/include/*.h )
 
-add_library( mygui STATIC ${MYGUI_SOURCE} ${MYGUI_HEADER} ${MYGUI_OPENGL_SOURCE} ${MYGUI_OPENGL_HEADER} platforms/OpenGL/include/GL/glew.c)
+add_library( mygui STATIC ${MYGUI_SOURCE} ${MYGUI_HEADER}
+                          ${MYGUI_OPENGL_SOURCE} ${MYGUI_OPENGL_HEADER}
+                          platforms/OpenGL/include/GL/glew.c
+                          platforms/OpenGL/include/FileSystemInfo/FileSystemInfo.h )

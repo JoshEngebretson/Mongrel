@@ -130,14 +130,44 @@ namespace common
 
 		rewinddir (dir);
 
+        // pattern can contain a directory name, separate it from mask
+        size_t pos = _mask.find_last_of(L"/\\");
+        std::wstring directory;
+        if (pos != _mask.npos)
+            directory = _mask.substr (0, pos);
+
+        std::wstring full_mask = concatenatePath(_folder, _mask);
+
 		while ((dp = readdir (dir)) != NULL)
 		{
+            if (!strcmp(dp->d_name, "."))
+                continue;
+
+            if (!strcmp(dp->d_name, ".."))
+                continue;
+
+            if (_mask.length() > 0)
+            {
+                if (_mask != MyGUI::UString(dp->d_name).asWStr())
+                {
+                    //printf("Fail %s -> %ls\n", dp->d_name, _mask.c_str());
+                    continue;
+                }
+            }
+
 			if (!isReservedDir(MyGUI::UString(dp->d_name).asWStr_c_str()))
 			{
 				struct stat fInfo;
 				char path[NAME_MAX];
 				//snprintf(path, NAME_MAX, "%s/%s", MyGUI::UString(_folder).asUTF8_c_str(), dp->d_name);
-				if (stat(path, &fInfo) == -1)perror("stat");
+
+                if (stat(path, &fInfo) == -1)
+                {
+                    //perror("stat");
+                }
+
+                //printf("Success %s -> %ls\n", dp->d_name, _mask.c_str());
+
 				_result.push_back(FileInfo(MyGUI::UString(dp->d_name).asWStr(), (S_ISDIR(fInfo.st_mode))));
 			}
 		}
