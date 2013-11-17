@@ -59,7 +59,8 @@ endif( MSVC )
 
 set(DATADIR ${CMAKE_SOURCE_DIR}/artifacts)
 
-include_directories( common vendor/jpeg9 vendor/lpng vendor/zlib vendor/mygui/include )
+include_directories( common vendor/jpeg9 vendor/lpng vendor/zlib )
+include_directories( vendor/mygui/include vendor/mygui/platforms/OpenGL/include)
 
 add_subdirectory(vendor)
 add_subdirectory(common)
